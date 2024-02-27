@@ -18,6 +18,16 @@ const Navbar = () => {
               second home
             </Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/login">
+                Login
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/signup">
+                SingUp
+            </Link>
+          </li>
           </ul>
     </nav>
   );

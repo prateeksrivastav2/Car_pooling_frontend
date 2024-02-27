@@ -1,0 +1,8 @@
+.main{
+  width: 100%;
+  height: 100vh;
+    background: #6a11cb;
+  
+    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+  }
