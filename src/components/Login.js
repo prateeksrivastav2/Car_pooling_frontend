@@ -36,6 +36,8 @@ function App() {
         const data = await response.json();
         console.log("Login successful:", data);
 
+        localStorage.setItem('email',email);
+
         // Redirect to the home page
         navigate("/home"); // Adjust the route as per your setup
       } else {
