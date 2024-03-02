@@ -73,7 +73,7 @@ function App() {
 
     if (json.success) {
         localStorage.setItem('token', authToken);
-        console.log(authToken);
+        // console.log(authToken);
         navigate('/home');
         // props.showAlert("Logged in successfully", "success");
     } else {
