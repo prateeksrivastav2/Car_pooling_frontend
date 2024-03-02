@@ -20,13 +20,13 @@ function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch("http://localhost:3000/auth/signup", {
+      const response = await fetch("http://localhost:3000/auth/createuser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
+          name: username,
           email: email,
           password: password,
         }),
