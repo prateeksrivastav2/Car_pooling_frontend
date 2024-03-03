@@ -1,36 +1,64 @@
-// components/CreateRide.js
-import React, { useState } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdb-react-ui-kit';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const CreateRide = () => {
-  const [startingLocation, setStartingLocation] = useState('');
-  const [destination, setDestination] = useState('');
-  const [date, setDate] = useState('');
-  const [availableSeats, setAvailableSeats] = useState('');
-  const [price, setPrice] = useState('');
-  const [departureTime, setDepartureTime] = useState('');
-  const [estimatedArrivalTime, setEstimatedArrivalTime] = useState('');
+  const [step, setStep] = useState(1);
+  const [checkAuth, setCheckAuth] = useState(false);
+  const [formData, setFormData] = useState({
+    firstname: '',
+    lastname: '',
+    dob: '',
+    email: '',
+    address: '',
+    message: '',
+    startingLocation: '',
+    destination: '',
+    date: '',
+    availableSeats: ''
+  });
 
-  const handleCreateRide = async () => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const nextStep = () => {
+    setStep(step + 1);
+  };
+
+  const prevStep = () => {
+    setStep(step - 1);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      // Fetch user email from localStorage
-      const userEmail = localStorage.getItem('email');
-
+      const token = localStorage.getItem('token');
       const response = await axios.post('http://localhost:3000/rides/create', {
-        startingLocation,
-        destination,
-        date,
-        availableSeats,
-        price,
-        departureTime,
-        estimatedArrivalTime,
-        userEmail,
+        startingLocation: formData.startingLocation,
+        destination: formData.destination,
+        date: formData.date,
+        availableSeats: formData.availableSeats,
+        userEmail: formData.email
       });
-
       if (response.data) {
         console.log('Ride created successfully:', response.data);
-        // You can redirect or update state accordingly
+        // Reset form data after successful submission
+        setFormData({
+          firstname: '',
+          lastname: '',
+          dob: '',
+          email: '',
+          address: '',
+          message: '',
+          startingLocation: '',
+          destination: '',
+          date: '',
+          availableSeats: ''
+        });
       }
     } catch (error) {
       console.error('Error creating ride:', error);
@@ -39,84 +67,91 @@ const CreateRide = () => {
   };
 
   return (
-    <MDBContainer>
-      <MDBRow className="mt-5">
-        <MDBCol md="6" className="mx-auto">
-          <form>
-            <h2 className="text-center mb-4">Create a Ride</h2>
-
-            <MDBInput
-              label="Starting Location"
-              id="startingLocation"
-              type="text"
-              value={startingLocation}
-              onChange={(e) => setStartingLocation(e.target.value)}
-              required // Marking as required
-            />
-
-            <MDBInput
-              label="Destination"
-              id="destination"
-              type="text"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              required // Marking as required
-            />
-
-            <MDBInput
-              label="Date"
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              required // Marking as required
-            />
-
-            <MDBInput
-              label="Available Seats"
-              id="availableSeats"
-              type="number"
-              value={availableSeats}
-              onChange={(e) => setAvailableSeats(e.target.value)}
-              required // Marking as required
-            />
-
-            <MDBInput
-              label="Price"
-              id="price"
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required // Marking as required
-            />
-
-            <MDBInput
-              label="Departure Time"
-              id="departureTime"
-              type="time"
-              value={departureTime}
-              onChange={(e) => setDepartureTime(e.target.value)}
-              required // Marking as required
-            />
-
-            <MDBInput
-              label="Estimated Arrival Time"
-              id="estimatedArrivalTime"
-              type="time"
-              value={estimatedArrivalTime}
-              onChange={(e) => setEstimatedArrivalTime(e.target.value)}
-              required // Marking as required
-            />
-
-            <div className="text-center mt-4">
-              <MDBBtn color="primary" onClick={handleCreateRide}>
-                Create Ride
-              </MDBBtn>
+    <div className="container mt-5">
+      <div className="row justify-content-center" style={{ marginTop: '14vh' }}>
+        <div className="col-md-8">
+          <div className="card shadow">
+            <div className="card-body">
+              <div className="d-flex justify-content-between mb-4">
+                <div className={`d-flex align-items-center ${step === 1 ? 'text-primary' : 'text-muted'}`}>
+                  <div className="rounded-circle bg-primary text-white p-2 me-2">1</div>
+                  <div>License Verification</div>
+                </div>
+                <div className={`d-flex align-items-center ${step === 2 ? 'text-primary' : 'text-muted'}`}>
+                  <div className="rounded-circle bg-primary text-white p-2 me-2">2</div>
+                  <div>Ride Details</div>
+                </div>
+                <div className={`d-flex align-items-center ${step === 3 ? 'text-primary' : 'text-muted'}`}>
+                  <div className="rounded-circle bg-primary text-white p-2 me-2">3</div>
+                  <div>Confirm Journey</div>
+                </div>
+              </div>
+              <form onSubmit={handleSubmit}>
+                {step === 1 && (
+                  <div className="mb-3">
+                    <label htmlFor="firstname" className="form-label">First Name</label>
+                    <input type="text" name="firstname" id="firstname" className="form-control" value={formData.firstname} onChange={handleChange} />
+                  </div>
+                )}
+                {step === 2 && (
+                  <>
+                    <div className="row mb-3">
+                      <div className="col">
+                        <label htmlFor="firstname" className="form-label">Name</label>
+                        <input type="text" name="firstname" id="firstname" className="form-control" value={formData.firstname} onChange={handleChange} />
+                      </div>
+                      <div className="col">
+                        <label htmlFor="email" className="form-label">Email</label>
+                        <input type="email" name="email" id="email" className="form-control" value={formData.email} onChange={handleChange} />
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className='col'>
+                        <label htmlFor="source" className="form-label">Source</label>
+                        <input type="text" name="startingLocation" id="source" className="form-control" value={formData.startingLocation} onChange={handleChange} />
+                      </div>
+                      <div className="col">
+                        <label htmlFor="destination" className="form-label">Destination</label>
+                        <input type="text" name="destination" id="destination" className="form-control" value={formData.destination} onChange={handleChange} />
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col">
+                        <label htmlFor="date" className="form-label">Date</label>
+                        <input type="date" name="date" id="date" className="form-control" value={formData.date} onChange={handleChange} />
+                      </div>
+                      <div className="col">
+                        <label htmlFor="availableSeats" className="form-label">Available Seats</label>
+                        <input type="number" name="availableSeats" id="availableSeats" className="form-control" value={formData.availableSeats} onChange={handleChange} />
+                      </div>
+                    </div>
+                  </>
+                )}
+                {step === 3 && (
+                  <div>
+                    <p className="text-muted mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                    <div className="mb-3">
+                      <button type="button" onClick={nextStep} className="btn btn-primary me-2">Yes! I want it.</button>
+                      <button type="button" onClick={prevStep} className="btn btn-secondary">No! I don’t want it.</button>
+                    </div>
+                  </div>
+                )}
+                <div className="d-flex justify-content-between mt-4">
+                  {step > 1 && (
+                    <button type="button" onClick={prevStep} className="btn btn-secondary">Back</button>
+                  )}
+                  {step < 3 ? (
+                    <button type="button" onClick={nextStep} className="btn btn-primary">Next Step</button>
+                  ) : (
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                  )}
+                </div>
+              </form>
             </div>
-          </form>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
