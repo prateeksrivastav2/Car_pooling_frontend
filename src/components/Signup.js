@@ -13,13 +13,16 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
 function SignUp() {
-  const [username, setUsername] = useState(""); // Add username state
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState(""); // Add otp state
   const navigate = useNavigate();
+  const [visibleOtp, setVisibleOtp] = useState(false);
 
   const handleSignUp = async () => {
     try {
+      setVisibleOtp(true);
       const response = await fetch("http://localhost:3000/auth/createuser", {
         method: "POST",
         headers: {
@@ -33,25 +36,43 @@ function SignUp() {
       });
 
       if (response.ok) {
-        // Registration successful
         const data = await response.json();
         console.log("Registration successful:", data);
-
-        // You can redirect to the login page or any other page as needed
         navigate("/login");
       } else {
-        // Registration failed, handle the error
+        setVisibleOtp(false);
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
-
-        // Show a prompt for registration failure
         alert("Registration failed. Please try again.");
       }
     } catch (error) {
       console.error("Error during registration:", error);
-
-      // Show a prompt for registration failure
       alert("An error occurred during registration. Please try again.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/auth/verify-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ otp }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log("OTP validated successfully");
+        // Proceed with user creation or other actions
+        navigate("/login");
+      } else {
+        console.error("OTP validation failed:", data.msg);
+        alert("OTP validation failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error validating OTP:", error);
+      alert("An error occurred during OTP validation. Please try again.");
     }
   };
 
@@ -133,14 +154,27 @@ function SignUp() {
                     <MDBIcon fab icon="google" size="lg" />
                   </MDBBtn>
                 </div>
-                <div>
-                  <p className="mb-0">
-                    Already have an account?{" "}
-                    <Link to="/login" className="text-white-50 fw-bold">
-                      Login
-                    </Link>
-                  </p>
-                </div>
+                {!visibleOtp && (
+                  <div>
+                    <p className="mb-0">
+                      Already have an account?{" "}
+                      <Link to="/login" className="text-white-50 fw-bold">
+                        Login
+                      </Link>
+                    </p>
+                  </div>
+                )}
+                {visibleOtp && (
+                  <form onSubmit={handleSubmit}>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="Enter OTP"
+                    />
+                    <button type="submit">Submit OTP</button>
+                  </form>
+                )}
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
