@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import './App.css';
+import './styles/RideCard.css'
 import Navbar from './components/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';

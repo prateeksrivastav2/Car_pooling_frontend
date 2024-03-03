@@ -18,43 +18,68 @@ function App() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/auth/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: email,
+  //         password: password,
+  //       }),
+  //     });
+
+  //     if (response.ok) {
+  //       // Login successful
+  //       const { authToken } = json;
+
+  //       if (json.success) {
+  //           localStorage.setItem('token', authToken);
+  //           navigate('/');
+  //           props.showAlert("Logged in successfully", "success");
+  //       } else {
+  //           props.showAlert("Invalid Credentials", "danger");
+  //       }
+  //       // Redirect to the home page
+  //       navigate("/home"); // Adjust the route as per your setup
+  //     } else {
+  //       // Login failed, handle the error
+  //       const errorData = await response.json();
+  //       console.error("Login failed:", errorData);
+
+  //       // Show a prompt for login failure
+  //       alert("Login failed. Please check your email and password.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+
+  //     // Show a prompt for login failure
+  //     alert("An error occurred during login. Please try again.");
+  //   }
+  // };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
+        body: JSON.stringify({ email: email, password: password }),
+    });
+    const json = await response.json();
+    const { authToken } = json;
 
-      if (response.ok) {
-        // Login successful
-        const data = await response.json();
-        console.log("Login successful:", data);
-
-        localStorage.setItem('email',email);
-
-        // Redirect to the home page
-        navigate("/home"); // Adjust the route as per your setup
-      } else {
-        // Login failed, handle the error
-        const errorData = await response.json();
-        console.error("Login failed:", errorData);
-
-        // Show a prompt for login failure
-        alert("Login failed. Please check your email and password.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-
-      // Show a prompt for login failure
-      alert("An error occurred during login. Please try again.");
+    if (json.success) {
+        localStorage.setItem('token', authToken);
+        // console.log(authToken);
+        navigate('/home');
+        // props.showAlert("Logged in successfully", "success");
+    } else {
+        // props.showAlert("Invalid Credentials", "danger");
     }
-  };
+};
 
   return (
     <div className="main">
@@ -93,7 +118,7 @@ function App() {
                   required
                 />
                 <div className="white">
-                  <button onClick={handleLogin}>
+                  <button className="btn btn-primary" onClick={handleLogin}>
                     <strong>Login</strong>
                   </button>
                 </div>

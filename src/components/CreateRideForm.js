@@ -8,6 +8,9 @@ const CreateRide = () => {
   const [destination, setDestination] = useState('');
   const [date, setDate] = useState('');
   const [availableSeats, setAvailableSeats] = useState('');
+  const [price, setPrice] = useState('');
+  const [departureTime, setDepartureTime] = useState('');
+  const [estimatedArrivalTime, setEstimatedArrivalTime] = useState('');
 
   const handleCreateRide = async () => {
     try {
@@ -19,7 +22,10 @@ const CreateRide = () => {
         destination,
         date,
         availableSeats,
-        userEmail, // Send user email to the backend
+        price,
+        departureTime,
+        estimatedArrivalTime,
+        userEmail,
       });
 
       if (response.data) {
@@ -45,6 +51,7 @@ const CreateRide = () => {
               type="text"
               value={startingLocation}
               onChange={(e) => setStartingLocation(e.target.value)}
+              required // Marking as required
             />
 
             <MDBInput
@@ -53,6 +60,7 @@ const CreateRide = () => {
               type="text"
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
+              required // Marking as required
             />
 
             <MDBInput
@@ -61,6 +69,7 @@ const CreateRide = () => {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              required // Marking as required
             />
 
             <MDBInput
@@ -69,6 +78,34 @@ const CreateRide = () => {
               type="number"
               value={availableSeats}
               onChange={(e) => setAvailableSeats(e.target.value)}
+              required // Marking as required
+            />
+
+            <MDBInput
+              label="Price"
+              id="price"
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required // Marking as required
+            />
+
+            <MDBInput
+              label="Departure Time"
+              id="departureTime"
+              type="time"
+              value={departureTime}
+              onChange={(e) => setDepartureTime(e.target.value)}
+              required // Marking as required
+            />
+
+            <MDBInput
+              label="Estimated Arrival Time"
+              id="estimatedArrivalTime"
+              type="time"
+              value={estimatedArrivalTime}
+              onChange={(e) => setEstimatedArrivalTime(e.target.value)}
+              required // Marking as required
             />
 
             <div className="text-center mt-4">
