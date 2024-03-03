@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 
 const CreateRide = () => {
   const [step, setStep] = useState(1);
-  const [checkAuth, setCheckAuth] = useState(false);
+  const [checkauth,setcheckauth]=useState(false);
+  // RIDE DETAIL
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -16,6 +17,13 @@ const CreateRide = () => {
     date: '',
     availableSeats: ''
   });
+  const [rideCreated, setRideCreated] = useState(false); // Flag to indicate if the ride has been created
+useEffect(() => {
+if(localStorage.getItem('token'))
+  setcheckauth(true)
+  else
+  window.location.replace('/login');
+}, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,29 +44,20 @@ const CreateRide = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:3000/rides/create', {
-        startingLocation: formData.startingLocation,
-        destination: formData.destination,
-        date: formData.date,
-        availableSeats: formData.availableSeats,
-        userEmail: formData.email
-      });
-      if (response.data) {
-        console.log('Ride created successfully:', response.data);
-        // Reset form data after successful submission
-        setFormData({
-          firstname: '',
-          lastname: '',
-          dob: '',
-          email: '',
-          address: '',
-          message: '',
-          startingLocation: '',
-          destination: '',
-          date: '',
-          availableSeats: ''
+      // const token = localStorage.getItem('token');
+      if (step === 3 && !rideCreated) { // Check if the current step is the third step and ride has not been created
+        const response = await axios.post('http://localhost:3000/rides/create', {
+          startingLocation: formData.startingLocation,
+          destination: formData.destination,
+          date: formData.date,
+          availableSeats: formData.availableSeats,
+          userEmail: formData.email
         });
+        if (response.data) {
+          console.log('Ride created successfully:', response.data);
+          setRideCreated(true); // Set rideCreated flag to true after successful creation
+          // You can redirect or update state accordingly
+        }
       }
     } catch (error) {
       console.error('Error creating ride:', error);
@@ -67,8 +66,9 @@ const CreateRide = () => {
   };
 
   return (
+  <>
     <div className="container mt-5">
-      <div className="row justify-content-center" style={{ marginTop: '14vh' }}>
+      <div className="row justify-content-center " style={{ marginTop: '14vh' }}>
         <div className="col-md-8">
           <div className="card shadow">
             <div className="card-body">
@@ -86,7 +86,7 @@ const CreateRide = () => {
                   <div>Confirm Journey</div>
                 </div>
               </div>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} >
                 {step === 1 && (
                   <div className="mb-3">
                     <label htmlFor="firstname" className="form-label">First Name</label>
@@ -143,7 +143,7 @@ const CreateRide = () => {
                   {step < 3 ? (
                     <button type="button" onClick={nextStep} className="btn btn-primary">Next Step</button>
                   ) : (
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit"  className="btn btn-primary">Submit</button>
                   )}
                 </div>
               </form>
@@ -152,6 +152,7 @@ const CreateRide = () => {
         </div>
       </div>
     </div>
+  </>
   );
 };
 
