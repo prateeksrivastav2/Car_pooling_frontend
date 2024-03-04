@@ -13,53 +13,11 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
-function App() {
+function App(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:3000/auth/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         email: email,
-  //         password: password,
-  //       }),
-  //     });
-
-  //     if (response.ok) {
-  //       // Login successful
-  //       const { authToken } = json;
-
-  //       if (json.success) {
-  //           localStorage.setItem('token', authToken);
-  //           navigate('/');
-  //           props.showAlert("Logged in successfully", "success");
-  //       } else {
-  //           props.showAlert("Invalid Credentials", "danger");
-  //       }
-  //       // Redirect to the home page
-  //       navigate("/home"); // Adjust the route as per your setup
-  //     } else {
-  //       // Login failed, handle the error
-  //       const errorData = await response.json();
-  //       console.error("Login failed:", errorData);
-
-  //       // Show a prompt for login failure
-  //       alert("Login failed. Please check your email and password.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-
-  //     // Show a prompt for login failure
-  //     alert("An error occurred during login. Please try again.");
-  //   }
-  // };
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:3000/auth/login", {
@@ -75,11 +33,11 @@ function App() {
 
     if (json.success) {
       localStorage.setItem("token", authToken);
-      // console.log(authToken);
-      navigate("/home");
-      // props.showAlert("Logged in successfully", "success");
+      navigate("/");
+      props.showAlert("Logged in successfully", "success");
+     
     } else {
-      // props.showAlert("Invalid Credentials", "danger");
+      props.showAlert("Invalid Credentials", "danger");
     }
   };
 

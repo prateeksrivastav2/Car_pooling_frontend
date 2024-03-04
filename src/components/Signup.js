@@ -12,7 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
-function SignUp() {
+function SignUp(props) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +23,7 @@ function SignUp() {
   const handleSignUp = async () => {
     try {
       setVisibleOtp(true);
+      props.showAlert("Check Email to verify the opt", "primary");
       const response = await fetch("http://localhost:3000/auth/createuser", {
         method: "POST",
         headers: {
@@ -37,17 +38,19 @@ function SignUp() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Registration successful:", data);
+        // console.log("Registration successful:", data);
+        props.showAlert("Registration successfull , Enter Credentials to Login ", "success");
         navigate("/login");
       } else {
         setVisibleOtp(false);
         const errorData = await response.json();
-        console.error("Registration failed:", errorData);
-        alert("Registration failed. Please try again.");
+        // console.error("Registration failed:", errorData);
+        props.showAlert("Registration failed. Please try again.", "danger");
+        // alert("Registration failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
-      alert("An error occurred during registration. Please try again.");
+      // console.error("Error during registration:", error);
+      props.showAlert("Registration failed. Please try again.", "danger");
     }
   };
 
@@ -63,16 +66,17 @@ function SignUp() {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log("OTP validated successfully");
+        // console.log("OTP validated successfully");
+        props.showAlert("OTP validated successfully", "success");
         // Proceed with user creation or other actions
         navigate("/login");
       } else {
-        console.error("OTP validation failed:", data.msg);
-        alert("OTP validation failed. Please try again.");
+        // console.error("OTP validation failed:", data.msg);
+        props.showAlert("OTP validation failed", "danger");
       }
     } catch (error) {
-      console.error("Error validating OTP:", error);
-      alert("An error occurred during OTP validation. Please try again.");
+      // console.error("Error validating OTP:", error);
+      props.showAlert("Internal Server Error occured during OTP verification", "danger");
     }
   };
 

@@ -69,7 +69,7 @@ const NavBar = () => {
                   }`}
                   to="/home"
                 >
-                  Second Home
+                 Dashboard
                 </Link>
               </li>
               {/* <li className="nav-item">
