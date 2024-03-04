@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import CreateRide from './components/CreateRideForm';
 import ListRides from './components/ListRides';
+import Test from './components/Test';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/create-ride" element={<CreateRide />} />
           <Route exact path="/list-rides" element={<ListRides />} />
+          <Route exact path="/test" element={<Test/>} />
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>
       </Router>
