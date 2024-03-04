@@ -17,7 +17,12 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home/>} />
-          <Route exact path="/home" element={<>This is second home page</>} />
+          <Route exact path="/home" element={<>
+          <div style={{marginTop:'35vh'}}>
+          Team A 500
+          Team B 480
+          </div>
+          </>} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/create-ride" element={<CreateRide />} />
