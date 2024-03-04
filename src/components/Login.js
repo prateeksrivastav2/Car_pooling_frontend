@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   MDBBtn,
@@ -35,68 +34,56 @@ function App(props) {
       localStorage.setItem("token", authToken);
       navigate("/");
       props.showAlert("Logged in successfully", "success");
-     
+
     } else {
       props.showAlert("Invalid Credentials", "danger");
     }
   };
-
   return (
-    <div className="main">
-      <MDBContainer fluid>
-        <MDBRow className="d-flex justify-content-center align-items-center h-100">
-          <MDBCol col="12">
-            <MDBCard
-              className="bg-dark text-white my-5 mx-auto"
-              style={{ borderRadius: "1rem", maxWidth: "400px" }}
-            >
-              <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
-                <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
-                <p className="text-white-50 mb-5">
-                  Please enter your login and password!
-                </p>
-                <MDBInput
-                  wrapperClass="mb-4 mx-5 w-100"
-                  labelClass="text-white"
-                  label="Email address"
-                  id="formControlLg"
-                  type="email"
-                  size="lg"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <MDBInput
-                  wrapperClass="mb-4 mx-5 w-100"
-                  labelClass="text-white"
-                  label="Password"
-                  id="formControlLg"
-                  type={showPassword ? "text" : "password"}
-                  size="lg"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <div className="white">
-                  <button className="btn btn-primary" onClick={handleLogin}>
-                    <strong>Login</strong>
-                  </button>
-                </div>
-                <br />
-                <div>
-                  <p className="mb-0">
-                    Don't have an account?{" "}
-                    <Link to="/signup" className="text-white-50 fw-bold">
-                      Sign Up
-                    </Link>
-                  </p>
-                </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-    </div>
+    <MDBContainer fluid>
+      <MDBRow>
+        <MDBCol sm='6'>
+          <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
+            {/* Increased font size of "Log in" */}
+            <h2 className="fw-normal mb-3 mx-5 ps-5 pb-3 justify-content-center" style={{ letterSpacing: '1px', fontWeight: "", fontSize: "30px" }}>Log in</h2>
+            <MDBInput
+              wrapperClass='mb-4 mx-5 w-100'
+              labelClass="text-white"
+              label="Email address"
+              placeholder="E-mail"
+              id="formControlLg"
+              type="email"
+              size="lg"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required />
+            <MDBInput
+              wrapperClass="mb-4 mx-5 w-100"
+              labelClass="text-white"
+              label="Password"
+              placeholder="Password"
+              id="formControlLg"
+              type={showPassword ? "text" : "password"}
+              size="lg"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <div className="white">
+              <button className="btn btn-primary " style={{width:'fit-content'}} onClick={handleLogin} >
+                <strong >Login</strong>
+              </button>
+            </div>
+            {/* <MDBBtn className="mb-4 px-5 mx-5 w-100" color='info' size='lg' onClick={handleLogin}>Login</MDBBtn> */}
+            {/* <p className="small mb-5 pb-lg-3 ms-5"><a className="text-muted" href="#!">Forgot password?</a></p> */}
+            <p className='ms-5'>Don't have an account? <Link to="/signup" className="link-info">Register here</Link></p>
+          </div>
+        </MDBCol>
+        <MDBCol sm='6' className='d-none d-sm-block' style={{ marginTop: "17vh" }}>
+          <img src="https://www.rentallscript.com/resources/content/images/2023/02/Car-Rental-App.png" alt="Login image" className="w-100" style={{ objectFit: 'cover', objectPosition: 'left' }} />
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
   );
 }
 
