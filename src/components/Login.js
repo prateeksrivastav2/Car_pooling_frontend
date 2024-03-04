@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   MDBBtn,
@@ -62,24 +63,25 @@ function App() {
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
     });
+
     const json = await response.json();
     const { authToken } = json;
 
     if (json.success) {
-        localStorage.setItem('token', authToken);
-        // console.log(authToken);
-        navigate('/home');
-        // props.showAlert("Logged in successfully", "success");
+      localStorage.setItem("token", authToken);
+      // console.log(authToken);
+      navigate("/home");
+      // props.showAlert("Logged in successfully", "success");
     } else {
-        // props.showAlert("Invalid Credentials", "danger");
+      // props.showAlert("Invalid Credentials", "danger");
     }
-};
+  };
 
   return (
     <div className="main">
