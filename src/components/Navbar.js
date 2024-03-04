@@ -72,7 +72,7 @@ const NavBar = () => {
                   Second Home
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link
                   className={`block px-3 py-2 ${
                     location.pathname === "/create-ride"
@@ -83,8 +83,8 @@ const NavBar = () => {
                 >
                   Create Ride
                 </Link>
-              </li>
-              <li className="nav-item">
+              </li> */}
+              {/* <li className="nav-item">
                 <Link
                   className={`block px-3 py-2 ${
                     location.pathname === "/list-rides"
@@ -95,7 +95,7 @@ const NavBar = () => {
                 >
                   List Rides
                 </Link>
-              </li>
+              </li> */}
             </ul>
             <div className="flex items-center">
               {!localStorage.getItem("token") ? (
@@ -106,12 +106,12 @@ const NavBar = () => {
                       &nbsp;<span>LogIn</span>
                     </Button>
                   </Link>
-                  <Link to="/signup">
+                  {/* <Link to="/signup">
                     <Button color="purple" className="rounded font-bold">
                       <BiLogInCircle />
                       &nbsp;<span>SignUp</span>
                     </Button>
-                  </Link>
+                  </Link> */}
                 </>
               ) : (
                 <Link to="/login">
