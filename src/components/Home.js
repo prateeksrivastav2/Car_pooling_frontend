@@ -61,11 +61,12 @@ const Home = () => {
         </section>
 
         {/* Dowload Our App */}
-        <section className="py-10 bg-gray-100">
+        {/* <section className="py-10 bg-gray-100">
           <div className="max-w-screen-xl mx-auto px-3">
             <Download />
           </div>
-        </section>
+        </section> */}
+        {/* <h1>Welcome {user?user.username:"Login Please!"}</h1> */}
 
         {/* Contact Us */}
         <section className="py-10">
