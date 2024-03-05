@@ -1,0 +1,20 @@
+/* Add styles for the dashboard content */
+.dashboard-content {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px; /* Add margin to separate from the ride list box */
+}
+
+/* Add styles for the ride list box */
+.ride-list-box {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-left: 10px; /* Add margin to separate from the dashboard content */
+}
+
+/* Add hover effect to the ride list box */
+.ride-list-box:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}

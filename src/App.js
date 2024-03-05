@@ -33,8 +33,8 @@ function App() {
           <Route exact path="/home" element={<Dashboard showAlert={showAlert} />} />
           <Route exact path="/login" element={<Login showAlert={showAlert} />} />
           <Route exact path="/signup" element={<Signup showAlert={showAlert}  />} />
-          <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} />
-          <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} />
+          {/* <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} /> */}
+          {/* <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} /> */}
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>
       </Router>
