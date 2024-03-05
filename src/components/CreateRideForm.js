@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -70,7 +71,7 @@ const CreateRide = () => {
           console.log("Ride created successfully:", response.data);
           setRideCreated(true); // Set rideCreated flag to true after successful creation
           // You can redirect or update state accordingly
-          navigate('/home');
+          navigate("/home");
         }
       }
     } catch (error) {
@@ -97,7 +98,9 @@ const CreateRide = () => {
                     {/* <div className="rounded-circle bg-primary text-white p-2 me-2">
                       1
                     </div> */}
-                    <span class="badge bg-primary rounded-circle text-white me-2">1</span>
+                    <span class="badge bg-primary rounded-circle text-white me-2">
+                      1
+                    </span>
 
                     <div>License Verification</div>
                   </div>
@@ -243,6 +246,7 @@ const CreateRide = () => {
                     </>
                   )}
 
+
                   <div className="d-flex justify-content-between mt-4">
                     {step > 1 && (
                       <button
@@ -263,7 +267,10 @@ const CreateRide = () => {
                         Next Step
                       </button>
                     ) : (
-                      <button type="submit" className="btn btn-outline-secondary custom-btn">
+                      <button
+                        type="submit"
+                        className="btn btn-outline-secondary custom-btn"
+                      >
                         Submit
                       </button>
                     )}

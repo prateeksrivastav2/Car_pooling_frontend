@@ -29,7 +29,7 @@ function App() {
         <Navbar />
         <Alert alert={alert} />
         <Routes>
-          {/* <Route exact path="/" element={<Home showAlert={showAlert} />} />
+          <Route exact path="/" element={<Home showAlert={showAlert} />} />
           <Route
             exact
             path="/home"
@@ -44,7 +44,7 @@ function App() {
             exact
             path="/signup"
             element={<Signup showAlert={showAlert} />}
-          /> */}
+          />
           {/* <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} /> */}
           <Route exact path="/" element={<Home showAlert={showAlert}  />} />
           <Route exact path="/home" element={<Dashboard showAlert={showAlert} />} />

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable no-unused-vars */
 // import React, { useState } from "react";
 // import {
 //   MDBBtn,
@@ -221,7 +223,10 @@ function SignUp(props) {
       if (response.ok) {
         const data = await response.json();
         // console.log("Registration successful:", data);
-        props.showAlert("Registration successfull , Enter Credentials to Login ", "success");
+        props.showAlert(
+          "Registration successfull , Enter Credentials to Login ",
+          "success"
+        );
         navigate("/login");
       } else {
         setVisibleOtp(false);
@@ -258,7 +263,10 @@ function SignUp(props) {
       }
     } catch (error) {
       // console.error("Error validating OTP:", error);
-      props.showAlert("Internal Server Error occured during OTP verification", "danger");
+      props.showAlert(
+        "Internal Server Error occured during OTP verification",
+        "danger"
+      );
     }
   };
   return (
@@ -278,7 +286,11 @@ function SignUp(props) {
             </h2>
             <form className="mx-5">
               <div className="mb-4">
-                <label className="form-label" htmlFor="email" style={{ color: 'black' }}>
+                <label
+                  className="form-label"
+                  htmlFor="email"
+                  style={{ color: "black" }}
+                >
                   Name
                 </label>
                 <input
@@ -288,8 +300,6 @@ function SignUp(props) {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-
-
                   style={{
                     borderRadius: "8px",
                   }}
@@ -297,7 +307,11 @@ function SignUp(props) {
                 />
               </div>
               <div className="mb-4">
-                <label className="form-label" htmlFor="email" style={{ color: 'black' }}>
+                <label
+                  className="form-label"
+                  htmlFor="email"
+                  style={{ color: "black" }}
+                >
                   E-mail
                 </label>
                 <input
@@ -306,7 +320,6 @@ function SignUp(props) {
                   id="email"
                   type="email"
                   value={email}
-
                   onChange={(e) => setEmail(e.target.value)}
                   style={{
                     borderRadius: "8px",
@@ -316,7 +329,11 @@ function SignUp(props) {
               </div>
 
               <div className="mb-4">
-                <label className="form-label" htmlFor="password" style={{ color: 'black' }}>
+                <label
+                  className="form-label"
+                  htmlFor="password"
+                  style={{ color: "black" }}
+                >
                   Password
                 </label>
                 <input
@@ -329,7 +346,6 @@ function SignUp(props) {
                   style={{
                     borderRadius: "8px",
                   }}
-
                   required
                 />
               </div>
@@ -368,14 +384,14 @@ function SignUp(props) {
                   />
                 </div>
                 <div className="white">
-                <button
-                  className="btn btn-primary"
-                  style={{ width: "fit-content",marginBottom:'3vh' }}
-                  onClick={handleSubmit}
-                >
-                  <strong>Submit</strong>
-                </button>
-              </div>
+                  <button
+                    className="btn btn-primary"
+                    style={{ width: "fit-content", marginBottom: "3vh" }}
+                    onClick={handleSubmit}
+                  >
+                    <strong>Submit</strong>
+                  </button>
+                </div>
                 {/* <Link className="btn btn-primary my-2" type="submit"  >Submit OTP</Link> */}
               </form>
             )}
