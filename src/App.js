@@ -45,7 +45,7 @@ function App() {
             path="/signup"
             element={<Signup showAlert={showAlert} />}
           />
-          {/* <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} /> */}
+          <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} />
           {/* <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} /> */}
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>

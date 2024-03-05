@@ -7,22 +7,25 @@ import "../styles/Dashboard.css";
 
 const Dashboard = () => {
     const navigate = useNavigate(); // Use useNavigate hook to get the navigate function
+    const token=localStorage.getItem('token');
     const handelclick=()=>{
         navigate('/create-ride')
     }
 
-    // useEffect(() => {
-    //     if (!localStorage.getItem('token')) {
-    //         navigate("/login"); // Use navigate function to redirect
-    //     }
-    // }, [navigate]); // Pass navigate function as dependency
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            navigate("/login"); // Use navigate function to redirect
+        }
+    }, [navigate]); // Pass navigate function as dependency
 
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-md-8">
                     <div className="dashboard-content">
-                        <div style={{ marginTop: '20vh' }}>Dashboard</div>
+                        <div style={{ marginTop: '20vh' }}>
+
+                        </div>
                     </div>
                 </div>
                 <div className="col-md-4">
