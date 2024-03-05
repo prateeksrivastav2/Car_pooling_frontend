@@ -25,7 +25,7 @@ const Banner = () => {
             </span>
           </h1>
           <p className="text-gray-500 mt-8">
-            Discover seamless carpooling and ride-sharing with CarKaro, your
+            Discover seamless carpooling and ride-sharing with RideUnity, your
             ultimate travel companion. Connect with fellow commuters and
             travelers, share rides, split costs, and reduce your carbon
             footprint. Whether you are commuting to work, planning a road trip,

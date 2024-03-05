@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
@@ -45,7 +47,11 @@ function App(props) {
             </h2>
             <form className="mx-5">
               <div className="mb-4">
-                <label className="form-label" htmlFor="email" style={{ color: 'black' }}>
+                <label
+                  className="form-label"
+                  htmlFor="email"
+                  style={{ color: "black" }}
+                >
                   E-mail
                 </label>
                 <input
@@ -62,7 +68,11 @@ function App(props) {
                 />
               </div>
               <div className="mb-4">
-                <label className="form-label" htmlFor="password" style={{ color: 'black' }}>
+                <label
+                  className="form-label"
+                  htmlFor="password"
+                  style={{ color: "black" }}
+                >
                   Password
                 </label>
                 <input
