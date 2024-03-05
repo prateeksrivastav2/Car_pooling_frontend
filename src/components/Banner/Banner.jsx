@@ -7,7 +7,7 @@ const Banner = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-center justify-between">
         <div>
           <h1 className="text-5xl font-bold text-gray-700">
-            CarKaro:
+            RideUnity:
             <span className="text-purple-700">
               <Typewriter
                 options={{
