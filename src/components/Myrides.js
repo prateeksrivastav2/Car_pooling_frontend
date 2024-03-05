@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import RideCard from './RideCard';
 
 const Myrides = (props) => {
   const user = props.location?.state?.user; // Using optional chaining to prevent errors
@@ -43,7 +44,9 @@ const Myrides = (props) => {
 
   return (
     <div>
-      yhi hai sb kuch
+       {rides.map((ride) => (
+        <RideCard key={ride._id} ride={ride} />
+      ))}
     </div>
   );
 };
