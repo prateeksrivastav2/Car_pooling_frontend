@@ -17,11 +17,11 @@ function SignUp(props) {
     e.preventDefault();
     try {
       setVisibleOtp(true);
-      props.showAlert("Check Email to verify the opt", "primary");
-      const response = await fetch("http://localhost:3000/auth/createuser", {
-        method: "POST",
+      props.showAlert('Check Email to verify the opt', 'primary');
+      const response = await fetch('http://localhost:3000/auth/createuser', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           name: username,
@@ -41,35 +41,29 @@ function SignUp(props) {
       } else {
         setVisibleOtp(false);
         const errorData = await response.json();
-        // console.error("Registration failed:", errorData);
-        props.showAlert("Registration failed. Please try again.", "danger");
-        // alert("Registration failed. Please try again.");
+        props.showAlert('Registration failed. Please try again.', 'danger');
       }
     } catch (error) {
-      // console.error("Error during registration:", error);
-      props.showAlert("Registration failed. Please try again.", "danger");
+      props.showAlert('Registration failed. Please try again.', 'danger');
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/auth/verify-otp", {
-        method: "POST",
+      const response = await fetch('http://localhost:3000/auth/verify-otp', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ otp }),
       });
       const data = await response.json();
       if (response.ok) {
-        // console.log("OTP validated successfully");
-        props.showAlert("OTP validated successfully", "success");
-        // Proceed with user creation or other actions
-        navigate("/login");
+        props.showAlert('OTP validated successfully', 'success');
+        navigate('/login');
       } else {
-        // console.error("OTP validation failed:", data.msg);
-        props.showAlert("OTP validation failed", "danger");
+        props.showAlert('OTP validation failed', 'danger');
       }
     } catch (error) {
       // console.error("Error validating OTP:", error);
@@ -219,6 +213,7 @@ function SignUp(props) {
           />
         </div>
       </div>
+      
     </div>
   );
 }
