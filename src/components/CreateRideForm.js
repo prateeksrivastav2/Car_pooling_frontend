@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,15 +9,13 @@ const CreateRide = () => {
   // RIDE DETAIL
   const [formData, setFormData] = useState({
     firstname: "",
-    lastname: "",
-    dob: "",
     email: "",
-    address: "",
-    message: "",
     startingLocation: "",
     destination: "",
     date: "",
     availableSeats: "",
+    starttime: "", // Updated: starttime
+    endtime: ""    // Updated: endtime
   });
   const [rideCreated, setRideCreated] = useState(false); // Flag to indicate if the ride has been created
   useEffect(() => {
@@ -56,6 +53,9 @@ const CreateRide = () => {
             date: formData.date,
             availableSeats: formData.availableSeats,
             userEmail: formData.email,
+            name: formData.firstname,
+            starttime: formData.starttime, // Updated: starttime
+            endtime: formData.endtime      // Updated: endtime
           }
         );
         if (response.data) {
@@ -217,6 +217,36 @@ const CreateRide = () => {
                           />
                         </div>
                       </div>
+                      {/* New Inputs for starttime and endtime */}
+                      <div className="row mb-3">
+                        <div className="col">
+                          <label htmlFor="starttime" className="form-label">
+                            Start Time
+                          </label>
+                          <input
+                            type="time"
+                            name="starttime"
+                            id="starttime"
+                            className="form-control"
+                            value={formData.starttime}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="col">
+                          <label htmlFor="endtime" className="form-label">
+                            End Time
+                          </label>
+                          <input
+                            type="time"
+                            name="endtime"
+                            id="endtime"
+                            className="form-control"
+                            value={formData.endtime}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </div>
+                      {/* End of New Inputs */}
                     </>
                   )}
                   {step === 3 && (
