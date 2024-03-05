@@ -1,4 +1,5 @@
-// export default SignUp;
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
@@ -165,7 +166,7 @@ function SignUp(props) {
                 <div>
                   <p className="mb-0">
                     Already have an account?{" "}
-                    <Link to="/login" className="text-grey-50 fw-bold">
+                    <Link to="/login" className="link-info">
                       Login
                     </Link>
                   </p>
@@ -187,14 +188,14 @@ function SignUp(props) {
                   />
                 </div>
                 <div className="white">
-                  <button
-                    className="btn btn-primary"
-                    style={{ width: "fit-content", marginBottom: "3vh" }}
-                    onClick={handleSubmit}
-                  >
-                    <strong>Submit</strong>
-                  </button>
-                </div>
+                <button
+                  className="btn btn-primary"
+                  style={{ width: "fit-content",marginBottom:'3vh' }}
+                  onClick={handleSubmit}
+                >
+                  <strong>Submit</strong>
+                </button>
+              </div>
                 {/* <Link className="btn btn-primary my-2" type="submit"  >Submit OTP</Link> */}
               </form>
             )}

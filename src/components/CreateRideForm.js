@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -17,16 +16,14 @@ const CreateRide = () => {
   // RIDE DETAIL
   const [formData, setFormData] = useState({
     firstname: "",
-    lastname: "",
-    dob: "",
     email: "",
-    address: "",
-    message: "",
     startingLocation: "",
     destination: "",
     date: "",
     availableSeats: "",
     license : null,
+    starttime: "", // Updated: starttime
+    endtime: ""    // Updated: endtime
   });
   const [rideCreated, setRideCreated] = useState(false); // Flag to indicate if the ride has been created
   useEffect(() => {
@@ -65,7 +62,10 @@ const CreateRide = () => {
             date: formData.date,
             availableSeats: formData.availableSeats,
             userEmail: formData.email,
-            license : selectedFile
+            license : selectedFile,
+            name: formData.firstname,
+            starttime: formData.starttime, // Updated: starttime
+            endtime: formData.endtime      // Updated: endtime
           }
         );
         if (response.data) {
@@ -166,6 +166,7 @@ const CreateRide = () => {
                             type="text"
                             name="firstname"
                             id="firstname"
+                            style={{borderRadius:'8px'}}
                             className="form-control"
                             value={formData.firstname}
                             onChange={handleChange}
@@ -178,6 +179,7 @@ const CreateRide = () => {
                           <input
                             type="email"
                             name="email"
+                            style={{borderRadius:'8px'}}
                             id="email"
                             className="form-control"
                             value={formData.email}
@@ -192,6 +194,7 @@ const CreateRide = () => {
                           </label>
                           <input
                             type="text"
+                            style={{borderRadius:'8px'}}
                             name="startingLocation"
                             id="source"
                             className="form-control"
@@ -205,6 +208,7 @@ const CreateRide = () => {
                           </label>
                           <input
                             type="text"
+                            style={{borderRadius:'8px'}}
                             name="destination"
                             id="destination"
                             className="form-control"
@@ -222,6 +226,7 @@ const CreateRide = () => {
                             type="date"
                             name="date"
                             id="date"
+                            style={{borderRadius:'8px'}}
                             className="form-control"
                             value={formData.date}
                             onChange={handleChange}
@@ -237,6 +242,7 @@ const CreateRide = () => {
                           <input
                             type="number"
                             name="availableSeats"
+                            style={{borderRadius:'8px'}}
                             id="availableSeats"
                             className="form-control"
                             value={formData.availableSeats}
@@ -244,6 +250,37 @@ const CreateRide = () => {
                           />
                         </div>
                       </div>
+                      {/* New Inputs for starttime and endtime */}
+                      <div className="row mb-3">
+                        <div className="col">
+                          <label htmlFor="starttime" className="form-label">
+                            Start Time
+                          </label>
+                          <input
+                            type="time"
+                            name="starttime"
+                            id="starttime"
+                            className="form-control"
+                            value={formData.starttime}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="col">
+                          <label htmlFor="endtime" className="form-label">
+                            End Time
+                          </label>
+                          <input
+                            type="time"
+                            name="endtime"
+                            id="endtime"
+                            className="form-control"
+                            value={formData.endtime}
+                            onChange={handleChange}
+                            style={{borderRadius:'8px'}}
+                          />
+                        </div>
+                      </div>
+                      {/* End of New Inputs */}
                     </>
                   )}
 
