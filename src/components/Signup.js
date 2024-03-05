@@ -13,73 +13,70 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
-function Signup() {
+function SignUp(props) {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:3000/auth/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         email: email,
-  //         password: password,
-  //       }),
-  //     });
+  const handleSignUp = async () => {
+    try {
+      setVisibleOtp(true);
+      props.showAlert("Check Email to verify the opt", "primary");
+      const response = await fetch("http://localhost:3000/auth/createuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: username,
+          email: email,
+          password: password,
+        }),
+      });
 
-  //     if (response.ok) {
-  //       // Login successful
-  //       const { authToken } = json;
+      if (response.ok) {
+        const data = await response.json();
+        // console.log("Registration successful:", data);
+        props.showAlert("Registration successfull , Enter Credentials to Login ", "success");
+        navigate("/login");
+      } else {
+        setVisibleOtp(false);
+        const errorData = await response.json();
+        // console.error("Registration failed:", errorData);
+        props.showAlert("Registration failed. Please try again.", "danger");
+        // alert("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      // console.error("Error during registration:", error);
+      props.showAlert("Registration failed. Please try again.", "danger");
+    }
+  };
 
-  //       if (json.success) {
-  //           localStorage.setItem('token', authToken);
-  //           navigate('/');
-  //           props.showAlert("Logged in successfully", "success");
-  //       } else {
-  //           props.showAlert("Invalid Credentials", "danger");
-  //       }
-  //       // Redirect to the home page
-  //       navigate("/home"); // Adjust the route as per your setup
-  //     } else {
-  //       // Login failed, handle the error
-  //       const errorData = await response.json();
-  //       console.error("Login failed:", errorData);
-
-  //       // Show a prompt for login failure
-  //       alert("Login failed. Please check your email and password.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-
-  //     // Show a prompt for login failure
-  //     alert("An error occurred during login. Please try again.");
-  //   }
-  // };
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
-    });
-
-    const json = await response.json();
-    const { authToken } = json;
-
-    if (json.success) {
-      localStorage.setItem("token", authToken);
-      // console.log(authToken);
-      navigate("/home");
-      // props.showAlert("Logged in successfully", "success");
-    } else {
-      // props.showAlert("Invalid Credentials", "danger");
+    try {
+      const response = await fetch("http://localhost:3000/auth/verify-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ otp }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // console.log("OTP validated successfully");
+        props.showAlert("OTP validated successfully", "success");
+        // Proceed with user creation or other actions
+        navigate("/login");
+      } else {
+        // console.error("OTP validation failed:", data.msg);
+        props.showAlert("OTP validation failed", "danger");
+      }
+    } catch (error) {
+      // console.error("Error validating OTP:", error);
+      props.showAlert("Internal Server Error occured during OTP verification", "danger");
     }
   };
 

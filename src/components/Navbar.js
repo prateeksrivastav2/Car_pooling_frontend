@@ -61,7 +61,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
+                {localStorage.getItem('token')&&<Link
                   className={`block px-3 py-2 ${
                     location.pathname === "/home"
                       ? "text-purple-700"
@@ -69,8 +69,8 @@ const NavBar = () => {
                   }`}
                   to="/home"
                 >
-                  Second Home
-                </Link>
+                 Dashboard
+                </Link>}
               </li>
               {/* <li className="nav-item">
                 <Link

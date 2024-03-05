@@ -1,5 +1,5 @@
 // App.js
-import React from "react";
+import React,{useState} from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,27 +9,36 @@ import Signup from "./components/Signup";
 import CreateRide from "./components/CreateRideForm";
 import ListRides from "./components/ListRides";
 import Home from "./components/Home";
-import LoginForm from "./components/LoginForm";
-import NewSignup from "./components/NewSignup";
-
+import Dashboard from "./components/Dashboard"
+import Alert from './components/Alert'
 function App() {
+
+  const [alert, setAlert] = useState(null);
+  const showAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 3000);
+  };
   return (
     <div className="App">
       <Router>
         <Navbar />
+        <Alert alert={alert} />
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/home" element={<>This is  home page</>} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/a" element={<LoginForm />} />
-          <Route exact path="/singup-new" element={<NewSignup />} />
-          <Route exact path="/list-rides" element={<ListRides />} />
+          <Route exact path="/" element={<Home showAlert={showAlert}  />} />
+          <Route exact path="/home" element={<Dashboard showAlert={showAlert} />} />
+          <Route exact path="/login" element={<Login showAlert={showAlert} />} />
+          <Route exact path="/signup" element={<Signup showAlert={showAlert}  />} />
+          <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} />
+          <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} />
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>
       </Router>
     </div>
   );
 }
-
 export default App;

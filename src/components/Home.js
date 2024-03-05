@@ -45,12 +45,12 @@ const Home = () => {
         </section>
 
         {/* Partners */}
-        <section className="py-10 border-t">
+        {/* <section className="py-10 border-t">
           <div className="max-w-screen-xl mx-auto px-3">
             <Title className="my-5">Our Partners</Title>
             <Partners />
           </div>
-        </section>
+        </section> */}
 
         {/* FAQ */}
         <section className="py-10 border-t">
@@ -61,11 +61,11 @@ const Home = () => {
         </section>
 
         {/* Dowload Our App */}
-        <section className="py-10 bg-gray-100">
+        {/* <section className="py-10 bg-gray-100">
           <div className="max-w-screen-xl mx-auto px-3">
             <Download />
           </div>
-        </section>
+        </section> */}
 
         {/* Contact Us */}
         <section className="py-10">
