@@ -4,6 +4,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const CreateRide = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
   const [step, setStep] = useState(1);
   const [checkauth, setcheckauth] = useState(false);
   const navigate = useNavigate();
@@ -19,6 +25,7 @@ const CreateRide = () => {
     destination: "",
     date: "",
     availableSeats: "",
+    license : null,
   });
   const [rideCreated, setRideCreated] = useState(false); // Flag to indicate if the ride has been created
   useEffect(() => {
@@ -56,6 +63,7 @@ const CreateRide = () => {
             date: formData.date,
             availableSeats: formData.availableSeats,
             userEmail: formData.email,
+            license : selectedFile
           }
         );
         if (response.data) {
@@ -83,9 +91,8 @@ const CreateRide = () => {
               <div className="card-body">
                 <div className="d-flex justify-content-evenly mb-4">
                   <div
-                    className={`d-flex align-items-center ${
-                      step === 1 ? "text-primary" : "text-muted"
-                    }`}
+                    className={`d-flex align-items-center ${step === 1 ? "text-primary" : "text-muted"
+                      }`}
                   >
                     {/* <div className="rounded-circle bg-primary text-white p-2 me-2">
                       1
@@ -95,9 +102,8 @@ const CreateRide = () => {
                     <div>License Verification</div>
                   </div>
                   <div
-                    className={`d-flex align-items-center ${
-                      step === 2 ? "text-primary" : "text-muted"
-                    }`}
+                    className={`d-flex align-items-center ${step === 2 ? "text-primary" : "text-muted"
+                      }`}
                   >
                     <div className="badge bg-primary rounded-circle text-white me-2">
                       2
@@ -108,17 +114,41 @@ const CreateRide = () => {
                 <form onSubmit={handleSubmit}>
                   {step === 1 && (
                     <div className="mb-3">
-                      <label htmlFor="firstname" className="form-label">
+                      {/* <label htmlFor="firstname" className="form-label">
                         First Name
-                      </label>
-                      <input
+                      </label> */}
+                      {/* <input
                         type="text"
                         name="firstname"
                         id="firstname"
                         className="form-control"
                         value={formData.firstname}
                         onChange={handleChange}
-                      />
+                      /> */}
+                      <div className="container">
+                        <div className="row">
+                          <div className="col-md-6 offset-md-3">
+                            <div className="card mt-5">
+                              <div className="card-body">
+                                <h2 className="card-title">Upload a PDF File</h2>
+                                <input
+                                  type="file"
+                                  className="btn"
+                                  accept="application/pdf"
+                                  onChange={handleFileChange}
+                                />
+                                {selectedFile && (
+                                  <div>
+                                    <h3>Selected File:</h3>
+                                    <p>Name: {selectedFile.name}</p>
+                                    <p>Size: {selectedFile.size} bytes</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
                   {step === 2 && (
@@ -212,14 +242,14 @@ const CreateRide = () => {
                       </div>
                     </>
                   )}
-                  
+
                   <div className="d-flex justify-content-between mt-4">
                     {step > 1 && (
                       <button
                         type="button"
                         onClick={prevStep}
                         className="btn btn-outline-secondary custom-btn"
-                        
+
                       >
                         Back
                       </button>
