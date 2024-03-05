@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateRide = () => {
   const [step, setStep] = useState(1);
   const [checkauth, setcheckauth] = useState(false);
+  const navigate = useNavigate();
   // RIDE DETAIL
   const [formData, setFormData] = useState({
     firstname: "",
@@ -21,7 +23,7 @@ const CreateRide = () => {
   const [rideCreated, setRideCreated] = useState(false); // Flag to indicate if the ride has been created
   useEffect(() => {
     if (localStorage.getItem("token")) setcheckauth(true);
-    else window.location.replace("/login");
+    else navigate("/login");
   }, []);
 
   const handleChange = (e) => {
