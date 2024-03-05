@@ -46,7 +46,7 @@ const CreateRide = () => {
     event.preventDefault();
     try {
       // const token = localStorage.getItem('token');
-      if (step === 3 && !rideCreated) {
+      if (step === 2 && !rideCreated) {
         // Check if the current step is the third step and ride has not been created
         const response = await axios.post(
           "http://localhost:3000/rides/create",
@@ -62,6 +62,7 @@ const CreateRide = () => {
           console.log("Ride created successfully:", response.data);
           setRideCreated(true); // Set rideCreated flag to true after successful creation
           // You can redirect or update state accordingly
+          navigate('/home');
         }
       }
     } catch (error) {
@@ -80,15 +81,17 @@ const CreateRide = () => {
           <div className="col-md-8">
             <div className="card shadow">
               <div className="card-body">
-                <div className="d-flex justify-content-between mb-4">
+                <div className="d-flex justify-content-evenly mb-4">
                   <div
                     className={`d-flex align-items-center ${
                       step === 1 ? "text-primary" : "text-muted"
                     }`}
                   >
-                    <div className="rounded-circle bg-primary text-white p-2 me-2">
+                    {/* <div className="rounded-circle bg-primary text-white p-2 me-2">
                       1
-                    </div>
+                    </div> */}
+                    <span class="badge bg-primary rounded-circle text-white me-2">1</span>
+
                     <div>License Verification</div>
                   </div>
                   <div
@@ -96,20 +99,10 @@ const CreateRide = () => {
                       step === 2 ? "text-primary" : "text-muted"
                     }`}
                   >
-                    <div className="rounded-circle bg-primary text-white p-2 me-2">
+                    <div className="badge bg-primary rounded-circle text-white me-2">
                       2
                     </div>
                     <div>Ride Details</div>
-                  </div>
-                  <div
-                    className={`d-flex align-items-center ${
-                      step === 3 ? "text-primary" : "text-muted"
-                    }`}
-                  >
-                    <div className="rounded-circle bg-primary text-white p-2 me-2">
-                      3
-                    </div>
-                    <div>Confirm Journey</div>
                   </div>
                 </div>
                 <form onSubmit={handleSubmit}>
@@ -161,7 +154,7 @@ const CreateRide = () => {
                       <div className="row mb-3">
                         <div className="col">
                           <label htmlFor="source" className="form-label">
-                            Source
+                            Start Location
                           </label>
                           <input
                             type="text"
@@ -219,50 +212,28 @@ const CreateRide = () => {
                       </div>
                     </>
                   )}
-                  {step === 3 && (
-                    <div>
-                      <p className="text-muted mb-4">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt.
-                      </p>
-                      <div className="mb-3">
-                        <button
-                          type="button"
-                          onClick={nextStep}
-                          className="btn btn-primary me-2"
-                        >
-                          Yes! I want it.
-                        </button>
-                        <button
-                          type="button"
-                          onClick={prevStep}
-                          className="btn btn-secondary"
-                        >
-                          No! I don’t want it.
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  
                   <div className="d-flex justify-content-between mt-4">
                     {step > 1 && (
                       <button
                         type="button"
                         onClick={prevStep}
-                        className="btn btn-secondary"
+                        className="btn btn-outline-secondary custom-btn"
+                        
                       >
                         Back
                       </button>
                     )}
-                    {step < 3 ? (
+                    {step < 2 ? (
                       <button
                         type="button"
                         onClick={nextStep}
-                        className="btn btn-primary"
+                        className="btn btn-outline-secondary custom-btn"
                       >
                         Next Step
                       </button>
                     ) : (
-                      <button type="submit" className="btn btn-primary">
+                      <button type="submit" className="btn btn-outline-secondary custom-btn">
                         Submit
                       </button>
                     )}
