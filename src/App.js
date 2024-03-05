@@ -9,6 +9,8 @@ import Signup from "./components/Signup";
 import CreateRide from "./components/CreateRideForm";
 import ListRides from "./components/ListRides";
 import Home from "./components/Home";
+import LoginForm from "./components/LoginForm";
+import NewSignup from "./components/NewSignup";
 
 function App() {
   return (
@@ -17,9 +19,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/home" element={<>This is second home page</>} />
+          <Route exact path="/home" element={<>This is  home page</>} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/a" element={<LoginForm />} />
+          <Route exact path="/singup-new" element={<NewSignup />} />
           <Route exact path="/list-rides" element={<ListRides />} />
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>

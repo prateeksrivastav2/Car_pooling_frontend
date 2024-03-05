@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   MDBBtn,
@@ -12,67 +13,73 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
-function SignUp() {
-  const [username, setUsername] = useState("");
+function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [otp, setOtp] = useState(""); // Add otp state
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const [visibleOtp, setVisibleOtp] = useState(false);
 
-  const handleSignUp = async () => {
-    try {
-      setVisibleOtp(true);
-      const response = await fetch("http://localhost:3000/auth/createuser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: username,
-          email: email,
-          password: password,
-        }),
-      });
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/auth/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: email,
+  //         password: password,
+  //       }),
+  //     });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Registration successful:", data);
-        navigate("/login");
-      } else {
-        setVisibleOtp(false);
-        const errorData = await response.json();
-        console.error("Registration failed:", errorData);
-        alert("Registration failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error during registration:", error);
-      alert("An error occurred during registration. Please try again.");
-    }
-  };
+  //     if (response.ok) {
+  //       // Login successful
+  //       const { authToken } = json;
 
-  const handleSubmit = async (e) => {
+  //       if (json.success) {
+  //           localStorage.setItem('token', authToken);
+  //           navigate('/');
+  //           props.showAlert("Logged in successfully", "success");
+  //       } else {
+  //           props.showAlert("Invalid Credentials", "danger");
+  //       }
+  //       // Redirect to the home page
+  //       navigate("/home"); // Adjust the route as per your setup
+  //     } else {
+  //       // Login failed, handle the error
+  //       const errorData = await response.json();
+  //       console.error("Login failed:", errorData);
+
+  //       // Show a prompt for login failure
+  //       alert("Login failed. Please check your email and password.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+
+  //     // Show a prompt for login failure
+  //     alert("An error occurred during login. Please try again.");
+  //   }
+  // };
+  const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3000/auth/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ otp }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        console.log("OTP validated successfully");
-        // Proceed with user creation or other actions
-        navigate("/login");
-      } else {
-        console.error("OTP validation failed:", data.msg);
-        alert("OTP validation failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error validating OTP:", error);
-      alert("An error occurred during OTP validation. Please try again.");
+    const response = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+
+    const json = await response.json();
+    const { authToken } = json;
+
+    if (json.success) {
+      localStorage.setItem("token", authToken);
+      // console.log(authToken);
+      navigate("/home");
+      // props.showAlert("Logged in successfully", "success");
+    } else {
+      // props.showAlert("Invalid Credentials", "danger");
     }
   };
 
@@ -86,21 +93,10 @@ function SignUp() {
               style={{ borderRadius: "1rem", maxWidth: "400px" }}
             >
               <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
-                <h2 className="fw-bold mb-2 text-uppercase">Sign Up</h2>
+                <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
                 <p className="text-white-50 mb-5">
-                  Please register your username, email, and password!
+                  Please enter your login and password!
                 </p>
-                <MDBInput
-                  wrapperClass="mb-4 mx-5 w-100"
-                  labelClass="text-white"
-                  label="Username"
-                  id="formControlLg"
-                  type="text"
-                  size="lg"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
                 <MDBInput
                   wrapperClass="mb-4 mx-5 w-100"
                   labelClass="text-white"
@@ -117,64 +113,26 @@ function SignUp() {
                   labelClass="text-white"
                   label="Password"
                   id="formControlLg"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   size="lg"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
                 <div className="white">
-                  <button onClick={handleSignUp}>
-                    <strong>Signup</strong>
+                  <button className="btn btn-primary" onClick={handleLogin}>
+                    <strong>Login</strong>
                   </button>
                 </div>
-                <div className="d-flex flex-row mt-3 mb-5">
-                  <MDBBtn
-                    tag="a"
-                    color="none"
-                    className="m-3"
-                    style={{ color: "white" }}
-                  >
-                    <MDBIcon fab icon="facebook-f" size="lg" />
-                  </MDBBtn>
-                  <MDBBtn
-                    tag="a"
-                    color="none"
-                    className="m-3"
-                    style={{ color: "white" }}
-                  >
-                    <MDBIcon fab icon="twitter" size="lg" />
-                  </MDBBtn>
-                  <MDBBtn
-                    tag="a"
-                    color="none"
-                    className="m-3"
-                    style={{ color: "white" }}
-                  >
-                    <MDBIcon fab icon="google" size="lg" />
-                  </MDBBtn>
+                <br />
+                <div>
+                  <p className="mb-0">
+                    Don't have an account?{" "}
+                    <Link to="/signup" className="text-white-50 fw-bold">
+                      Sign Up
+                    </Link>
+                  </p>
                 </div>
-                {!visibleOtp && (
-                  <div>
-                    <p className="mb-0">
-                      Already have an account?{" "}
-                      <Link to="/login" className="text-white-50 fw-bold">
-                        Login
-                      </Link>
-                    </p>
-                  </div>
-                )}
-                {visibleOtp && (
-                  <form onSubmit={handleSubmit}>
-                    <input
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      placeholder="Enter OTP"
-                    />
-                    <button type="submit">Submit OTP</button>
-                  </form>
-                )}
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -184,4 +142,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Signup;
