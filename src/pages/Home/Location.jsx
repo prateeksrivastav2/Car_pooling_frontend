@@ -10,15 +10,15 @@ const Location = () => {
         <h3 className="text-2xl font-bold">Get in Touch</h3>
         <address className="my-5">
           <p className="flex items-center gap-1">
-            <AiFillPhone className="text-purple-900" /> +8801711 112233
+            <AiFillPhone className="text-purple-900" /> +918955367568
           </p>
           <p className="flex items-center gap-1">
-            <AiFillMail className="text-purple-900" /> contact@carkaro.web.app
+            <AiFillMail className="text-purple-900" /> gargshashwat705@gmail.com
           </p>
         </address>
         <p className="mb-5">
-          If you wnat to send any message like suggestions or complaints; just
-          send message bellow. We will review your message shortly.
+          If you wantt to send any message like suggestions or complaints; just
+          send message below. We will review your message shortly.
         </p>
         <div className="mt-5">
           <div className="mb-3">

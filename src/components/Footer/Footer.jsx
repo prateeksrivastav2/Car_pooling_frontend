@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Footer } from "flowbite-react";
 import {
   BsDribbble,
@@ -25,7 +26,7 @@ function Foot() {
                   alt="RideRelay"
                 />
                 <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-                  Car<span className="text-purple-600">Karo</span>
+                  Ride<span className="text-purple-600">Relay</span>
                 </span>
               </Link>
             </div>
@@ -58,13 +59,11 @@ function Foot() {
           </div>
           <Footer.Divider className="hidden md:block" />
           <div className="w-full flex items-center flex-col md:flex-row justify-center md:justify-between">
-            <Footer.Copyright by="CarKaro. All right reserved." year={2023} />
+            <Footer.Copyright by="RideRelay. All right reserved." year={2023} />
             <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
-              <Footer.Icon icon={BsFacebook} />
-              <Footer.Icon icon={BsInstagram} />
-              <Footer.Icon icon={BsTwitter} />
-              <Footer.Icon icon={BsGithub} />
-              <Footer.Icon icon={BsDribbble} />
+              <a href="https://github.com/prateeksrivastav2/Car_pooling_frontend/tree/main">
+                <Footer.Icon icon={BsGithub} />
+              </a>
             </div>
           </div>
         </div>

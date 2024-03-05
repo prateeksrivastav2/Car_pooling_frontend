@@ -1,8 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const CreateRide = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
   const [step, setStep] = useState(1);
   const [checkauth, setcheckauth] = useState(false);
   const navigate = useNavigate();
@@ -14,6 +21,7 @@ const CreateRide = () => {
     destination: "",
     date: "",
     availableSeats: "",
+    license : null,
     starttime: "", // Updated: starttime
     endtime: ""    // Updated: endtime
   });
@@ -43,7 +51,7 @@ const CreateRide = () => {
     event.preventDefault();
     try {
       // const token = localStorage.getItem('token');
-      if (step === 3 && !rideCreated) {
+      if (step === 2 && !rideCreated) {
         // Check if the current step is the third step and ride has not been created
         const response = await axios.post(
           "http://localhost:3000/rides/create",
@@ -53,6 +61,7 @@ const CreateRide = () => {
             date: formData.date,
             availableSeats: formData.availableSeats,
             userEmail: formData.email,
+            license : selectedFile
             name: formData.firstname,
             starttime: formData.starttime, // Updated: starttime
             endtime: formData.endtime      // Updated: endtime
@@ -62,6 +71,7 @@ const CreateRide = () => {
           console.log("Ride created successfully:", response.data);
           setRideCreated(true); // Set rideCreated flag to true after successful creation
           // You can redirect or update state accordingly
+          navigate("/home");
         }
       }
     } catch (error) {
@@ -80,52 +90,68 @@ const CreateRide = () => {
           <div className="col-md-8">
             <div className="card shadow">
               <div className="card-body">
-                <div className="d-flex justify-content-between mb-4">
+                <div className="d-flex justify-content-evenly mb-4">
                   <div
-                    className={`d-flex align-items-center ${
-                      step === 1 ? "text-primary" : "text-muted"
-                    }`}
+                    className={`d-flex align-items-center ${step === 1 ? "text-primary" : "text-muted"
+                      }`}
                   >
-                    <div className="rounded-circle bg-primary text-white p-2 me-2">
+                    {/* <div className="rounded-circle bg-primary text-white p-2 me-2">
                       1
-                    </div>
+                    </div> */}
+                    <span class="badge bg-primary rounded-circle text-white me-2">
+                      1
+                    </span>
+
                     <div>License Verification</div>
                   </div>
                   <div
-                    className={`d-flex align-items-center ${
-                      step === 2 ? "text-primary" : "text-muted"
-                    }`}
+                    className={`d-flex align-items-center ${step === 2 ? "text-primary" : "text-muted"
+                      }`}
                   >
-                    <div className="rounded-circle bg-primary text-white p-2 me-2">
+                    <div className="badge bg-primary rounded-circle text-white me-2">
                       2
                     </div>
                     <div>Ride Details</div>
-                  </div>
-                  <div
-                    className={`d-flex align-items-center ${
-                      step === 3 ? "text-primary" : "text-muted"
-                    }`}
-                  >
-                    <div className="rounded-circle bg-primary text-white p-2 me-2">
-                      3
-                    </div>
-                    <div>Confirm Journey</div>
                   </div>
                 </div>
                 <form onSubmit={handleSubmit}>
                   {step === 1 && (
                     <div className="mb-3">
-                      <label htmlFor="firstname" className="form-label">
+                      {/* <label htmlFor="firstname" className="form-label">
                         First Name
-                      </label>
-                      <input
+                      </label> */}
+                      {/* <input
                         type="text"
                         name="firstname"
                         id="firstname"
                         className="form-control"
                         value={formData.firstname}
                         onChange={handleChange}
-                      />
+                      /> */}
+                      <div className="container">
+                        <div className="row">
+                          <div className="col-md-6 offset-md-3">
+                            <div className="card mt-5">
+                              <div className="card-body">
+                                <h2 className="card-title">Upload a PDF File</h2>
+                                <input
+                                  type="file"
+                                  className="btn"
+                                  accept="application/pdf"
+                                  onChange={handleFileChange}
+                                />
+                                {selectedFile && (
+                                  <div>
+                                    <h3>Selected File:</h3>
+                                    <p>Name: {selectedFile.name}</p>
+                                    <p>Size: {selectedFile.size} bytes</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
                   {step === 2 && (
@@ -161,7 +187,7 @@ const CreateRide = () => {
                       <div className="row mb-3">
                         <div className="col">
                           <label htmlFor="source" className="form-label">
-                            Source
+                            Start Location
                           </label>
                           <input
                             type="text"
@@ -249,50 +275,32 @@ const CreateRide = () => {
                       {/* End of New Inputs */}
                     </>
                   )}
-                  {step === 3 && (
-                    <div>
-                      <p className="text-muted mb-4">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt.
-                      </p>
-                      <div className="mb-3">
-                        <button
-                          type="button"
-                          onClick={nextStep}
-                          className="btn btn-primary me-2"
-                        >
-                          Yes! I want it.
-                        </button>
-                        <button
-                          type="button"
-                          onClick={prevStep}
-                          className="btn btn-secondary"
-                        >
-                          No! I don’t want it.
-                        </button>
-                      </div>
-                    </div>
-                  )}
+
+
                   <div className="d-flex justify-content-between mt-4">
                     {step > 1 && (
                       <button
                         type="button"
                         onClick={prevStep}
-                        className="btn btn-secondary"
+                        className="btn btn-outline-secondary custom-btn"
+
                       >
                         Back
                       </button>
                     )}
-                    {step < 3 ? (
+                    {step < 2 ? (
                       <button
                         type="button"
                         onClick={nextStep}
-                        className="btn btn-primary"
+                        className="btn btn-outline-secondary custom-btn"
                       >
                         Next Step
                       </button>
                     ) : (
-                      <button type="submit" className="btn btn-primary">
+                      <button
+                        type="submit"
+                        className="btn btn-outline-secondary custom-btn"
+                      >
                         Submit
                       </button>
                     )}
