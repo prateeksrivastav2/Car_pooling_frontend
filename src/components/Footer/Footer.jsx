@@ -26,7 +26,7 @@ function Foot() {
                   alt="RideRelay"
                 />
                 <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-                  Ride<span className="text-purple-600">Relay</span>
+                  Ride<span className="text-purple-600">Unity</span>
                 </span>
               </Link>
             </div>
@@ -59,7 +59,7 @@ function Foot() {
           </div>
           <Footer.Divider className="hidden md:block" />
           <div className="w-full flex items-center flex-col md:flex-row justify-center md:justify-between">
-            <Footer.Copyright by="RideRelay. All right reserved." year={2023} />
+            <Footer.Copyright by="RideUnity. All right reserved." year={2023} />
             <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
               <a href="https://github.com/prateeksrivastav2/Car_pooling_frontend/tree/main">
                 <Footer.Icon icon={BsGithub} />
