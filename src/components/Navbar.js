@@ -33,7 +33,7 @@ const NavBar = () => {
               alt="RideRelay"
             />
             <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-              Car<span className="text-purple-700">Karo</span>
+            Ride<span className="text-purple-700">Unity</span>
             </span>
           </Link>
           <button

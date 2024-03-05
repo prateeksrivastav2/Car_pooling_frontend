@@ -34,7 +34,7 @@ const Home = () => {
     // <div style={{ marginTop: "34vh" }}>Welcome {user ? user.username : ""}</div>
     <HelmetProvider>
       <Helmet>
-        <title>RideRelay | Home</title>
+        <title>RideUnity | Home</title>
       </Helmet>
       <main className="">
         {/* Banner */}
