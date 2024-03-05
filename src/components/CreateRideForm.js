@@ -52,6 +52,7 @@ const CreateRide = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     try {
       // const token = localStorage.getItem('token');
       if (step === 2 && !rideCreated) {
