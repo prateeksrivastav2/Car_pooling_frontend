@@ -1,20 +1,22 @@
+/* eslint-disable no-unused-vars */
 import { Accordion } from "flowbite-react";
 import { BiQuestionMark } from "react-icons/bi";
 import { Link } from "react-router-dom";
-
+import image from "../../assets/images/think.png";
 const Faq = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div className="mx-auto text-center">
         <BiQuestionMark className="text-7xl text-red-600 mx-auto" />
         <p className="">Have any quesion in mind?</p>
+        <img src={image} alt="" />
       </div>
       <Accordion collapseAll>
         <Accordion.Panel>
-          <Accordion.Title>What is CarKaro?</Accordion.Title>
+          <Accordion.Title>What is RideUnity?</Accordion.Title>
           <Accordion.Content>
             <p className="mb-2 text-gray-500 dark:text-gray-400">
-              CarKaro is a carpooling and ridesharing application.
+              RideUnity is a carpooling and ridesharing application.
             </p>
             <p className="text-gray-500 dark:text-gray-400">
               Check out this guide to learn how to&nbsp;
@@ -40,7 +42,7 @@ const Faq = () => {
         </Accordion.Panel>
         <Accordion.Panel>
           <Accordion.Title>
-            What are the differences between CarKaro and others?
+            What are the differences between RideUnity and others?
           </Accordion.Title>
           <Accordion.Content>
             <p className="mb-2 text-gray-500 dark:text-gray-400">
