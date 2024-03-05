@@ -43,7 +43,7 @@ const ListRides = () => {
 
   return (
     <div className="ride-list">
-      <h2>Available Rides</h2>
+      <h1>Available Rides</h1>
       {rides.length === 0 && <p>No rides available right now.</p>}
       {rides.map((ride) => (
         <RideCard key={ride._id} ride={ride} openModal={openModal} />

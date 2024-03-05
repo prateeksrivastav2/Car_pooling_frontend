@@ -31,6 +31,7 @@ const Dashboard = () => {
                 } else {
                     // Handle error response
                     console.error('Error fetching user data');
+                    navigate('/login');
                 }
             } catch (error) {
                 console.error('Error fetching user data', error);
@@ -50,12 +51,13 @@ const Dashboard = () => {
                 <div className="col-md-8">
                     <div className="dashboard-content">
                         <div style={{ marginTop: '' }}>
-                            {user && <p>Welcome, {user.username}!</p>}
+                            {user && <><p>Welcome, {user.username}!</p>
+                            <p>{user.email}</p></>}
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <div className="ride-list-box">
+                    <div className="ride-list-box" style={{overflowX:'scroll',height:'100vh'}}>
                         <ListRides />
                     </div>
                     <div className="icon-container">
