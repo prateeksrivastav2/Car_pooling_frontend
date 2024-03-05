@@ -16,7 +16,9 @@ const Dashboard = () => {
             navigate("/login"); // Use navigate function to redirect
         }
     }, [navigate]); // Pass navigate function as dependency
-
+    const handelMyrides=()=>{
+        navigate( '/my-rides'); 
+    }
     return (
         <div className="container-fluid">
             <div className="row">
@@ -31,6 +33,9 @@ const Dashboard = () => {
                     </div>
                     <div className="icon-container">
                         <FontAwesomeIcon className='text-info' icon={faPlusSquare} size='4x' style={{marginLeft:'1vw'}} onClick={handelclick}/> {/* Use FontAwesomeIcon with faPlusSquare icon */}
+                    </div>
+                    <div className="iner">
+                        <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button>
                     </div>
                 </div>
             </div>

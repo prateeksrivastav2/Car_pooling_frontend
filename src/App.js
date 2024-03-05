@@ -51,6 +51,11 @@ function App() {
             path="/create-ride"
             element={<CreateRide showAlert={showAlert} />}
           />
+          <Route
+            exact
+            path="/my-rides"
+            element={<CreateRide showAlert={showAlert} />}
+          />
           {/* <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} /> */}
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>
