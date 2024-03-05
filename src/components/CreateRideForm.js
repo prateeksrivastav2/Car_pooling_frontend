@@ -21,7 +21,7 @@ const CreateRide = () => {
     destination: "",
     date: "",
     availableSeats: "",
-    license : null,
+    license : selectedFile,
     starttime: "", // Updated: starttime
     endtime: ""    // Updated: endtime
   });
@@ -48,12 +48,35 @@ const CreateRide = () => {
   };
 
   const handleSubmit = async (event) => {
+
+
+
     event.preventDefault();
     
     try {
       // const token = localStorage.getItem('token');
       if (step === 2 && !rideCreated) {
         // Check if the current step is the third step and ride has not been created
+      //   const formData = new FormData(); // Create FormData object
+      // formData.append('startingLocation', formData.startingLocation);
+      // formData.append('destination', formData.destination);
+      // formData.append('date', formData.date);
+      // formData.append('availableSeats', formData.availableSeats);
+      // formData.append('userEmail', formData.email);
+      // formData.append('name', formData.firstname);
+      // formData.append('starttime', formData.starttime);
+      // formData.append('endtime', formData.endtime);
+      // formData.append('formDataWithLicense', formData.formDataWithLicense); // Append the selected file
+  
+      // const response = await axios.post(
+      //   "http://localhost:3000/rides/create",
+      //   formData, // Pass FormData object as request data
+      //   {
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data' // Set content type for FormData
+      //     }
+      //   }
+      // );
         const response = await axios.post(
           "http://localhost:3000/rides/create",
           {
@@ -137,6 +160,7 @@ const CreateRide = () => {
                                 <h2 className="card-title">Upload a PDF File</h2>
                                 <input
                                   type="file"
+                                  name = "formDataWithLicense"
                                   className="btn"
                                   accept="application/pdf"
                                   onChange={handleFileChange}
