@@ -29,7 +29,6 @@ function App() {
         <Navbar />
         <Alert alert={alert} />
         <Routes>
-<<<<<<< HEAD
           <Route exact path="/" element={<Home showAlert={showAlert} />} />
           <Route
             exact
@@ -47,13 +46,6 @@ function App() {
             element={<Signup showAlert={showAlert} />}
           />
           {/* <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} /> */}
-=======
-          <Route exact path="/" element={<Home showAlert={showAlert}  />} />
-          <Route exact path="/home" element={<Dashboard showAlert={showAlert} />} />
-          <Route exact path="/login" element={<Login showAlert={showAlert} />} />
-          <Route exact path="/signup" element={<Signup showAlert={showAlert}  />} />
-          <Route exact path="/create-ride" element={<CreateRide showAlert={showAlert} />} />
->>>>>>> c66c95cafc877d3b09c11ac5fe040dc66243a9c5
           {/* <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} /> */}
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>
