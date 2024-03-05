@@ -61,7 +61,7 @@ const CreateRide = () => {
             date: formData.date,
             availableSeats: formData.availableSeats,
             userEmail: formData.email,
-            license : selectedFile
+            license : selectedFile,
             name: formData.firstname,
             starttime: formData.starttime, // Updated: starttime
             endtime: formData.endtime      // Updated: endtime
@@ -165,6 +165,7 @@ const CreateRide = () => {
                             type="text"
                             name="firstname"
                             id="firstname"
+                            style={{borderRadius:'8px'}}
                             className="form-control"
                             value={formData.firstname}
                             onChange={handleChange}
@@ -177,6 +178,7 @@ const CreateRide = () => {
                           <input
                             type="email"
                             name="email"
+                            style={{borderRadius:'8px'}}
                             id="email"
                             className="form-control"
                             value={formData.email}
@@ -191,6 +193,7 @@ const CreateRide = () => {
                           </label>
                           <input
                             type="text"
+                            style={{borderRadius:'8px'}}
                             name="startingLocation"
                             id="source"
                             className="form-control"
@@ -204,6 +207,7 @@ const CreateRide = () => {
                           </label>
                           <input
                             type="text"
+                            style={{borderRadius:'8px'}}
                             name="destination"
                             id="destination"
                             className="form-control"
@@ -221,6 +225,7 @@ const CreateRide = () => {
                             type="date"
                             name="date"
                             id="date"
+                            style={{borderRadius:'8px'}}
                             className="form-control"
                             value={formData.date}
                             onChange={handleChange}
@@ -236,6 +241,7 @@ const CreateRide = () => {
                           <input
                             type="number"
                             name="availableSeats"
+                            style={{borderRadius:'8px'}}
                             id="availableSeats"
                             className="form-control"
                             value={formData.availableSeats}
@@ -269,6 +275,7 @@ const CreateRide = () => {
                             className="form-control"
                             value={formData.endtime}
                             onChange={handleChange}
+                            style={{borderRadius:'8px'}}
                           />
                         </div>
                       </div>
