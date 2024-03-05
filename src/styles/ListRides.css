@@ -1,0 +1,20 @@
+.ride-card {
+  background: linear-gradient(135deg, #bde4ff, #ffffff);
+  padding: 20px;
+  border-radius: 8px;
+  width: 'fit-content';
+  margin-bottom: 20px;
+  transition: background 0.3s ease; /* Adding transition effect for background change */
+}
+
+.ride-card:hover {
+  background: linear-gradient(135deg, #90c8ff, #ffffff); /* Changing background on hover */
+}
+
+.ride-card h4 {
+  margin-bottom: 10px;
+}
+
+.ride-card p {
+  margin-bottom: 5px;
+}

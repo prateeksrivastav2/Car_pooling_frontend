@@ -11,7 +11,8 @@ function SignUp(props) {
   const navigate = useNavigate();
   const [visibleOtp, setVisibleOtp] = useState(false);
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
     try {
       setVisibleOtp(true);
       props.showAlert('Check Email to verify the opt', 'primary');
