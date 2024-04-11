@@ -12,6 +12,7 @@ import ListRides from "./components/ListRides";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import Alert from "./components/Alert";
+import Myrides from "./components/Myrides";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -50,6 +51,11 @@ function App() {
             exact
             path="/create-ride"
             element={<CreateRide showAlert={showAlert} />}
+          />
+          <Route
+            exact
+            path="/my-rides"
+            element={<Myrides showAlert={showAlert} />}
           />
           {/* <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} /> */}
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />

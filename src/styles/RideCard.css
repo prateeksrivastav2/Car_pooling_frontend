@@ -1,0 +1,30 @@
+/* styles/RideCard.css */
+.ride-card {
+    background: linear-gradient(to bottom, #4CAF50, #45a049);
+    color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 10px;
+    transition: background 0.3s ease;
+  }
+  
+  .ride-card.expanded {
+    background: #fff; /* Change background when expanded */
+    color: #000;
+  }
+  
+  .ride-summary {
+    margin-bottom: 10px;
+  }
+  
+  .ride-details {
+    display: none;
+  }
+  
+  .ride-card.expanded .ride-details {
+    display: block;
+  }
+  

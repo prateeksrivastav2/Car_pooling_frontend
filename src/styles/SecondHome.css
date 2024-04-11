@@ -1,0 +1,47 @@
+/* Add this to your CSS file or style section */
+
+.home-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .create-ride {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .create-ride-button {
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .rides-list {
+    width: 70%; /* Adjust as needed */
+    /* Add other styling for the rides list */
+  }
+  .create-ride-button {
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .create-ride-button:hover {
+    background-color: #0056b3; /* Change color on hover if desired */
+  }

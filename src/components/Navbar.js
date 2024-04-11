@@ -119,7 +119,7 @@ const NavBar = () => {
                     className="block lg:inline-block text-white w-32 px-2 py-2 rounded bg-purple-700"
                     onClick={handleLogout}
                   >
-                    Logout
+                    LogOut
                   </button>
                 </Link>
               )}
