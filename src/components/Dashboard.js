@@ -4,11 +4,13 @@ import ListRides from './ListRides';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import "../styles/Dashboard.css";
-
+import RidedetailsModal from './RidedetailsModal'; 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // State to store user data
     const token = localStorage.getItem('token');
+   
+
 
     const handleClick = () => {
         navigate('/create-ride');
@@ -52,31 +54,35 @@ const Dashboard = () => {
         <div className="container-fluid">
             <div className="row">
                 <div className="col-md-8">
-                    <div className="dashboard-content">
+                    <div className="dashboard-content shadow-on-hover">
                         <div style={{ marginTop: '' }}>
                             {user && <><p>Welcome, {user.username}!</p>
                             <p>{user.email}</p></>}
                         </div>
+                        <div> <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button></div>
                     </div>
                 </div>
-                <div className="col-md-4">
-                    <div className="ride-list-box" style={{overflowX:'scroll',height:'100vh'}}>
+                
+                <div className="col-md-4 mb-4">
+                    <div className="ride-list-box" style={{overflowX:'hidden',height:'100vh'}}>
                         <ListRides />
+                    </div>
+                    <div className="rid" >
+                    <RidedetailsModal/>
                     </div>
                     <div className="icon-container">
                         <FontAwesomeIcon
                             className='text-info'
                             icon={faPlusSquare}
+                         
                             size='4x'
-                            style={{ marginLeft: '1vw' }}
+                            style={{ marginLeft: '1vw' ,cursor:'pointer'}}
                             onClick={handleClick}
                         />
                     </div>
 
                 </div>
-                <div>
-                    <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button>
-                </div>
+               
             </div>
         </div>
     );

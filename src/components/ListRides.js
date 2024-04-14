@@ -3,18 +3,20 @@ import axios from 'axios';
 import "../styles/ListRides.css";
 import RidedetailsModal from './RidedetailsModal'; // Assuming you have a modal component
 
-const RideCard = ({ ride, openModal }) => {
+const RideCard = ({ ride, openModal,selectedRide }) => {
   const handleCardClick = () => {
-    openModal(ride); // Call the openModal function with the ride details
+    console.log("clicked");
+    openModal(ride);
   };
 
   return (
-    <div className="ride-card" onClick={handleCardClick}>
+    <div className="ride-card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
       <h4>Driver: {ride.driver.name}</h4>
       <p>Starting Location: {ride.startingLocation}</p>
       <p>Destination: {ride.destination}</p>
       <p>Date: {new Date(ride.date).toLocaleDateString()}</p>
       <p>Available Seats: {ride.availableSeats}</p>
+      <RidedetailsModal ride={selectedRide} />
     </div>
   );
 };
@@ -38,7 +40,8 @@ const ListRides = () => {
   }, []); // Runs once when the component mounts
 
   const openModal = (ride) => {
-    setSelectedRide(ride); // Set the selected ride
+    console.log("ll");
+    setSelectedRide(ride);
   };
 
   return (
@@ -46,7 +49,7 @@ const ListRides = () => {
       <h1>Available Rides</h1>
       {rides.length === 0 && <p>No rides available right now.</p>}
       {rides.map((ride) => (
-        <RideCard key={ride._id} ride={ride} openModal={openModal} />
+        <RideCard key={ride._id} ride={ride} openModal={openModal} selectedRide={selectedRide} />
       ))}
       {/* Render the modal component conditionally */}
       {selectedRide && <RidedetailsModal ride={selectedRide} />}
