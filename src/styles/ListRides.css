@@ -9,6 +9,7 @@
 
 .ride-card:hover {
   background: linear-gradient(135deg, #90c8ff, #ffffff); /* Changing background on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0.3, 0.3, 0.3); /* Adding box-shadow on hover */
 }
 
 .ride-card h4 {

@@ -4,12 +4,12 @@ import ListRides from './ListRides';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import "../styles/Dashboard.css";
-import RidedetailsModal from './RidedetailsModal'; 
+// import RidedetailsModal from './RidedetailsModal';
 const Dashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // State to store user data
     const token = localStorage.getItem('token');
-   
+
 
 
     const handleClick = () => {
@@ -18,7 +18,7 @@ const Dashboard = () => {
     const handelMyrides = () => {
         navigate('/my-rides', { state: { user: user } });
     };
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -53,39 +53,56 @@ const Dashboard = () => {
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-18">
                     <div className="dashboard-content shadow-on-hover">
-                        <div style={{ marginTop: '' }}>
-                            {user && <><p>Welcome, {user.username}!</p>
-                            <p>{user.email}</p></>}
+                        <div style={{ marginTop: '' , fontSize:'1.5rem'}}>
+                            {user && <><p>Hello🖐️ ,{user.username}!</p>
+                                </>}
                         </div>
-                        <div> <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button></div>
+                        {/* <div> <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button></div> */}
                     </div>
                 </div>
+
+             
+             <h2 style={{
+                fontSize:'2rem',
+                fontFamily:'cursive'
                 
-                <div className="col-md-4 mb-4">
-                    <div className="ride-list-box" style={{overflowX:'hidden',height:'100vh'}}>
-                        <ListRides />
+             }}>
+                Available Rides
+             </h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="my-3">
+                            <div class="card text-black mb-3" >
+                                <div class="card-body">
+                                    <ListRides />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="rid" >
-                    <RidedetailsModal/>
-                    </div>
-                    <div className="icon-container">
-                        <FontAwesomeIcon
-                            className='text-info'
-                            icon={faPlusSquare}
-                         
-                            size='4x'
-                            style={{ marginLeft: '1vw' ,cursor:'pointer'}}
-                            onClick={handleClick}
-                        />
                     </div>
 
+
+                    {/* <div className="rid" >
+                        {/* <RidedetailsModal/> */}
+                        {/* </div> *
+                        <div className="icon-container">
+                            <FontAwesomeIcon
+                                className='text-info'
+                                icon={faPlusSquare}
+
+                                size='4x'
+                                style={{ marginLeft: '1vw', cursor: 'pointer' }}
+                                onClick={handleClick}
+                            />
+                        </div>
+
+                    </div> */}
+
                 </div>
-               
             </div>
-        </div>
-    );
+            );
 };
 
-export default Dashboard;
+            export default Dashboard;

@@ -13,6 +13,7 @@ import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import Alert from "./components/Alert";
 import Myrides from "./components/Myrides";
+import ShowRideDetails from './components/ShowRideDetails'
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -35,7 +36,7 @@ function App() {
           <Route
             exact
             path="/home"
-            element={<Dashboard showAlert={showAlert} />}
+            element={<Dashboard showAlert={showAlert}/>}
           />
           <Route
             exact
@@ -46,6 +47,11 @@ function App() {
             exact
             path="/signup"
             element={<Signup showAlert={showAlert} />}
+          />
+          <Route
+            exact
+            path="/ride-details/:id"
+            element={<ShowRideDetails showAlert={showAlert} />}
           />
           <Route
             exact

@@ -3,7 +3,9 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    margin-right: 10px; /* Add margin to separate from the ride list box */
+    margin-right: 10px;
+    margin-bottom: 2vh;
+     /* Add margin to separate from the ride list box */
 }
 
 /* Add styles for the ride list box */
@@ -18,13 +20,14 @@
 .ride-list-box:hover {
     box-shadow: 0px 10px 10px rgba(0.4, 0.4, 0.4, 0.4);
 }
+
 .shadow-on-hover:hover {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
+
+/* Add styles for the icon container */
 .icon-container {
     position: fixed;
     bottom: 20px;
     left: 20px;
 }
-
-

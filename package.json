@@ -10,7 +10,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.5.2",
-    "aws-sdk": "^2.1597.0",
+    "aws-sdk": "^2.1599.0",
     "axios": "^1.6.7",
     "boostrap": "^2.0.0",
     "bootstrap": "^5.3.3",
