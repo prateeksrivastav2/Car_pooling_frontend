@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import AWS from 'aws-sdk';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
+const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
 const CreateRide = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
   };
   const [step, setStep] = useState(1);
   const [checkauth, setcheckauth] = useState(false);
@@ -21,7 +23,7 @@ const CreateRide = () => {
     destination: "",
     date: "",
     availableSeats: "",
-    license : null,
+    license: selectedFile,
     starttime: "", // Updated: starttime
     endtime: ""    // Updated: endtime
   });
@@ -39,6 +41,43 @@ const CreateRide = () => {
     });
   };
 
+  const uploadFile = () => {
+    if (!selectedFile) {
+      alert('Please select a file');
+      return;
+    }
+
+    setUploading(true);
+
+    // Configure AWS SDK with your credentials
+    //console.log(accessKeyId);
+    AWS.config.update({
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+      region: 'ap-south-1'
+    });
+
+    const s3 = new AWS.S3();
+
+    const params = {
+      Bucket: 'carpooling',
+      Key: selectedFile.name,
+      Body: selectedFile
+    };
+
+    s3.upload(params, (err, data) => {
+        if (err) {
+            console.error(err);
+            alert('Error uploading file');
+        } else {
+            console.log('File uploaded successfully:', data.Location);
+            setSelectedFile(data.Location);
+            alert('File uploaded successfully!'); // Optional: Show an alert to the user
+        }
+        setUploading(false);
+    });
+  };
+
   const nextStep = () => {
     setStep(step + 1);
   };
@@ -49,7 +88,7 @@ const CreateRide = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     try {
       // const token = localStorage.getItem('token');
       if (step === 2 && !rideCreated) {
@@ -62,7 +101,7 @@ const CreateRide = () => {
             date: formData.date,
             availableSeats: formData.availableSeats,
             userEmail: formData.email,
-            license : selectedFile,
+            license: selectedFile,
             name: formData.firstname,
             starttime: formData.starttime, // Updated: starttime
             endtime: formData.endtime      // Updated: endtime
@@ -137,8 +176,8 @@ const CreateRide = () => {
                                 <h2 className="card-title">Upload a PDF File</h2>
                                 <input
                                   type="file"
+                                  name="formDataWithLicense"
                                   className="btn"
-                                  accept="application/pdf"
                                   onChange={handleFileChange}
                                 />
                                 {selectedFile && (
@@ -148,6 +187,9 @@ const CreateRide = () => {
                                     <p>Size: {selectedFile.size} bytes</p>
                                   </div>
                                 )}
+                                <button onClick={uploadFile} className=" btn btn-dark" disabled={uploading}>
+                                  {uploading ? 'Uploading...' : 'Upload'}
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -166,7 +208,7 @@ const CreateRide = () => {
                             type="text"
                             name="firstname"
                             id="firstname"
-                            style={{borderRadius:'8px'}}
+                            style={{ borderRadius: '8px' }}
                             className="form-control"
                             value={formData.firstname}
                             onChange={handleChange}
@@ -179,7 +221,7 @@ const CreateRide = () => {
                           <input
                             type="email"
                             name="email"
-                            style={{borderRadius:'8px'}}
+                            style={{ borderRadius: '8px' }}
                             id="email"
                             className="form-control"
                             value={formData.email}
@@ -194,7 +236,7 @@ const CreateRide = () => {
                           </label>
                           <input
                             type="text"
-                            style={{borderRadius:'8px'}}
+                            style={{ borderRadius: '8px' }}
                             name="startingLocation"
                             id="source"
                             className="form-control"
@@ -208,7 +250,7 @@ const CreateRide = () => {
                           </label>
                           <input
                             type="text"
-                            style={{borderRadius:'8px'}}
+                            style={{ borderRadius: '8px' }}
                             name="destination"
                             id="destination"
                             className="form-control"
@@ -226,7 +268,7 @@ const CreateRide = () => {
                             type="date"
                             name="date"
                             id="date"
-                            style={{borderRadius:'8px'}}
+                            style={{ borderRadius: '8px' }}
                             className="form-control"
                             value={formData.date}
                             onChange={handleChange}
@@ -242,7 +284,7 @@ const CreateRide = () => {
                           <input
                             type="number"
                             name="availableSeats"
-                            style={{borderRadius:'8px'}}
+                            style={{ borderRadius: '8px' }}
                             id="availableSeats"
                             className="form-control"
                             value={formData.availableSeats}
@@ -276,7 +318,7 @@ const CreateRide = () => {
                             className="form-control"
                             value={formData.endtime}
                             onChange={handleChange}
-                            style={{borderRadius:'8px'}}
+                            style={{ borderRadius: '8px' }}
                           />
                         </div>
                       </div>
