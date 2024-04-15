@@ -14,7 +14,7 @@ const RideCard = ({ ride,selectedRide }) => {
 
   return (
     <div className="ride-card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
-      <h4>Driver: {ride.driver.name}</h4>
+      <h4>Driver: {ride.driver}</h4>
       <p>Starting Location: {ride.startingLocation}</p>
       <p>Destination: {ride.destination}</p>
       <p>Date: {new Date(ride.date).toLocaleDateString()}</p>
