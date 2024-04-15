@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; // Import useParams to access URL parameters
+import Chatbox from './chatbox';
 
 const ShowRideDetails = () => {
     const { id } = useParams(); // Get the ride ID from URL params
@@ -74,7 +75,8 @@ const ShowRideDetails = () => {
             </div>
                 <div className="col-md-4 text-black">
                    {/* Add your chatbot component here */}
-                  <p>hii here chatbot</p>
+                   <Chatbox/>
+                  {/* <p>hii here chatbot</p> */}
                 </div>
         </div>
     );
