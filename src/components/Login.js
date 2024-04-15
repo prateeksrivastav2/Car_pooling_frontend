@@ -27,7 +27,7 @@ function App(props) {
       navigate("/");
       props.showAlert("Logged in successfully", "success");
     } else {
-      props.showAlert("Invalid Credentials", "danger");
+      props.showAlert("Invalid Credentials / Wait for admin to verify account", "danger");
     }
   };
   return (

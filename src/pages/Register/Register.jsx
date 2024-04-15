@@ -22,7 +22,6 @@ const Register = () => {
     const photo = form.photo.value;
 
     //* Validate Inputs
-    // If all fields are empty
     if (name === "" && photo === "" && email === "" && password === "") {
       return toast.error("All fields are required!");
     }
