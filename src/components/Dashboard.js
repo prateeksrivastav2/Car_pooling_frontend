@@ -35,6 +35,8 @@ const Dashboard = () => {
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
+          console.log(user);
+          localStorage.setItem('username', userData.username);
         } else {
           // Handle error response
           console.error("Error fetching user data");
@@ -91,7 +93,7 @@ const Dashboard = () => {
             <div class="my-3">
               <div class="card text-black mb-3">
                 <div class="card-body">
-                  <ListRides />
+                  <ListRides/>
                 </div>
               </div>
             </div>

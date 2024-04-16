@@ -1,25 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 * {
-    margin: 0;
+    /* margin: 0; */
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 .chatbot{
-    position: fixed;
+    position: relative;
     right: 40px;
-    bottom:  100px;
-    width: 420px;
+    bottom:  15vh;
+    width: 30vw;
     min-height: 500px;
+    margin-top: 17vh;
+    margin-left: 8vw;
     background: #fff;
-    box-shadow: 0 4px 8px 2px rgba(0,0.3,0.3,0.3)  , 0 32px 64px -48px rgba(0,0,0,0.5);
-    border-radius: 15px 15px 15px 0;
+    box-shadow: 0 4px 4px 2px rgba(0,0.3,0.3,0.3)  , 0 32px 64px -48px rgba(0,0,0,0.5);
+    border-radius: 15px 15px 15px 15px;
+    overflow-y: auto;
 }
 .chatbot header{
     background: #724ae8;
     padding: 16px 0;
     text-align: center;
+    /* border-radius: 4px; */
 }
 .chatbot header h2 {
     color: #fff;
@@ -105,6 +109,7 @@
 
 .chat-input .input-container {
     display: flex;
+    border: none;
 }
 
 .chat-input textarea {
@@ -114,6 +119,7 @@
     outline: none;
     font-size: 0.95rem;
     resize: none;
+    border-radius: 4px;
 }
 
 .chat-input span {

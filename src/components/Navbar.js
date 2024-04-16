@@ -19,6 +19,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
     // Redirect or perform any other logout actions if needed
   };
 
