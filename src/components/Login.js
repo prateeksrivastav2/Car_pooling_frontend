@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
 function App(props) {
+  const [role, setRole] = useState('passenger');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -24,6 +25,9 @@ function App(props) {
 
     if (json.success) {
       localStorage.setItem("token", authToken);
+      localStorage.setItem("role", role);
+      console.log(localStorage.authToken);
+      console.log(localStorage.role);
       navigate("/");
       props.showAlert("Logged in successfully", "success");
     } else {
@@ -46,6 +50,32 @@ function App(props) {
               Sign in to your account
             </h2>
             <form className="mx-5">
+            <div className="mb-4">
+                <label
+                  className="form-label"
+                  htmlFor="Role"
+                  style={{ color: "black" }}
+                >
+                  Choose Account type
+                </label>
+                <select
+                  className="form-control"
+                  placeholder="Enter your E-mail to login"
+                  id="role"
+                  type="email"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  style={{
+                    borderRadius: "8px",
+                  }}
+                  required
+                >
+                  <option value="passenger">Passenger</option>
+                  <option value="driver">Driver</option>
+                  <option value="admin">Admin</option>
+                </select>
+
+              </div>
               <div className="mb-4">
                 <label
                   className="form-label"
