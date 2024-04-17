@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; // Import useParams to access URL parameters
-
+import '../styles/ShowRideDetails.css'
 const ShowRideDetails = () => {
   const { id } = useParams(); // Get the ride ID from URL params
   const [rideDetails, setRideDetails] = useState(null);
@@ -32,14 +32,28 @@ const ShowRideDetails = () => {
   }, [id]); // Include id in dependency array to re-fetch data when id changes
 
   return (
-    <div className="container">
+    <div className="container"
+    style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}>
       <div className="row">
         <div className="col-md-8">
           {rideDetails ? (
-            <>
-              <h1>Ride Details</h1>
-              {/* Display ride details here */}
-            </>
+            <div className='cardDetails'
+            style={{width:'100vw'}}>
+              <br />
+              <h2>Date : {rideDetails.date}</h2>
+              <br />
+              <h2>Starting location : {rideDetails.startingLocation}</h2>
+              <br />
+              <h2>Destination : {rideDetails.destination}</h2>
+              <br />
+              <h2>Available seats : {rideDetails.availableSeats}</h2>
+              <br />
+              <h2>Duration : From {rideDetails.departureTime} to {rideDetails.estimatedArrivalTime}(estimated)</h2>
+              <br />
+              <p className='pricee'>Price : {rideDetails.price}</p>
+              <br />
+              <button>Apply</button>
+            </div>
           ) : (
             <p>Loading ride details...</p>
           )}
