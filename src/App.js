@@ -15,7 +15,7 @@ import Alert from "./components/Alert";
 import Myrides from "./components/Myrides";
 import ShowRideDetails from './components/ShowRideDetails'
 import Profile from "./components/Profile";
-import Maps from "./components/Maps";
+import Admin from "./components/Admin";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -39,6 +39,11 @@ function App() {
             exact
             path="/home"
             element={<Dashboard showAlert={showAlert}/>}
+          />
+          <Route
+            exact
+            path="/admin"
+            element={<Admin showAlert={showAlert} />}
           />
           <Route
             exact

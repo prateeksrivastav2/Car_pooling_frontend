@@ -77,7 +77,7 @@ function SignUp(props) {
           email: email,
           password: password,
           role:role,
-          license:(selectedFile?selectedFile:"")
+          license:selectedFile
         }),
       });
 
