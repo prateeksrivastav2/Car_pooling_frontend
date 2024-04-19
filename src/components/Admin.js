@@ -4,16 +4,16 @@ import ListRides from "./ListRides";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Dashboard.css";
+import ListUnverifiedUsers from "./ListUnverifiedUsers";
 // import RidedetailsModal from './RidedetailsModal';
 
 
 //Passenger Dashboard
-const Dashboard = () => {
+const Admin = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null); // State to store user data
-  const [rolee, setRole] = useState(""); // State to store user data
   const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+
   const handleClick = () => {
     navigate("/create-ride");
   };
@@ -23,6 +23,7 @@ const Dashboard = () => {
   const handelMyrides = () => {
     navigate("/my-rides", { state: { user: user } });
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,15 +34,12 @@ const Dashboard = () => {
             "auth-token": token,
           },
         });
+
         if (response.ok) {
           const userData = await response.json();
-        //   console.log(userData);
-          localStorage.setItem("sender", userData.email);
-          setRole(userData.role);
           setUser(userData);
-          //role = user.role;
         } else {
-
+          // Handle error response
           console.error("Error fetching user data");
           navigate("/login");
         }
@@ -58,9 +56,8 @@ const Dashboard = () => {
   }, [token, navigate]);
 
   return (
-    <>
-    { rolee=== 'admin' ? navigate('/admin') : 
     <div className="container-fluid">
+      <h2>Admin Portal</h2>
       <div className="row">
         <div className="col-md-18">
           <div className="dashboard-content shadow-on-hover">
@@ -91,49 +88,22 @@ const Dashboard = () => {
             fontFamily: "cursive",
           }}
         >
-          Available Rides
+          Unverified Users
         </h2>
         <div class="container">
           <div class="row">
             <div class="my-3">
               <div class="card text-black mb-3">
                 <div class="card-body">
-                  <ListRides/>
+                  <ListUnverifiedUsers/>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* <div className="rid" >
-                      {/* <RidedetailsModal/> */}
-        {/* </div> *
-                      <div className="icon-container">
-                          <FontAwesomeIcon
-                              className='text-info'
-                              icon={faPlusSquare}
-
-                              size='4x'
-                              style={{ marginLeft: '1vw', cursor: 'pointer' }}
-                              onClick={handleClick}
-                          />
-                      </div>
-
-                  </div> */}
       </div>
-      <div
-        className=""
-        style={{ position: "fixed", bottom: "0", left: "5" }}
-      >
-        <FontAwesomeIcon
-          className="text-info"
-          icon={faPlusSquare}
-          size="4x"
-          style={{ marginLeft: "1vw", cursor: "pointer" }}
-          onClick={handleClick}
-        />
-      </div>
-    </div>}</>
+    </div>
   );
 };
-export default Dashboard;
+
+export default Admin;

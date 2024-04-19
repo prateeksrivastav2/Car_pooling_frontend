@@ -55,13 +55,14 @@
 }
 .chatbox .incoming span{
     height: 32px;
-    width: 32px;
+    width: 33px;
     color: #fff;
     align-self: flex-end;
     background: #724ae8;
     text-align: center;
     line-height: 32px;
     border-radius: 4px;
+    padding-top: 1%;
     margin: 0 10px 7px 0;
 }
 .chatbot .chat-input{
@@ -87,7 +88,7 @@
 }
 .chat-input span{
     color: #724ae8;
-    height: 55px;
+    height: 65px;
     align-self: flex-end;
     font-size: 1.35rem;
     cursor: pointer;

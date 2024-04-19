@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams to access URL parameters
+import { useParams } from 'react-router-dom';
 import Chatbox from './chatbox';
 
 const ShowRideDetails = () => {
-    const { id } = useParams(); // Get the ride ID from URL params
+    const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
+    const [reciever, setReciever] = useState(""); // Initialize reciever state
 
     useEffect(() => {
         const fetchRideDetails = async () => {
             try {
-                console.log(id);
                 const response = await fetch(`http://localhost:3000/rides/rides-details/${id}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "auth-token": localStorage.getItem("token"), // Include the token in the Authorization header
+                        "auth-token": localStorage.getItem("token"),
                     },
                 });
                 if (response.ok) {
                     const rideData = await response.json();
                     setRideDetails(rideData);
-                    console.log(rideData);
+                    setReciever(rideData.driver); 
                 } else {
                     console.error('Failed to fetch ride details');
                 }
@@ -30,7 +30,7 @@ const ShowRideDetails = () => {
         };
 
         fetchRideDetails();
-    }, [id]); // Include id in dependency array to re-fetch data when id changes
+    }, [id]); // Include id as a dependency
 
     return (
         <div className="container d-flex " style={{ marginTop: '6vh' }}>
@@ -73,11 +73,11 @@ const ShowRideDetails = () => {
                     )}
                 </div>
             </div>
-                <div className="col-md-4 text-black">
-                   {/* Add your chatbot component here */}
-                   <Chatbox/>
-                  {/* <p>hii here chatbot</p> */}
-                </div>
+            <div className="col-md-4 text-black">
+               {/* Add your chatbox component here */}
+               {/* {reciever} */}
+               {reciever && <Chatbox reciever={reciever} />} {/* Render chatbox only when reciever is available */}
+            </div>
         </div>
     );
 };
