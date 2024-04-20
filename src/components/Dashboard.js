@@ -23,7 +23,6 @@ const Dashboard = () => {
   const handelMyrides = () => {
     navigate("/my-rides", { state: { user: user } });
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,15 +33,15 @@ const Dashboard = () => {
             "auth-token": token,
           },
         });
-
         if (response.ok) {
           const userData = await response.json();
-          console.log(userData);
+        //   console.log(userData);
+          localStorage.setItem("sender", userData.email);
           setRole(userData.role);
           setUser(userData);
           //role = user.role;
         } else {
-          // Handle error response
+
           console.error("Error fetching user data");
           navigate("/login");
         }
@@ -99,7 +98,7 @@ const Dashboard = () => {
             <div class="my-3">
               <div class="card text-black mb-3">
                 <div class="card-body">
-                  <ListRides />
+                  <ListRides/>
                 </div>
               </div>
             </div>
@@ -137,5 +136,4 @@ const Dashboard = () => {
     </div>}</>
   );
 };
-
 export default Dashboard;
