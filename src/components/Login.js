@@ -22,7 +22,6 @@ function App(props) {
 
     const json = await response.json();
     const { authToken } = json;
-
     if (json.success) {
       localStorage.setItem("token", authToken);
       localStorage.setItem("role", role);

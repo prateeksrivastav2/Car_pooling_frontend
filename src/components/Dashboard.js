@@ -60,7 +60,7 @@ const Dashboard = () => {
 
   return (
     <>
-    { rolee=== 'admin' ? navigate('/admin') : 
+    { rolee=== 'admin' ? navigate('/admin') :
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-18">
