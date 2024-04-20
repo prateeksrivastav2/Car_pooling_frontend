@@ -75,11 +75,11 @@ function App() {
             path="/profile"
             element={<Profile />}
           />
-          <Route
+          {/* <Route
             exact
             path="/maps"
             element={<Maps />}
-          />
+          /> */}
           {/* <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} /> */}
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>
