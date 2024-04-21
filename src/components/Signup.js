@@ -97,7 +97,7 @@ function SignUp(props) {
     } catch (error) {
       props.showAlert('Registration failed. Please try again.', 'danger');
     }
-  };
+  }; 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -194,7 +194,7 @@ function SignUp(props) {
                   className="form-control"
                   placeholder="Enter your E-mail to login"
                   id="role"
-                  type="email"
+                  type="role"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   style={{

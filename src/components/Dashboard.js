@@ -10,8 +10,8 @@ import "../styles/Dashboard.css";
 //Passenger Dashboard
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null); // State to store user data
-  const [rolee, setRole] = useState(""); // State to store user data
+  const [user, setUser] = useState(null);
+  const [rolee, setRole] = useState("");
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
   const handleClick = () => {
@@ -59,7 +59,7 @@ const Dashboard = () => {
 
   return (
     <>
-    { rolee=== 'admin' ? navigate('/admin') :
+    { rolee=== 'admin' ? navigate('/admin') : rolee==='driver'?navigate('/driver') :
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-18">
