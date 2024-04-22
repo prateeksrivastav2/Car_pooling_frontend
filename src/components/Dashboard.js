@@ -57,17 +57,31 @@ const Dashboard = () => {
 
   return (
     <>
-      {rolee === 'admin' ? navigate('/admin') :
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-18">
-              <div className="dashboard-content shadow-on-hover">
-                <div style={{ marginTop: "", fontSize: "1.5rem", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <p style={{ margin: 0, textAlign: 'center', flex: 1 }}>Hello🖐️, {user && user.username}!</p>
-                  <FontAwesomeIcon className="text-info" onClick={viewProfile} icon={faUser} style={{ cursor: 'pointer' , border:'solid',borderRadius:'50%' ,padding:'0.7%' }} />
-                </div>
-              </div>
+    { rolee=== 'admin' ? navigate('/admin') : rolee==='driver'?navigate('/driver') :
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-18">
+          <div className="dashboard-content shadow-on-hover">
+            <div style={{ marginTop: "", fontSize: "1.5rem" }}>
+              {user && (
+                <>
+                  <p>Hello🖐️ ,{user.username}!</p>
+                </>
+              )}
             </div>
+            <button
+              onClick={viewProfile}
+              style={{
+                border: "2px black solid",
+                borderRadius: "6px",
+                padding: "2px",
+              }}
+            >
+              View Profile
+            </button>
+            {/* <div> <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button></div> */}
+          </div>
+        </div>
 
             <h2
               style={{

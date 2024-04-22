@@ -16,6 +16,7 @@ import Myrides from "./components/Myrides";
 import ShowRideDetails from './components/ShowRideDetails'
 import Profile from "./components/Profile";
 import Admin from "./components/Admin";
+import Driver from "./components/Driver";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -44,6 +45,11 @@ function App() {
             exact
             path="/admin"
             element={<Admin showAlert={showAlert} />}
+          />
+          <Route
+            exact
+            path="/driver"
+            element={<Driver showAlert={showAlert}/>}
           />
           <Route
             exact
