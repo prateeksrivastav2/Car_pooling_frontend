@@ -8,7 +8,7 @@ const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
 const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
 
 function SignUp(props) {
-  const [role, setRole] = useState('passanger');
+  const [role, setRole] = useState('passenger');
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
