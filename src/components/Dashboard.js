@@ -57,7 +57,7 @@ const Dashboard = () => {
 
   return (
     <>
-      {rolee === 'admin' ? navigate('/admin') :
+      {rolee === 'admin' ? navigate('/admin') : rolee==='driver'?navigate('/driver'):
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-18">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ListRides from "./ListRides";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPlusSquare, faUser } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Dashboard.css";
 import ListUnverifiedUsers from "./ListUnverifiedUsers";
 // import RidedetailsModal from './RidedetailsModal';
@@ -61,23 +61,10 @@ const Driver = () => {
             <div className="row">
                 <div className="col-md-18">
                     <div className="dashboard-content shadow-on-hover">
-                        <div style={{ marginTop: "", fontSize: "1.5rem" }}>
-                            {user && (
-                                <>
-                                    <p>Hello🖐️ ,{user.username}!</p>
-                                </>
-                            )}
+                        <div style={{ marginTop: "", fontSize: "1.5rem", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <p style={{ margin: 0, textAlign: 'center', flex: 1 }}>Hello🖐️, {user && user.username}!</p>
+                            <FontAwesomeIcon className="text-info" onClick={viewProfile} icon={faUser} style={{ cursor: 'pointer', border: 'solid', borderRadius: '50%', padding: '0.7%' }} />
                         </div>
-                        <button
-                            onClick={viewProfile}
-                            style={{
-                                border: "2px black solid",
-                                borderRadius: "6px",
-                                padding: "2px",
-                            }}
-                        >
-                            View Profile
-                        </button>
                         {/* <div> <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button></div> */}
                     </div>
                 </div>
@@ -88,13 +75,13 @@ const Driver = () => {
                                 <div class="card-body">
                                     <div
                                         className=""
-                                        // style={{ position: "fixed", bottom: "0", left: "5" }}
+                                    // style={{ position: "fixed", bottom: "0", left: "5" }}
                                     >
                                         <FontAwesomeIcon
                                             className="text-info"
                                             icon={faPlusSquare}
                                             size="4x"
-                                            style={{ marginLeft: "1vw", cursor: "pointer"}}
+                                            style={{ marginLeft: "1vw", cursor: "pointer" }}
                                             onClick={handleClick}
                                         />
                                         <br></br>
