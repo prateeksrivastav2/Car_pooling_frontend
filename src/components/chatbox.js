@@ -1,17 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/chatbox.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faRobot,faCar } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faRobot, faCar } from '@fortawesome/free-solid-svg-icons';
 import io from 'socket.io-client';
 
 const Chatbox = (props) => {
-    const { reciever } = props;
+    const { reciever,id } = props;
     const [rec2, setRec2] = useState("");
     const [usermessage, setUsermessage] = useState("");
     const [messages, setMessages] = useState(new Set());
+    const [prevmessages, setprevMessages] = useState(new Set());
     const socket = io('http://localhost:3000'); // Connect to the socket.io server
     const useremail = localStorage.getItem('sender');
     const naam = localStorage.getItem('username');
+    useEffect(() => {
+        const getPrevMessages = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/rides/prevmessages/${id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "auth-token": localStorage.getItem("token"),
+                    },
+                });
+                if (response.ok) {
+                    const prevMessages = await response.json();
+
+                    console.log(prevMessages);
+                    // Process sender messages
+                    const senderMessages = prevMessages.senderMessages.map(message => ({
+                        ...message,
+                        position: message.sender === useremail ? 'outgoing' : 'incoming'
+                    }));
+    
+                    // Process receiver messages
+                    const receiverMessages = prevMessages.receiverMessages.map(message => ({
+                        ...message,
+                        position: message.sender === useremail ? 'outgoing' : 'incoming'
+                    }));
+    
+                    // Combine sender and receiver messages
+                    const combinedMessages = [...senderMessages, ...receiverMessages];
+    
+                    // Sort messages by timestamp
+                    combinedMessages.sort((a, b) => new Date(a.time) - new Date(b.time));
+    
+                    setMessages(new Set(combinedMessages));
+                    // console.log(messages);
+                } else {
+                    console.error('Error fetching messages:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
+        };
+        getPrevMessages();
+    }, []);
+    
+
 
     useEffect(() => {
         setRec2(reciever);
@@ -27,6 +73,7 @@ const Chatbox = (props) => {
 
     useEffect(() => {
         const handleReceiveMessage = ({ message, sender, reciever }) => {
+            setRec2(sender);
             if (useremail !== sender) {
                 appendMessage(message, 'incoming');
             }
@@ -44,7 +91,12 @@ const Chatbox = (props) => {
     }, [naam, socket]);
 
     const handleChat = () => {
-        socket.emit('send-message', { message: usermessage, sender: useremail, reciever: reciever });
+        if(reciever===useremail){
+            //code
+            socket.emit('send-message', {id:id, message: usermessage, sender: useremail, reciever: rec2 });
+        }
+        else
+        socket.emit('send-message', {id:id, message: usermessage, sender: useremail, reciever: reciever });
         appendMessage(usermessage, 'outgoing');
         setUsermessage("");
     };

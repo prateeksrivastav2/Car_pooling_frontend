@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 // import AutoComplete from "./AutoComplete";
 const CreateRide = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
-
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };

@@ -17,6 +17,7 @@ const RideCard = ({ ride,selectedRide }) => {
       <h4>Driver: {ride.driver.name}</h4>
       <p>Starting Location: {ride.startingLocation}</p>
       <p>Destination: {ride.destination}</p>
+      {/* { localStorage.setItem("reciever", ride.driver)} */}
       <p>Date: {new Date(ride.date).toLocaleDateString()}</p>
       <p>Available Seats: {ride.availableSeats}</p>
       {/* <RidedetailsModal ride={selectedRide} /> */}
@@ -33,11 +34,13 @@ const ListRides = () => {
       try {
         const response = await axios.get('http://localhost:3000/rides/list');
         setRides(response.data);
+       
       } catch (error) {
         console.error('Error fetching rides:', error);
         // Handle error, show an alert, etc.
       }
     };
+
 
     fetchRides();
   }, []); // Runs once when the component mounts

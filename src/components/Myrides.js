@@ -1,13 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import RideCard from './RideCard';
+// import RideCard from './RideCard';
 
 const Myrides = (props) => {
   const user = props.location?.state?.user; // Using optional chaining to prevent errors
   const email = user?.email; // Using optional chaining to prevent errors
   const [rides, setRides] = useState([]);
   const navigate = useNavigate();
+  const RideCard = ({ ride, selectedRide }) => {
+    // const navigate = useNavigate();
+
+    const handleCardClick = () => {
+      // Navigate to a new page, passing ride ID as a URL parameter
+      navigate(`/ride-details/${ride._id}`);
+    };
+
+    return (
+      <div className="ride-card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
+        <h4>Driver: {ride.driver.name}</h4>
+        <p>Starting Location: {ride.startingLocation}</p>
+        <p>Destination: {ride.destination}</p>
+        {/* { localStorage.setItem("reciever", ride.driver)} */}
+        <p>Date: {new Date(ride.date).toLocaleDateString()}</p>
+        <p>Available Seats: {ride.availableSeats}</p>
+        {/* <RidedetailsModal ride={selectedRide} /> */}
+      </div>
+    );
+  };
 
   const getdetails = async () => {
     try {
@@ -32,7 +52,7 @@ const Myrides = (props) => {
       // Handle error, show an alert, etc.
     }
   };
-  
+
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -44,7 +64,7 @@ const Myrides = (props) => {
 
   return (
     <div>
-       {rides.map((ride) => (
+      {rides.map((ride) => (
         <RideCard key={ride._id} ride={ride} />
       ))}
     </div>
