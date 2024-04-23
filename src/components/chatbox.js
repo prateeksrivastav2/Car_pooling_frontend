@@ -73,6 +73,7 @@ const Chatbox = (props) => {
 
     useEffect(() => {
         const handleReceiveMessage = ({ message, sender, reciever }) => {
+            setRec2(sender);
             if (useremail !== sender) {
                 appendMessage(message, 'incoming');
             }
@@ -90,6 +91,11 @@ const Chatbox = (props) => {
     }, [naam, socket]);
 
     const handleChat = () => {
+        if(reciever===useremail){
+            //code
+            socket.emit('send-message', {id:id, message: usermessage, sender: useremail, reciever: rec2 });
+        }
+        else
         socket.emit('send-message', {id:id, message: usermessage, sender: useremail, reciever: reciever });
         appendMessage(usermessage, 'outgoing');
         setUsermessage("");
