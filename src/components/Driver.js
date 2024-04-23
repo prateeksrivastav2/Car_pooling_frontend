@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare, faUser } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Dashboard.css";
 import ListUnverifiedUsers from "./ListUnverifiedUsers";
+import Myrides from "./Myrides";
 // import RidedetailsModal from './RidedetailsModal';
 
 
@@ -88,10 +89,15 @@ const Driver = () => {
                                         Create New Ride
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    Completed Rides
-                                </div>
                             </div>
+                                <div class="card-body">
+                                    Current Hosted Ride
+                                </div>
+                                <div >
+                                    {/* Current Hosted Ride */}
+                                    <Myrides/>
+                                </div>
+
                         </div>
                     </div>
                 </div>

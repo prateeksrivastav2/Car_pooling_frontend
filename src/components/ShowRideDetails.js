@@ -89,7 +89,7 @@ const ShowRideDetails = () => {
             <div className="col-md-4 text-black">
                 {/* Add your chatbox component here */}
                 {/* {reciever} */}
-                {reciever && <Chatbox reciever={reciever} />} {/* Render chatbox only when reciever is available */}
+                {reciever && <Chatbox reciever={reciever} id={id} />} {/* Render chatbox only when reciever is available */}
             </div>
         </div>
     );
