@@ -37,8 +37,10 @@ const Dashboard = () => {
         if (response.ok) {
           const userData = await response.json();
           localStorage.setItem("sender", userData.email);
+          localStorage.setItem("username", userData.username);
           setRole(userData.role);
           setUser(userData);
+          console.log(userData);
         } else {
           console.error("Error fetching user data");
           navigate("/login");
