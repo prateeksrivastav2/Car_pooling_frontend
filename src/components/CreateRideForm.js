@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-
+import Autocomplete from "./Autocomplete";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const CreateRide = () => {
@@ -21,7 +21,7 @@ const CreateRide = () => {
     availableSeats: "",
     license: selectedFile,
     starttime: "", // Updated: starttime
-    endtime: ""    // Updated: endtime
+    endtime: "", // Updated: endtime
   });
   const [rideCreated, setRideCreated] = useState(false); // Flag to indicate if the ride has been created
   useEffect(() => {
@@ -36,10 +36,6 @@ const CreateRide = () => {
       [name]: value,
     });
   };
-
-  
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -59,7 +55,7 @@ const CreateRide = () => {
             license: selectedFile,
             name: formData.firstname,
             starttime: formData.starttime, // Updated: starttime
-            endtime: formData.endtime      // Updated: endtime
+            endtime: formData.endtime, // Updated: endtime
           }
         );
         if (response.data) {
@@ -90,8 +86,7 @@ const CreateRide = () => {
                     className={`d-flex align-items-center text-primary 
                       }`}
                   >
-                   
-                    <div style={{fontSize:'1.3rem'}}>Ride Details</div>
+                    <div style={{ fontSize: "1.3rem" }}>Ride Details</div>
                   </div>
                 </div>
                 <form onSubmit={handleSubmit}>
@@ -105,7 +100,7 @@ const CreateRide = () => {
                           type="text"
                           name="firstname"
                           id="firstname"
-                          style={{ borderRadius: '8px' }}
+                          style={{ borderRadius: "8px" }}
                           className="form-control"
                           value={formData.firstname}
                           onChange={handleChange}
@@ -118,7 +113,7 @@ const CreateRide = () => {
                         <input
                           type="email"
                           name="email"
-                          style={{ borderRadius: '8px' }}
+                          style={{ borderRadius: "8px" }}
                           id="email"
                           className="form-control"
                           value={formData.email}
@@ -131,7 +126,7 @@ const CreateRide = () => {
                         <label htmlFor="source" className="form-label">
                           Start Location
                         </label>
-                        <input
+                        {/* <input
                           type="text"
                           style={{ borderRadius: '8px' }}
                           name="startingLocation"
@@ -139,21 +134,23 @@ const CreateRide = () => {
                           className="form-control"
                           value={formData.startingLocation}
                           onChange={handleChange}
-                        />
+                        /> */}
+                        <Autocomplete />
                       </div>
                       <div className="col">
                         <label htmlFor="destination" className="form-label">
                           Destination
                         </label>
-                        <input
+                        {/* <input
                           type="text"
-                          style={{ borderRadius: '8px' }}
+                          style={{ borderRadius: "8px" }}
                           name="destination"
                           id="destination"
                           className="form-control"
                           value={formData.destination}
                           onChange={handleChange}
-                        />
+                        /> */}
+                        <Autocomplete />
                       </div>
                     </div>
                     <div className="row mb-3">
@@ -165,23 +162,20 @@ const CreateRide = () => {
                           type="date"
                           name="date"
                           id="date"
-                          style={{ borderRadius: '8px' }}
+                          style={{ borderRadius: "8px" }}
                           className="form-control"
                           value={formData.date}
                           onChange={handleChange}
                         />
                       </div>
                       <div className="col">
-                        <label
-                          htmlFor="availableSeats"
-                          className="form-label"
-                        >
+                        <label htmlFor="availableSeats" className="form-label">
                           Available Seats
                         </label>
                         <input
                           type="number"
                           name="availableSeats"
-                          style={{ borderRadius: '8px' }}
+                          style={{ borderRadius: "8px" }}
                           id="availableSeats"
                           className="form-control"
                           value={formData.availableSeats}
@@ -215,11 +209,10 @@ const CreateRide = () => {
                           className="form-control"
                           value={formData.endtime}
                           onChange={handleChange}
-                          style={{ borderRadius: '8px' }}
+                          style={{ borderRadius: "8px" }}
                         />
                       </div>
                     </div>
-                 
                   </>
 
                   <div className="d-flex justify-content-between mt-4">
