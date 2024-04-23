@@ -114,10 +114,8 @@ const Chatbox = (props) => {
                 <li className='chat incoming my-3'>
                     <span className='material-symbols-outlined'><FontAwesomeIcon style={{ fontSize: '1.4rem' }} icon={faRobot} /></span>
                     <p className='mx-2'>Hii there 🖐️, Please wait while the driver connects to the chat!</p>
-                    {/* <p className='mx-2' style={{display:'block'}}>.</p> */}
                 </li>
                 {[...messages].map((msg, index) => (
-                    // {<FontAwesomeIcon style={{ fontSize: '1.4rem' }} icon={faRobot} />}
                     <li key={index} className={`chat ${msg.position} my-3`}>
                         {(msg.position === 'incoming') && <span className='material-symbols-outlined'><FontAwesomeIcon style={{ fontSize: '1.4rem' }} icon={faCar} /></span>} <p>{msg.message}</p>
                     </li>

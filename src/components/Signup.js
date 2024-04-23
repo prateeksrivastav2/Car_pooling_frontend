@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AWS from 'aws-sdk';
 import "../styles/Login.css";
-const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
-const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
+let accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
+let secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
 
 function SignUp(props) {
   const [role, setRole] = useState('passenger');
@@ -34,7 +34,7 @@ function SignUp(props) {
     setUploading(true);
 
     // Configure AWS SDK with your credentials
-    //console.log(accessKeyId);
+    console.log(accessKeyId);
     AWS.config.update({
       accessKeyId: accessKeyId,
       secretAccessKey: secretAccessKey,

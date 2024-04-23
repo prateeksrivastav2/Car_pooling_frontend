@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import Autocomplete from "./Autocomplete";
+// import Autocomplete from "./Autocomplete";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+// import AutoComplete from "./AutoComplete";
 const CreateRide = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileChange = (e) => {
@@ -135,7 +136,7 @@ const CreateRide = () => {
                           value={formData.startingLocation}
                           onChange={handleChange}
                         /> */}
-                        <Autocomplete />
+                        {/* <Autocomplete /> */}
                       </div>
                       <div className="col">
                         <label htmlFor="destination" className="form-label">
@@ -150,7 +151,7 @@ const CreateRide = () => {
                           value={formData.destination}
                           onChange={handleChange}
                         /> */}
-                        <Autocomplete />
+                        {/* <Autocomplete /> */}
                       </div>
                     </div>
                     <div className="row mb-3">
