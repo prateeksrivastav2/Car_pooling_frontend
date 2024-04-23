@@ -17,6 +17,8 @@ import ShowRideDetails from './components/ShowRideDetails'
 import Profile from "./components/Profile";
 import Admin from "./components/Admin";
 import Driver from "./components/Driver";
+import Success from "./components/Success";
+import Cancel from "./components/Cancel";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -50,6 +52,16 @@ function App() {
             exact
             path="/driver"
             element={<Driver showAlert={showAlert}/>}
+          />
+          <Route
+            exact
+            path="/success"
+            element={<Success showAlert={showAlert} />}
+          />
+          <Route
+            exact
+            path="/cancel"
+            element={<Cancel showAlert={showAlert} />}
           />
           <Route
             exact

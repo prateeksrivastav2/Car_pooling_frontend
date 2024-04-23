@@ -1,11 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Chatbox from './chatbox';
+import {loadStripe} from '@stripe/stripe-js';
 
 const ShowRideDetails = () => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
     const [reciever, setReciever] = useState(""); // Initialize reciever state
+
+    const makePayment = async()=>{
+        const stripe = await loadStripe("pk_test_51P8TDCSDhYcpKPnMYaWVSHGofzSO3Xx2QQYrY3chzzcof9wNpSY1EWgJlMMWY7pXzp5ho3YZylwTeWU7SMDk9Ooj00c8AJpqFJ");
+        const body = {
+            start : rideDetails.startingLocation,
+            end : rideDetails.destination,
+            price : 100
+        }
+        const headers = {
+            "Content-Type":"application/json"
+        }
+        const response = await fetch("http://localhost:3000/rides/create-checkout-session",{
+            method : "POST",
+            headers:headers,
+            body:JSON.stringify(body)
+        });
+        const session = await response.json();
+
+        const result = stripe.redirectToCheckout({
+            sessionId:session.id
+        });
+        if(result.error){
+            console.log(result.error);
+        }
+    }
 
     useEffect(() => {
         const fetchRideDetails = async () => {
@@ -75,6 +101,7 @@ const ShowRideDetails = () => {
                                     // Add hover styles using inline CSS
                                     onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; e.target.style.boxShadow = '0 8px 12px rgba(0, 0, 0, 0.2)'; }}
                                     onMouseLeave={(e) => { e.target.style.color = ''; e.target.style.boxShadow = '1px 2px 2px 2px rgba(0, 0.2, 0.3, 0.3)'; }}
+                                    onClick={makePayment}
                                 >
                                     Book Now!
                                 </button>
