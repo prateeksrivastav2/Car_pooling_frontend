@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { useParams } from 'react-router-dom'; // Import useParams to access URL parameters
-import '../styles/ShowRideDetails.css'
-=======
 import { useParams } from 'react-router-dom';
 import Chatbox from './chatbox';
 
->>>>>>> 90871be16e84efaf68e0209e8d2a75646d059805
 const ShowRideDetails = () => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
@@ -37,34 +32,6 @@ const ShowRideDetails = () => {
         fetchRideDetails();
     }, [id]); // Include id as a dependency
 
-<<<<<<< HEAD
-  return (
-    <div className="container"
-    style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}>
-      <div className="row">
-        <div className="col-md-8">
-          {rideDetails ? (
-            <div className='cardDetails'
-            style={{width:'100vw'}}>
-              <br />
-              <h2>Date : {rideDetails.date}</h2>
-              <br />
-              <h2>Starting location : {rideDetails.startingLocation}</h2>
-              <br />
-              <h2>Destination : {rideDetails.destination}</h2>
-              <br />
-              <h2>Available seats : {rideDetails.availableSeats}</h2>
-              <br />
-              <h2>Duration : From {rideDetails.departureTime} to {rideDetails.estimatedArrivalTime}(estimated)</h2>
-              <br />
-              <p className='pricee'>Price : {rideDetails.price}</p>
-              <br />
-              <button>Apply</button>
-            </div>
-          ) : (
-            <p>Loading ride details...</p>
-          )}
-=======
     return (
         <div className="container d-flex " style={{ marginTop: '6vh' }}>
             <div className="row">
@@ -124,7 +91,6 @@ const ShowRideDetails = () => {
                 {/* {reciever} */}
                 {reciever && <Chatbox reciever={reciever} />} {/* Render chatbox only when reciever is available */}
             </div>
->>>>>>> 90871be16e84efaf68e0209e8d2a75646d059805
         </div>
     );
 };

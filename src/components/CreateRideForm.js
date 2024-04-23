@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AutoComplete from "./AutoComplete";
 const CreateRide = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -133,7 +134,7 @@ const CreateRide = () => {
                         <label htmlFor="source" className="form-label">
                           Start Location
                         </label>
-                        <input
+                        {/* <input
                           type="text"
                           style={{ borderRadius: '8px' }}
                           name="startingLocation"
@@ -141,7 +142,8 @@ const CreateRide = () => {
                           className="form-control"
                           value={formData.startingLocation}
                           onChange={handleChange}
-                        />
+                        /> */}
+                        <AutoComplete />
                       </div>
                       <div className="col">
                         <label htmlFor="destination" className="form-label">

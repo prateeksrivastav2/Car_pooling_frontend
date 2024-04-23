@@ -53,7 +53,7 @@ const Profile = () => {
       <div className="profile-page">
   <div className="content">
     <div className="content__cover">
-      <div className="content__avatar" />
+      
       <div className="content__bull">
         <span />
         <span />
