@@ -19,6 +19,7 @@ import Admin from "./components/Admin";
 import Driver from "./components/Driver";
 import Success from "./components/Success";
 import Cancel from "./components/Cancel";
+import PlaceAutocomplete from "./components/AutCompleteWala";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -42,6 +43,11 @@ function App() {
             exact
             path="/home"
             element={<Dashboard showAlert={showAlert}/>}
+          />
+          <Route
+            exact
+            path="/maps"
+            element={<PlaceAutocomplete />}
           />
           <Route
             exact

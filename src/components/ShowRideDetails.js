@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Chatbox from './chatbox';
 import {loadStripe} from '@stripe/stripe-js';
+import '../styles/ShowRideDetails.css'
 
 const ShowRideDetails = () => {
     const { id } = useParams();
@@ -59,7 +60,8 @@ const ShowRideDetails = () => {
     }, [id]); // Include id as a dependency
 
     return (
-        <div className="container d-flex " style={{ marginTop: '6vh' }}>
+        <div className="container " style={{ marginTop: '6vh' ,display:'flex',
+        justifyContent:'space-evenly'}}>
             <div className="row">
                 <div className="col-md-8" style={{ marginRight: '0px' }}>
                     {rideDetails ? (
@@ -113,9 +115,7 @@ const ShowRideDetails = () => {
                     )}
                 </div>
             </div>
-            <div className="col-md-4 text-black">
-                {/* Add your chatbox component here */}
-                {/* {reciever} */}
+            <div className="col-md-4 text-black chatb">
                 {reciever && <Chatbox reciever={reciever} />} {/* Render chatbox only when reciever is available */}
             </div>
         </div>
