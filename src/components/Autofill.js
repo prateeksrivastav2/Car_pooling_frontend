@@ -13,12 +13,15 @@ const MapSearchComponent = () => {
 
   const fetchSearchResults = async (query) => {
     try {
-      const response = await fetch(`/api/places/search/json?query=${query}`, {
+      const response = await fetch(`/places/search/json?query=${query}`, {
+        mode:'no-cors',
+        method:'GET',
         headers: {
           Authorization: 'Bearer 20e4db11-06a7-480e-ba0c-ab474f5a6c10'
         }
       });
-      setSearchResults(response.data.results);
+      setSearchResults(response.suggestedLocations);
+      console.log(searchResults)
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
