@@ -115,15 +115,11 @@ const ShowRideDetails = () => {
                     )}
                 </div>
             </div>
-<<<<<<< HEAD
-            <div className="col-md-4 text-black chatb">
-                {reciever && <Chatbox reciever={reciever} />} {/* Render chatbox only when reciever is available */}
-=======
+             {/* Render chatbox only when reciever is available */}
             <div className="col-md-4 text-black">
                 {/* Add your chatbox component here */}
                 {/* {reciever} */}
                 {reciever && <Chatbox reciever={reciever} id={id} />} {/* Render chatbox only when reciever is available */}
->>>>>>> 29dc9d0f5cd51068b25e59c111a3173f619f7db6
             </div>
         </div>
     );
