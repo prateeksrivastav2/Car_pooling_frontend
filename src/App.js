@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-// App.js
 import React, { useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
@@ -19,7 +17,7 @@ import Admin from "./components/Admin";
 import Driver from "./components/Driver";
 import Success from "./components/Success";
 import Cancel from "./components/Cancel";
-import PlaceAutocomplete from "./components/AutCompleteWala";
+import MapSearchComponent from "./components/Autofill";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -47,7 +45,7 @@ function App() {
           <Route
             exact
             path="/maps"
-            element={<PlaceAutocomplete />}
+            element={<MapSearchComponent />}
           />
           <Route
             exact
@@ -99,12 +97,6 @@ function App() {
             path="/profile"
             element={<Profile />}
           />
-          {/* <Route
-            exact
-            path="/maps"
-            element={<Maps />}
-          /> */}
-          {/* <Route exact path="/list-rides" element={<ListRides showAlert={showAlert}  />} /> */}
           <Route exact path="*" element={<>yaha pe kuch nhi hai</>} />
         </Routes>
       </Router>
