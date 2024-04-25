@@ -19,7 +19,7 @@ const ShowRideDetails = () => {
         const headers = {
             "Content-Type":"application/json"
         }
-        const response = await fetch("http://localhost:3000/rides/create-checkout-session",{
+        const response = await fetch(`http://localhost:3000/rides/create-checkout-session/${id}`,{
             method : "POST",
             headers:headers,
             body:JSON.stringify(body)
@@ -115,15 +115,10 @@ const ShowRideDetails = () => {
                     )}
                 </div>
             </div>
-<<<<<<< HEAD
-            <div className="col-md-4 text-black chatb">
-                {reciever && <Chatbox reciever={reciever} />} {/* Render chatbox only when reciever is available */}
-=======
             <div className="col-md-4 text-black">
                 {/* Add your chatbox component here */}
                 {/* {reciever} */}
                 {reciever && <Chatbox reciever={reciever} id={id} />} {/* Render chatbox only when reciever is available */}
->>>>>>> 29dc9d0f5cd51068b25e59c111a3173f619f7db6
             </div>
         </div>
     );

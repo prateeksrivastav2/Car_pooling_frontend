@@ -89,7 +89,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div
+          {/* <div
             className=""
             style={{ position: "fixed", bottom: "0", left: "5" }}
           >
@@ -100,7 +100,7 @@ const Dashboard = () => {
               style={{ marginLeft: "1vw", cursor: "pointer" }}
               onClick={handleClick}
             />
-          </div>
+          </div> */}
         </div>
       }
     </>
