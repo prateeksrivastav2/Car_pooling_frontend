@@ -1,18 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-// import Autocomplete from "./Autocomplete";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import AutoComplete from "./AutoComplete";
+
 const CreateRide = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [SearchResults, setSearchResults] = useState([]);
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
   const [step, setStep] = useState(1);
   const [checkauth, setcheckauth] = useState(false);
   const navigate = useNavigate();
-  // RIDE DETAIL
   const [formData, setFormData] = useState({
     firstname: "",
     email: "",
@@ -21,30 +19,50 @@ const CreateRide = () => {
     date: "",
     availableSeats: "",
     license: selectedFile,
-    starttime: "", // Updated: starttime
-    endtime: "", // Updated: endtime
+    starttime: "",
+    endtime: "",
   });
-  const [rideCreated, setRideCreated] = useState(false); // Flag to indicate if the ride has been created
+  const [rideCreated, setRideCreated] = useState(false);
+
   useEffect(() => {
     if (localStorage.getItem("token")) setcheckauth(true);
     else navigate("/login");
   }, []);
 
-  const handleChange = (e) => {
+  const fetchSearchResults = async (query) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/places/search`, {
+        params: {
+          query: query
+        }
+      });
+      setSearchResults(response.data.suggestedLocations);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+    if (name === "startingLocation"&&value.length>0) {
+      await fetchSearchResults(value);
+    }
+    if (name === "startingLocation"&&value.length===0) {
+      setSearchResults([]);
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // const token = localStorage.getItem('token');
       if (!rideCreated) {
-        // Check if the ride has not been created
         const response = await axios.post(
           "http://localhost:3000/rides/create",
           {
@@ -55,38 +73,30 @@ const CreateRide = () => {
             userEmail: formData.email,
             license: selectedFile,
             name: formData.firstname,
-            starttime: formData.starttime, // Updated: starttime
-            endtime: formData.endtime, // Updated: endtime
+            starttime: formData.starttime,
+            endtime: formData.endtime,
           }
         );
         if (response.data) {
           console.log("Ride created successfully:", response.data);
-          setRideCreated(true); // Set rideCreated flag to true after successful creation
-          // You can redirect or update state accordingly
+          setRideCreated(true);
           navigate("/home");
         }
       }
     } catch (error) {
       console.error("Error creating ride:", error);
-      // Handle error, show an alert, etc.
     }
   };
 
   return (
     <>
       <div className="container mt-5">
-        <div
-          className="row justify-content-center "
-          style={{ marginTop: "14vh" }}
-        >
+        <div className="row justify-content-center " style={{ marginTop: "14vh" }}>
           <div className="col-md-8">
             <div className="card shadow">
               <div className="card-body">
                 <div className="d-flex justify-content-center mb-4">
-                  <div
-                    className={`d-flex align-items-center text-primary 
-                      }`}
-                  >
+                  <div className={`d-flex align-items-center text-primary}`}>
                     <div style={{ fontSize: "1.3rem" }}>Ride Details</div>
                   </div>
                 </div>
@@ -127,7 +137,7 @@ const CreateRide = () => {
                         <label htmlFor="source" className="form-label">
                           Start Location
                         </label>
-                        {/* <input
+                        <input
                           type="text"
                           style={{ borderRadius: '8px' }}
                           name="startingLocation"
@@ -135,14 +145,29 @@ const CreateRide = () => {
                           className="form-control"
                           value={formData.startingLocation}
                           onChange={handleChange}
-                        /> */}
-                        {/* <Autocomplete /> */}
+                        />
                       </div>
+                      {Array.isArray(SearchResults) && SearchResults.length > 0 && (
+                        <ul style={{border:'1px black solid',borderBottomLeftRadius:'3px',borderBottomRightRadius:'3px'}}>
+                          {SearchResults.map((result, index) => {
+                            console.log(result); // Move console.log here
+                            console.log("result.placeAddress)"); // Move console.log here
+                            return (
+                              <>
+                              <li key={index}>{result.placeAddress}</li>
+                              <br />
+                              </>
+                            );
+                          })}
+                        </ul>
+                      )}
+
+
                       <div className="col">
                         <label htmlFor="destination" className="form-label">
                           Destination
                         </label>
-                        {/* <input
+                        <input
                           type="text"
                           style={{ borderRadius: "8px" }}
                           name="destination"
@@ -150,8 +175,7 @@ const CreateRide = () => {
                           className="form-control"
                           value={formData.destination}
                           onChange={handleChange}
-                        /> */}
-                        {/* <Autocomplete /> */}
+                        />
                       </div>
                     </div>
                     <div className="row mb-3">
@@ -184,7 +208,6 @@ const CreateRide = () => {
                         />
                       </div>
                     </div>
-                    {/* New Inputs for starttime and endtime */}
                     <div className="row mb-3">
                       <div className="col">
                         <label htmlFor="starttime" className="form-label">
