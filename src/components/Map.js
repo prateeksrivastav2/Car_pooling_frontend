@@ -57,7 +57,8 @@ const Map = () => {
     }, [map, markerData]);
 
     return (
-        <div id="map" style={{ height: "80vh", width: "60vw" }}>
+        <div id="map" style={{ height: "50vh", width: "40vw",alignItems:'center'
+        ,justifyContent:'center' }}>
             <MapContainer
                 center={mapCenter}
                 zoom={15}
