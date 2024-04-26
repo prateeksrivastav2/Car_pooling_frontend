@@ -222,7 +222,7 @@ const CreateRide = () => {
                               <span className="input-group-text">{index + 1}</span> {/* Numbering */}
                               <input
                                 type="text"
-                                style={{ borderRadius: "8px" }}
+                                style={{ borderTopRightRadius: "8px",borderBottomRightRadius: "8px" }}
                                 name={`destination-${index}`}
                                 id={`destination-${index}`}
                                 className="form-control"
@@ -231,7 +231,7 @@ const CreateRide = () => {
                               />
                               <button type="button" onClick={() => handleRemoveDestination(index)} className="btn btn-outline-danger"
                               style={{borderRadius:'4px',marginLeft:'3px'}}
-                              >Remove</button> {/* Remove button */}
+                              >Remove</button>
                             </div>
                             {Array.isArray(SearchResults[index + 1]) && SearchResults[index + 1].length > 0 && (
                               <ul style={{ border: '1px black solid', borderBottomLeftRadius: '7px', borderBottomRightRadius: '7px' }}>
