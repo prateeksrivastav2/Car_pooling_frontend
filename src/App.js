@@ -17,7 +17,7 @@ import Admin from "./components/Admin";
 import Driver from "./components/Driver";
 import Success from "./components/Success";
 import Cancel from "./components/Cancel";
-import MapSearchComponent from "./components/Autofill";
+import Map from "./components/Map";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -45,7 +45,7 @@ function App() {
           <Route
             exact
             path="/maps"
-            element={<MapSearchComponent />}
+            element={<Map />}
           />
           <Route
             exact
