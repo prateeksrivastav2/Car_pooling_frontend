@@ -18,6 +18,7 @@ import Driver from "./components/Driver";
 import Success from "./components/Success";
 import Cancel from "./components/Cancel";
 import MapSearchComponent from "./components/Autofill";
+import Booked from "./components/Booked";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -56,6 +57,11 @@ function App() {
             exact
             path="/driver"
             element={<Driver showAlert={showAlert}/>}
+          />
+          <Route
+            exact
+            path="/booked"
+            element={<Booked showAlert={showAlert} />}
           />
           <Route
             exact
