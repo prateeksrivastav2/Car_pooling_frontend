@@ -37,8 +37,10 @@ const Dashboard = () => {
         if (response.ok) {
           const userData = await response.json();
           localStorage.setItem("sender", userData.email);
+          localStorage.setItem("username", userData.username);
           setRole(userData.role);
           setUser(userData);
+          console.log(userData);
         } else {
           console.error("Error fetching user data");
           navigate("/login");
@@ -89,7 +91,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div
+          {/* <div
             className=""
             style={{ position: "fixed", bottom: "0", left: "5" }}
           >
@@ -100,7 +102,7 @@ const Dashboard = () => {
               style={{ marginLeft: "1vw", cursor: "pointer" }}
               onClick={handleClick}
             />
-          </div>
+          </div> */}
         </div>
       }
     </>

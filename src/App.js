@@ -59,7 +59,7 @@ function App() {
           />
           <Route
             exact
-            path="/success"
+            path="/success/:id"
             element={<Success showAlert={showAlert} />}
           />
           <Route

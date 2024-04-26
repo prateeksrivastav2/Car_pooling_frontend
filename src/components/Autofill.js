@@ -5,23 +5,17 @@ const MapSearchComponent = () => {
   const [inputValue, setInputValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     setInputValue(event.target.value);
     // Call the API whenever the input value changes
-    fetchSearchResults(event.target.value);
+    await fetchSearchResults(event.target.value);
   };
 
   const fetchSearchResults = async (query) => {
     try {
-      const response = await fetch(`/places/search/json?query=${query}`, {
-        mode:'no-cors',
-        method:'GET',
-        headers: {
-          Authorization: 'Bearer 20e4db11-06a7-480e-ba0c-ab474f5a6c10'
-        }
-      });
-      setSearchResults(response.suggestedLocations);
-      console.log(searchResults)
+      const response = await axios.get(`http://localhost:3000/api/places/search`);
+      setSearchResults(response.data); // Assuming response.data contains an array of search results
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
@@ -36,9 +30,9 @@ const MapSearchComponent = () => {
         placeholder="Search places..."
       />
       <ul>
-        {searchResults.map((result, index) => (
+        {/* {searchResults.map((result, index) => (
           <li key={index}>{result.placeName}</li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );

@@ -19,7 +19,7 @@ const ShowRideDetails = () => {
         const headers = {
             "Content-Type":"application/json"
         }
-        const response = await fetch("http://localhost:3000/rides/create-checkout-session",{
+        const response = await fetch(`http://localhost:3000/rides/create-checkout-session/${id}`,{
             method : "POST",
             headers:headers,
             body:JSON.stringify(body)

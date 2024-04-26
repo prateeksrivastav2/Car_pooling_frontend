@@ -87,7 +87,7 @@ const Chatbox = (props) => {
 
     useEffect(() => {
         socket.emit('new-user-joined', naam);
-        // appendMessage(usermessage, 'outgoing');
+        // appendMessage(`${naam} has joined the chat`, 'outgoing');
     }, [naam, socket]);
 
     const handleChat = () => {
