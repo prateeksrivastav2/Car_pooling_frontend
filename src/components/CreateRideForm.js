@@ -152,6 +152,7 @@ const CreateRide = () => {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "flex-start",
+          marginBottom:'10vh'
         }}
       >
         <div
@@ -429,7 +430,7 @@ const CreateRide = () => {
         </div>
 
         <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh'
-      ,marginRight:'2vw'}}>
+      ,marginRight:'10vw'}}>
           <Map />
         </div>
       </div>
