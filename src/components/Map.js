@@ -10,6 +10,10 @@ const Map = ({ startingLocation, destinations }) => {
   useEffect(() => {
     // Function to geocode addresses and set marker data
     const geocodeAddresses = async () => {
+      if (!Array.isArray(destinations) || destinations.length === 0) {
+        return;
+      }
+
       const addresses = [startingLocation, ...destinations];
 
       const markerDataArray = await Promise.all(
