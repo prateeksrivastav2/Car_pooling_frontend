@@ -10,11 +10,13 @@ const Success = () => {
   const [user, setUser] = useState(null);
   const [rolee, setRole] = useState("");
   const token = localStorage.getItem("token");
+  console.log(token);
   const role = localStorage.getItem("role");
 
   const handleClick = () => {
     const update = async()=>{
       try {
+
         const response = await fetch(`http://localhost:3000/rides/update/${id}`, {
           method: "POST",
           headers: {
@@ -22,6 +24,14 @@ const Success = () => {
             "auth-token": token,
           },
         });
+        const response2 = await fetch(`http://localhost:3000/rides/addapplicant/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+        });
+        console.log(id);
         
       } catch (error) {
         console.error("Error updating user data", error);
