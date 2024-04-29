@@ -6,21 +6,21 @@ import Map from "./Map";
 const CreateRide = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [SearchResults, setSearchResults] = useState([[]]); // Array of arrays for search results
-  const [destinations, setDestinations] = useState([""]); // Array to store destinations
+  const [startingLocation, setStartingLocation] = useState(""); // State variable for starting location
+  const [destinations, setDestinations] = useState([""]); // State variable for destinations
+
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
+
   const [step, setStep] = useState(1);
   const [checkauth, setcheckauth] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstname: "",
     email: "",
-    startingLocation: "",
-    destination: "",
     date: "",
     availableSeats: "",
-    license: selectedFile,
     starttime: "",
     endtime: "",
   });
@@ -91,10 +91,7 @@ const CreateRide = () => {
 
   const handleSearchResultClick = (result, index) => {
     if (index === 0) {
-      setFormData({
-        ...formData,
-        startingLocation: result,
-      });
+      setStartingLocation(result);
     } else {
       const updatedDestinations = [...destinations];
       updatedDestinations[index - 1] = result;
@@ -133,7 +130,7 @@ const CreateRide = () => {
         const response = await axios.post(
           "http://localhost:3000/rides/create",
           {
-            startingLocation: formData.startingLocation,
+            startingLocation: startingLocation,
             destinations: destinations.filter((dest) => dest.trim() !== ""), // Filter out empty destinations
             date: formData.date,
             availableSeats: formData.availableSeats,
@@ -160,8 +157,9 @@ const CreateRide = () => {
   return (
     <>
       <div
-        style={{display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "flex-start",marginBottom: '2vh'}}>
-        <div className="c mt-0" style={{width: "50%",marginRight: "20px",}}>
+        style={{display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "flex-start",marginBottom: '2vh'}}
+      >
+        <div className="c mt-0" style={{width: "50%",marginRight: "20px"}}>
           <div className="row justify-content-center " style={{ marginTop: "8vh" }}>
             <div className="col-md-8">
               <div className="card shadow">
@@ -207,8 +205,8 @@ const CreateRide = () => {
                             name="startingLocation"
                             id="source"
                             className="form-control"
-                            value={formData.startingLocation}
-                            onChange={handleChange}
+                            value={startingLocation}
+                            onChange={(e) => setStartingLocation(e.target.value)}
                           />
                           {Array.isArray(SearchResults[0]) &&
                             SearchResults[0].length > 0 && (
@@ -253,7 +251,7 @@ const CreateRide = () => {
                                   id={`destination-${index}`}
                                   className="form-control"
                                   value={destination}
-                                  onChange={handleChange}
+                                  onChange={(e) => handleDestinationChange(index, e.target.value)}
                                 />
                                 <button
                                   type="button"
@@ -393,7 +391,10 @@ const CreateRide = () => {
             marginRight: "10vw",
           }}
         >
-          <Map />
+          <Map 
+            startingLocation={startingLocation}
+            destinations={destinations}
+          />
         </div>
       </div>
     </>
