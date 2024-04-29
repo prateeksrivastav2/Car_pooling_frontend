@@ -171,7 +171,7 @@ const CreateRide = () => {
                 <div className="card-body">
                   <div className="d-flex justify-content-center mb-4">
                     <div
-                      className={`d-flex align-items-center text-primary}`}
+                      className={`d-flex align-items-center text-primary`}
                     >
                       <div style={{ fontSize: "1.3rem" }}>Ride Details</div>
                     </div>
@@ -431,7 +431,9 @@ const CreateRide = () => {
 
         <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh'
       ,marginRight:'10vw'}}>
-          <Map />
+          <Map 
+          startingLocation={startingLocation}
+          destinations={destinations}/>
         </div>
       </div>
     </>
