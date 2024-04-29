@@ -17,7 +17,7 @@ const Map = () => {
         const geocodeAddresses = async () => {
             const addresses = [
                 "Gopal Nagar Kanpur",
-                "Noida Sector 107"
+                "Noida Sector 105"
             ];
 
             const markerDataArray = await Promise.all(
@@ -55,7 +55,8 @@ const Map = () => {
     }, [map, markerData]);
 
     return (
-        <div id="map" style={{ height: "80vh", width: "60vw" }}>
+        <div id="map" style={{ height: "50vh", width: "40vw",alignItems:'center'
+        ,justifyContent:'center' }}>
             <MapContainer
                 center={mapCenter}
                 zoom={15}

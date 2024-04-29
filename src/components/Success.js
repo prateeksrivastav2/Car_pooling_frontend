@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
+import axios from "axios";
 
 const Success = () => {
   const { id } = useParams();
@@ -12,15 +13,22 @@ const Success = () => {
   const role = localStorage.getItem("role");
 
   const handleClick = () => {
-    navigate("/create-ride");
-  };
-
-  const viewProfile = () => {
-    navigate("/profile");
-  };
-
-  const handelMyrides = () => {
-    navigate("/my-rides", { state: { user: user } });
+    const update = async()=>{
+      try {
+        const response = await fetch(`http://localhost:3000/rides/update/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+        });
+        
+      } catch (error) {
+        console.error("Error updating user data", error);
+      }
+    }
+    update();
+    navigate("/home");
   };
 
   useEffect(() => {
@@ -52,6 +60,7 @@ const Success = () => {
     } else {
       fetchData();
     }
+    
   }, [token, navigate]);
 
   return (
@@ -62,7 +71,7 @@ const Success = () => {
             <div className="container">
               <div className="row">
                 <div className="my-3">
-                  <div className="card text-black mb-3">
+                  <div className=" mb-3">
                     <div className="card-body">
                       <h2
                         style={{
@@ -74,6 +83,9 @@ const Success = () => {
                       </h2>
                     </div>
                   </div>
+                  <div className="btn btn-primary" onClick={handleClick}>
+                          OK
+                        </div>
                 </div>
               </div>
             </div>

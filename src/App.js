@@ -18,6 +18,8 @@ import Driver from "./components/Driver";
 import Success from "./components/Success";
 import Cancel from "./components/Cancel";
 import Map from "./components/Map";
+import Booked from "./components/Booked";
+import MapWithMarkers from "./components/Map_sample";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -59,6 +61,11 @@ function App() {
           />
           <Route
             exact
+            path="/booked/:id"
+            element={<Booked showAlert={showAlert} />}
+          />
+          <Route
+            exact
             path="/success/:id"
             element={<Success showAlert={showAlert} />}
           />
@@ -72,6 +79,11 @@ function App() {
             path="/login"
             element={<Login showAlert={showAlert} />}
           />
+          <Route
+          exact
+          path="/map_sample"
+          element={<MapWithMarkers/>}
+        />
           <Route
             exact
             path="/signup"
