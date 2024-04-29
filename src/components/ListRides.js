@@ -27,6 +27,7 @@ const RideCard = ({ ride,selectedRide }) => {
 
 const ListRides = () => {
   const [rides, setRides] = useState([]);
+  const [search, setSearch] = useState("");
   const [selectedRide, setSelectedRide] = useState(null); // State to store selected ride for modal
 
   useEffect(() => {
@@ -44,13 +45,19 @@ const ListRides = () => {
 
     fetchRides();
   }, []); // Runs once when the component mounts
+  console.log(search);
 
 
   return (
     <div className="ride-list">
       {/* <h1>Available Rides</h1> */}
+      <form>
+        <input type='text' onChange={(e)=>setSearch(e.target.value)} placeholder='Search Start Location' />
+      </form>
       {rides.length === 0 && <p>No rides available right now.</p>}
-      {rides.map((ride) => (
+      {rides.filter((ride)=>{
+        return search.toLowerCase()===''?ride:ride.startingLocation.toLowerCase().includes(search);
+      }).map((ride) => (
         <RideCard key={ride._id} ride={ride} />
       ))}
      
