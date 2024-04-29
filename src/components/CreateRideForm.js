@@ -393,7 +393,10 @@ const CreateRide = () => {
             marginRight: "10vw",
           }}
         >
-          <Map />
+          <Map 
+          startingLocation={startingLocation}
+          destinations={destinations}
+          />
         </div>
       </div>
     </>
