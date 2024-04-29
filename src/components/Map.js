@@ -7,7 +7,8 @@ const customIcon = L.icon({
     iconSize: [32, 32],
 });
 
-const Map = () => {
+const Map = (props) => {
+    const {destinations,startingLocation}=props;
     const [markerData, setMarkerData] = useState([]);
     const [map, setMap] = useState(null); 
     const [mapCenter, setMapCenter] = useState([28.612964, 77.229463]); 
@@ -55,7 +56,7 @@ const Map = () => {
     }, [map, markerData]);
 
     return (
-        <div id="map" style={{ height: "50vh", width: "40vw",alignItems:'center'
+        <div id="map" style={{ height: "85vh", width: "50vw",alignItems:'center'
         ,justifyContent:'center' }}>
             <MapContainer
                 center={mapCenter}

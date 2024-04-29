@@ -33,23 +33,35 @@ const CreateRide = () => {
 
   const fetchSearchResults = async (query, index) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/places/search`,
-        {
-          params: {
-            query: query,
-          },
-        }
-      );
-      const updatedResults = [...SearchResults];
-      updatedResults[index] = response.data.suggestedLocations;
-      setSearchResults(updatedResults);
-      console.log(response.data);
+      const response = await axios.get(`http://localhost:3000/api/places/search`, {
+        params: {
+          query: query,
+        },
+      });
+  
+      if (response.data && Array.isArray(response.data.suggestedLocations)) {
+        console.log(response.data.suggestedLocations);
+        const updatedResults = [...SearchResults];
+        const locations = response.data.suggestedLocations.map((location) => {
+          if (location.placeName) {
+            return location.placeName + ", " + location.placeAddress;
+          } else {
+            console.error("Error: placeName is undefined in suggestedLocation:", location);
+            return null;
+          }
+        });
+        updatedResults[index] = locations.filter((location) => location !== null);
+        setSearchResults(updatedResults);
+        console.log(SearchResults);
+        console.log("SearchResults");
+      } else {
+        console.error("Error: No suggested locations found in response or suggestedLocations is not an array");
+      }
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
   };
-
+  
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -57,14 +69,15 @@ const CreateRide = () => {
       [name]: value,
     });
     if (name === "startingLocation" && value.length > 0) {
-      await fetchSearchResults(value, 0); // Use index 0 for starting location
+      await fetchSearchResults(value, 0); 
     }
     if (name === "startingLocation" && value.length === 0) {
-      setSearchResults([[]]); // Reset search results for starting location
+      setSearchResults([[]]); 
     }
     // Autofill for destination
     if (name.startsWith("destination-")) {
       const index = parseInt(name.split("-")[1]);
+      
       handleDestinationChange(index, value);
       if (value.length > 0) {
         await fetchSearchResults(value, index + 1); // Use index + 1 for destinations
@@ -80,11 +93,11 @@ const CreateRide = () => {
     if (index === 0) {
       setFormData({
         ...formData,
-        startingLocation: result.placeAddress,
+        startingLocation: result,
       });
     } else {
       const updatedDestinations = [...destinations];
-      updatedDestinations[index - 1] = result.placeAddress;
+      updatedDestinations[index - 1] = result;
       setDestinations(updatedDestinations);
     }
     const updatedResults = [...SearchResults];
@@ -134,38 +147,22 @@ const CreateRide = () => {
         if (response.data) {
           console.log("Ride created successfully:", response.data);
           setRideCreated(true);
-          navigate("/home");
+          navigate("/LiveRide");
         }
       }
     } catch (error) {
       console.error("Error creating ride:", error);
     }
   };
-
-  const canSubmit = destinations.some((dest) => dest.trim() !== ""); // Check if any destination is non-empty
+  const canSubmit = destinations.some((dest) => dest && dest.trim() !== ""); // Check if any destination is non-empty
+  // Check if any destination is non-empty
 
   return (
     <>
       <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          marginBottom:'10vh'
-        }}
-      >
-        <div
-          className="container mt-5"
-          style={{
-            width: "50%",
-            marginRight: "20px",
-          }}
-        >
-          <div
-            className="row justify-content-center "
-            style={{ marginTop: "14vh" }}
-          >
+        style={{display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "flex-start",marginBottom: '2vh'}}>
+        <div className="c mt-0" style={{width: "50%",marginRight: "20px",}}>
+          <div className="row justify-content-center " style={{ marginTop: "8vh" }}>
             <div className="col-md-8">
               <div className="card shadow">
                 <div className="card-body">
@@ -180,35 +177,16 @@ const CreateRide = () => {
                     <>
                       <div className="row mb-3">
                         <div className="col">
-                          <label
-                            htmlFor="firstname"
-                            className="form-label"
-                          >
+                          <label htmlFor="firstname" className="form-label">
                             Name
                           </label>
-                          <input
-                            type="text"
-                            name="firstname"
-                            id="firstname"
-                            style={{ borderRadius: "8px" }}
-                            className="form-control"
-                            value={formData.firstname}
-                            onChange={handleChange}
-                          />
+                          <input type="text" name="firstname" id="firstname" style={{ borderRadius: "8px" }} className="form-control" value={formData.firstname} onChange={handleChange}/>
                         </div>
                         <div className="col">
                           <label htmlFor="email" className="form-label">
                             Email
                           </label>
-                          <input
-                            type="email"
-                            name="email"
-                            style={{ borderRadius: "8px" }}
-                            id="email"
-                            className="form-control"
-                            value={formData.email}
-                            onChange={handleChange}
-                          />
+                          <input type="email" name="email" style={{ borderRadius: "8px" }} id="email" className="form-control" value={formData.email} onChange={handleChange}/>
                         </div>
                       </div>
                       <div
@@ -254,7 +232,7 @@ const CreateRide = () => {
                                         handleSearchResultClick(result, 0)
                                       }
                                     >
-                                      {result.alternateName}
+                                      {result}
                                     </li>
                                     <hr />
                                   </>
@@ -281,11 +259,7 @@ const CreateRide = () => {
                                 </span>{" "}
                                 {/* Numbering */}
                                 <input
-                                  type="text"
-                                  style={{
-                                    borderTopRightRadius: "8px",
-                                    borderBottomRightRadius: "8px",
-                                  }}
+                                  type="text" style={{borderTopRightRadius: "8px", borderBottomRightRadius: "8px"}}
                                   name={`destination-${index}`}
                                   id={`destination-${index}`}
                                   className="form-control"
@@ -309,10 +283,7 @@ const CreateRide = () => {
                               {Array.isArray(SearchResults[index + 1]) &&
                                 SearchResults[index + 1].length > 0 && (
                                   <ul
-                                    style={{
-                                      border: "1px black solid",
-                                      borderBottomLeftRadius: "7px",
-                                      borderBottomRightRadius: "7px",
+                                    style={{ border: "1px black solid", borderBottomLeftRadius: "7px",borderBottomRightRadius: "7px",
                                     }}
                                   >
                                     {SearchResults[index + 1].map(
@@ -327,7 +298,7 @@ const CreateRide = () => {
                                               )
                                             }
                                           >
-                                            {result.alternateName}
+                                            {result}
                                           </li>
                                           <hr />
                                         </>
@@ -340,7 +311,7 @@ const CreateRide = () => {
                           <button
                             type="button"
                             onClick={handleAddDestination}
-                            className="btn btn-link"
+                            className="btn btn-outline-secondary"
                           >
                             + Add Destination
                           </button>
@@ -429,9 +400,11 @@ const CreateRide = () => {
           </div>
         </div>
 
-        <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh'
-      ,marginRight:'10vw'}}>
-          <Map />
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh'
+          , marginRight: '3vw'
+        }}>
+          <Map destination={destinations} startingLocation={formData.startingLocation} />
         </div>
       </div>
     </>
