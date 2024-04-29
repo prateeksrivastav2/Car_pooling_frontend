@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
-const customIcon = L.icon({
-  iconUrl: "https://maps.mappls.com/images/from.png",
-  iconSize: [32, 32],
-});
-
 const Map = ({ startingLocation, destinations }) => {
   const [markerData, setMarkerData] = useState([]);
   const [map, setMap] = useState(null); // State to hold the map object
@@ -80,7 +75,21 @@ const Map = ({ startingLocation, destinations }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {markerData.map((marker, index) => (
-          <Marker key={index} position={marker.position} icon={customIcon}>
+          <Marker
+            key={index}
+            position={marker.position}
+            icon={
+              index === 0 // Check if it's the starting location
+                ? L.icon({
+                    iconUrl: "https://www.mappls.com/images/from.png",
+                    iconSize: [32, 32],
+                  })
+                : L.icon({
+                    iconUrl: "https://maps.mappls.com/images/to.png",
+                    iconSize: [32, 32],
+                  })
+            }
+          >
             <Popup>{marker.address}</Popup>
           </Marker>
         ))}
