@@ -157,9 +157,8 @@ const CreateRide = () => {
   return (
     <>
       <div
-        style={{display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "flex-start",marginBottom: '2vh'}}
-      >
-        <div className="c mt-0" style={{width: "50%",marginRight: "20px"}}>
+        style={{display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "flex-start",marginBottom: '2vh'}}>
+        <div className="c mt-0" style={{width: "50%",marginRight: "20px",}}>
           <div className="row justify-content-center " style={{ marginTop: "8vh" }}>
             <div className="col-md-8">
               <div className="card shadow">
