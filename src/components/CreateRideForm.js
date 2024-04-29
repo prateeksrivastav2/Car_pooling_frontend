@@ -419,10 +419,7 @@ const CreateRide = () => {
             marginRight: "10vw",
           }}
         >
-          <Map
-            startingLocation={formData.startingLocation}
-            destinations={destinations}
-          />
+          <Map />
         </div>
       </div>
     </>
