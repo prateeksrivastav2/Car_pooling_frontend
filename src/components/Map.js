@@ -17,7 +17,7 @@ const Map = () => {
         const geocodeAddresses = async () => {
             const addresses = [
                 "Gopal Nagar Kanpur",
-                "Noida Sector 107"
+                "Noida Sector 105"
             ];
 
             const markerDataArray = await Promise.all(
