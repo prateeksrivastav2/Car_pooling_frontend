@@ -9,6 +9,8 @@ const Map = ({ startingLocation, destinations }) => {
 
   useEffect(() => {
     // Function to geocode addresses and set marker data
+    console.log('start',startingLocation);
+    console.log('destinat',destinations);
     const geocodeAddresses = async () => {
       if (!Array.isArray(destinations) || destinations.length === 0) {
         return;
@@ -19,6 +21,7 @@ const Map = ({ startingLocation, destinations }) => {
       const markerDataArray = await Promise.all(
         addresses.map(async (address) => {
           try {
+
             const response = await fetch(
               `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
                 address
@@ -27,6 +30,8 @@ const Map = ({ startingLocation, destinations }) => {
             const data = await response.json();
             if (data.length > 0) {
               const { lat, lon } = data[0];
+              console.log(lat);
+              console.log(lon);
               return { position: [parseFloat(lat), parseFloat(lon)], address };
             } else {
               console.error(`No coordinates found for address: ${address}`);

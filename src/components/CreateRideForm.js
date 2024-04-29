@@ -77,7 +77,6 @@ const CreateRide = () => {
     // Autofill for destination
     if (name.startsWith("destination-")) {
       const index = parseInt(name.split("-")[1]);
-      
       handleDestinationChange(index, value);
       if (value.length > 0) {
         await fetchSearchResults(value, index + 1); // Use index + 1 for destinations
@@ -147,7 +146,7 @@ const CreateRide = () => {
         if (response.data) {
           console.log("Ride created successfully:", response.data);
           setRideCreated(true);
-          navigate("/LiveRide");
+          navigate("/home");
         }
       }
     } catch (error) {
@@ -160,14 +159,32 @@ const CreateRide = () => {
   return (
     <>
       <div
-        style={{display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "flex-start",marginBottom: '2vh'}}>
-        <div className="c mt-0" style={{width: "50%",marginRight: "20px",}}>
-          <div className="row justify-content-center " style={{ marginTop: "8vh" }}>
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          marginBottom: '2vh'
+        }}
+      >
+        <div
+          className="c mt-0"
+          style={{
+            width: "50%",
+            marginRight: "20px",
+          }}
+        >
+          <div
+            className="row justify-content-center "
+            style={{ marginTop: "8vh" }}
+          >
             <div className="col-md-8">
               <div className="card shadow">
                 <div className="card-body">
                   <div className="d-flex justify-content-center mb-4">
-                    <div className={`d-flex align-items-center text-primary`}>
+                    <div
+                      className={`d-flex align-items-center text-primary}`}
+                    >
                       <div style={{ fontSize: "1.3rem" }}>Ride Details</div>
                     </div>
                   </div>
@@ -175,16 +192,35 @@ const CreateRide = () => {
                     <>
                       <div className="row mb-3">
                         <div className="col">
-                          <label htmlFor="firstname" className="form-label">
+                          <label
+                            htmlFor="firstname"
+                            className="form-label"
+                          >
                             Name
                           </label>
-                          <input type="text" name="firstname" id="firstname" style={{ borderRadius: "8px" }} className="form-control" value={formData.firstname} onChange={handleChange}/>
+                          <input
+                            type="text"
+                            name="firstname"
+                            id="firstname"
+                            style={{ borderRadius: "8px" }}
+                            className="form-control"
+                            value={formData.firstname}
+                            onChange={handleChange}
+                          />
                         </div>
                         <div className="col">
                           <label htmlFor="email" className="form-label">
                             Email
                           </label>
-                          <input type="email" name="email" style={{ borderRadius: "8px" }} id="email" className="form-control" value={formData.email} onChange={handleChange}/>
+                          <input
+                            type="email"
+                            name="email"
+                            style={{ borderRadius: "8px" }}
+                            id="email"
+                            className="form-control"
+                            value={formData.email}
+                            onChange={handleChange}
+                          />
                         </div>
                       </div>
                       <div
@@ -195,7 +231,10 @@ const CreateRide = () => {
                         }}
                       >
                         <div className="col">
-                          <label htmlFor="source" className="form-label">
+                          <label
+                            htmlFor="source"
+                            className="form-label"
+                          >
                             Start Location
                           </label>
                           <input
@@ -237,18 +276,28 @@ const CreateRide = () => {
                         </div>
 
                         <div className="col">
-                          <label htmlFor="destination" className="form-label">
+                          <label
+                            htmlFor="destination"
+                            className="form-label"
+                          >
                             Destinations
                           </label>
                           {destinations.map((destination, index) => (
-                            <div key={index} style={{ marginBottom: "10px" }}>
+                            <div
+                              key={index}
+                              style={{ marginBottom: "10px" }}
+                            >
                               <div className="input-group">
                                 <span className="input-group-text">
                                   {index + 1}
                                 </span>{" "}
                                 {/* Numbering */}
                                 <input
-                                  type="text" style={{borderTopRightRadius: "8px", borderBottomRightRadius: "8px"}}
+                                  type="text"
+                                  style={{
+                                    borderTopRightRadius: "8px",
+                                    borderBottomRightRadius: "8px",
+                                  }}
                                   name={`destination-${index}`}
                                   id={`destination-${index}`}
                                   className="form-control"
@@ -257,7 +306,9 @@ const CreateRide = () => {
                                 />
                                 <button
                                   type="button"
-                                  onClick={() => handleRemoveDestination(index)}
+                                  onClick={() =>
+                                    handleRemoveDestination(index)
+                                  }
                                   className="btn btn-outline-danger"
                                   style={{
                                     borderRadius: "4px",
@@ -270,7 +321,10 @@ const CreateRide = () => {
                               {Array.isArray(SearchResults[index + 1]) &&
                                 SearchResults[index + 1].length > 0 && (
                                   <ul
-                                    style={{ border: "1px black solid", borderBottomLeftRadius: "7px",borderBottomRightRadius: "7px",
+                                    style={{
+                                      border: "1px black solid",
+                                      borderBottomLeftRadius: "7px",
+                                      borderBottomRightRadius: "7px",
                                     }}
                                   >
                                     {SearchResults[index + 1].map(
@@ -339,7 +393,10 @@ const CreateRide = () => {
                       </div>
                       <div className="row mb-3">
                         <div className="col">
-                          <label htmlFor="starttime" className="form-label">
+                          <label
+                            htmlFor="starttime"
+                            className="form-label"
+                          >
                             Start Time
                           </label>
                           <input
@@ -384,19 +441,11 @@ const CreateRide = () => {
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100vh",
-            marginRight: "10vw",
-          }}
-        >
-          <Map 
-          startingLocation={startingLocation}
-          destinations={destinations}
-          />
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh'
+          , marginRight: '3vw'
+        }}>
+          <Map destinations={destinations} startingLocation={formData.startingLocation} />
         </div>
       </div>
     </>

@@ -83,7 +83,7 @@ function App() {
           <Route
           exact
           path="/map_sample"
-          element={<MapWithMarkers/>}
+          element={<Map />}
         />
           <Route
           exact
