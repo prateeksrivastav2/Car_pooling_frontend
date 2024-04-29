@@ -167,9 +167,7 @@ const CreateRide = () => {
               <div className="card shadow">
                 <div className="card-body">
                   <div className="d-flex justify-content-center mb-4">
-                    <div
-                      className={`d-flex align-items-center text-primary}`}
-                    >
+                    <div className={`d-flex align-items-center text-primary`}>
                       <div style={{ fontSize: "1.3rem" }}>Ride Details</div>
                     </div>
                   </div>
@@ -197,10 +195,7 @@ const CreateRide = () => {
                         }}
                       >
                         <div className="col">
-                          <label
-                            htmlFor="source"
-                            className="form-label"
-                          >
+                          <label htmlFor="source" className="form-label">
                             Start Location
                           </label>
                           <input
@@ -242,17 +237,11 @@ const CreateRide = () => {
                         </div>
 
                         <div className="col">
-                          <label
-                            htmlFor="destination"
-                            className="form-label"
-                          >
+                          <label htmlFor="destination" className="form-label">
                             Destinations
                           </label>
                           {destinations.map((destination, index) => (
-                            <div
-                              key={index}
-                              style={{ marginBottom: "10px" }}
-                            >
+                            <div key={index} style={{ marginBottom: "10px" }}>
                               <div className="input-group">
                                 <span className="input-group-text">
                                   {index + 1}
@@ -268,9 +257,7 @@ const CreateRide = () => {
                                 />
                                 <button
                                   type="button"
-                                  onClick={() =>
-                                    handleRemoveDestination(index)
-                                  }
+                                  onClick={() => handleRemoveDestination(index)}
                                   className="btn btn-outline-danger"
                                   style={{
                                     borderRadius: "4px",
@@ -352,10 +339,7 @@ const CreateRide = () => {
                       </div>
                       <div className="row mb-3">
                         <div className="col">
-                          <label
-                            htmlFor="starttime"
-                            className="form-label"
-                          >
+                          <label htmlFor="starttime" className="form-label">
                             Start Time
                           </label>
                           <input
@@ -400,11 +384,16 @@ const CreateRide = () => {
           </div>
         </div>
 
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh'
-          , marginRight: '3vw'
-        }}>
-          <Map destination={destinations} startingLocation={formData.startingLocation} />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            marginRight: "10vw",
+          }}
+        >
+          <Map />
         </div>
       </div>
     </>
