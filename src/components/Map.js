@@ -9,11 +9,11 @@ const customIcon = L.icon({
 
 const Map = () => {
     const [markerData, setMarkerData] = useState([]);
-    const [map, setMap] = useState(null); // State to hold the map object
-    const [mapCenter, setMapCenter] = useState([28.612964, 77.229463]); // Default center
+    const [map, setMap] = useState(null); 
+    const [mapCenter, setMapCenter] = useState([28.612964, 77.229463]); 
 
     useEffect(() => {
-        // Function to geocode addresses and set marker data
+
         const geocodeAddresses = async () => {
             const addresses = [
                 "Gopal Nagar Kanpur",
@@ -39,18 +39,16 @@ const Map = () => {
                 })
             );
 
-            // Remove any null values from the marker data array
             const filteredMarkerData = markerDataArray.filter((marker) => marker !== null);
             setMarkerData(filteredMarkerData);
         };
 
-        // Call the geocodeAddresses function
+        
         geocodeAddresses();
     }, []);
 
     useEffect(() => {
         if (map && markerData.length > 0) {
-            // Set map center
             map.panTo(markerData[0].position);
             setMapCenter(markerData[0].position);
         }
@@ -62,7 +60,7 @@ const Map = () => {
                 center={mapCenter}
                 zoom={15}
                 style={{ height: "100%" }}
-                whenCreated={setMap} // Assign the map object to the state
+                whenCreated={setMap} 
             >
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
