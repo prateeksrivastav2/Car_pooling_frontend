@@ -44,6 +44,8 @@ const Map = ({ startingLocation, destinations }) => {
         (marker) => marker !== null
       );
       setMarkerData(filteredMarkerData);
+      console.log(markerData);
+      console.log("markerData");
     };
 
     // Call the geocodeAddresses function
@@ -55,6 +57,8 @@ const Map = ({ startingLocation, destinations }) => {
       // Set map center
       map.panTo(markerData[0].position);
       setMapCenter(markerData[0].position);
+      console.log('destinations',destinations);
+      console.log('starting',startingLocation);
     }
   }, [map, markerData]);
 
@@ -62,8 +66,8 @@ const Map = ({ startingLocation, destinations }) => {
     <div
       id="map"
       style={{
-        height: "50vh",
-        width: "40vw",
+        height: "80vh",
+        width: "50vw",
         alignItems: "center",
         justifyContent: "center",
       }}
