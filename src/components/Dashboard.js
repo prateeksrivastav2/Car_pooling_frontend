@@ -10,6 +10,9 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [rolee, setRole] = useState("");
   const [booked,setBooked] = useState(false);
+  const [start,setStart] = useState("");
+  const [end,setEnd] = useState("");
+  const [otp,setOtp] = useState(0);
   const [id,setId] = useState("");
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
@@ -44,6 +47,9 @@ const Dashboard = () => {
           setUser(userData);
           setBooked(userData.booked);
           setId(userData.ride_id);
+          setOtp(userData.otp);
+          setStart(userData.start);
+          setEnd(userData.end);
           console.log(userData);
         } else {
           console.error("Error fetching user data");
@@ -63,7 +69,7 @@ const Dashboard = () => {
 
   return (
     <>
-      {rolee === 'admin' ? navigate('/admin') : rolee==='driver'?navigate('/driver'):
+      {rolee === 'admin' ? navigate('/admin') : rolee==='driver'?navigate('/driver'):booked?navigate(`/booked/${id}/${encodeURIComponent(start)}/${encodeURIComponent(end)}/${otp}`):
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-18">
