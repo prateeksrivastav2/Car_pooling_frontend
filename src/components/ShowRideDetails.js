@@ -11,7 +11,7 @@ const ShowRideDetails = (props) => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
     const [fareCal, setFarecal] = useState(false);
-    const [array, setArray] = useState([]);
+    const [array, setArray] = useState(new Set()); 
 
     const [reciever, setReciever] = useState("");
     const [rol, setrol] = useState(false); // true for driver, false for passenger
@@ -147,6 +147,9 @@ const ShowRideDetails = (props) => {
                     setRideDetails(rideData);
                     setReciever(rideData.driver);
                     setapp(rideData.applicants); // Update the state with applicants
+
+                    // console.log(rideData.applicants); // Update the state with applicants
+
                 } else {
                     console.error('Failed to fetch ride details');
                 }
@@ -170,6 +173,8 @@ const ShowRideDetails = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // Create a new array to store updated data
+                const updatedArray = [];
                 // Iterate through each applicant and fetch user data
                 await Promise.all(app.map(async (applicant) => {
                     const response = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
@@ -181,25 +186,37 @@ const ShowRideDetails = (props) => {
                     });
                     if (response.ok) {
                         const userData = await response.json();
-                        console.log("User data:", userData[0].email);
+                        console.log("User data:", userData);
+                        // Extract email and name from userData
                         const obj = {
                             email: userData[0].email,
                             name: userData[0].username
+                        };
+                        // Check if the email already exists in updatedArray
+                        const existingIndex = updatedArray.findIndex(item => item.email === obj.email);
+                        if (existingIndex === -1) {
+                            // If not found, add to updatedArray
+                            updatedArray.push(obj);
+                        } else {
+                            // If found, replace the existing entry
+                            updatedArray[existingIndex] = obj;
                         }
-                        const newArray = [...array, obj];
-                        setArray(newArray);
-
                     } else {
                         console.error("Failed to fetch user data for applicant:", applicant);
                     }
                 }));
+                // Update the app state with the updatedArray
+                setArray(updatedArray);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
-
+    
         fetchData();
-    }, [app]); // Include app as a dependency
+    }, [app]);
+     // Include app as a dependency
+    
+
 
 
 
@@ -234,7 +251,7 @@ const ShowRideDetails = (props) => {
                                             <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{new Date(rideDetails.date).toLocaleDateString()}</p>
                                             <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{(rideDetails.estimatedArrivalTime)}</p>
                                             <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleSource}>{showsource}</p>
-                                            { showSource && (
+                                            {showSource && (
                                                 <div>
                                                     {!rol &&
                                                         rideDetails.destinations.map((destination, index) => (
@@ -263,7 +280,7 @@ const ShowRideDetails = (props) => {
                                             )}
 
                                             <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleDestinations}>{showtext}</p>
-                                            { showDestinations && (
+                                            {showDestinations && (
                                                 <div>
                                                     {!rol &&
                                                         rideDetails.destinations.slice(1).map((destination, index) => (
