@@ -7,6 +7,7 @@ const RiderCreated = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [ride, setRide] = useState(null);
+    const [applicants, setApplicants] = useState([]);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -51,6 +52,25 @@ const RiderCreated = () => {
                     const rides = await response.json();
                     const userRide = rides.find(ride => ride.driver === email);
                     setRide(userRide);
+                    if (userRide) {
+                        const applicantsResponse = await fetch('http://localhost:3000/auth/getusers', {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'auth-token': token,
+                            },
+                        });
+                        if (applicantsResponse.ok) {
+                            const users = await applicantsResponse.json();
+                            console.log('users->',users);
+                            const filteredApplicants =await users.filter(user => user.role === "passenger" && user.isVerified);
+                            setApplicants(filteredApplicants); // Remove the first user (current user)
+                            console.log('filtered->',applicants);
+                            console.log('filtered applicants->',filteredApplicants);
+                        } else {
+                            console.error('Error fetching applicants');
+                        }
+                    }
                 } else {
                     console.error('Error fetching ride data');
                 }
@@ -75,7 +95,14 @@ const RiderCreated = () => {
 
             {/* applicants */}
             <div>
-                {/* Render applicants here */}
+                <h3>Applicants</h3>
+                {applicants && applicants.map(applicant => (
+                    <div>
+                        <p>Username: {applicant.username}</p>
+                        <p>Email: {applicant.email}</p>
+                        <hr />
+                    </div>
+                ))}
             </div>
         </div>
     );

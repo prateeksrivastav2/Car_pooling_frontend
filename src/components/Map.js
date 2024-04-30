@@ -9,8 +9,8 @@ const Map = ({ startingLocation, destinations }) => {
 
   useEffect(() => {
     // Function to geocode addresses and set marker data
-    console.log('start',startingLocation);
-    console.log('destinat',destinations);
+    // console.log('start',startingLocation);
+    // console.log('destinat',destinations);
     const geocodeAddresses = async () => {
       if (!Array.isArray(destinations) || destinations.length === 0) {
         return;
@@ -30,15 +30,15 @@ const Map = ({ startingLocation, destinations }) => {
             const data = await response.json();
             if (data.length > 0) {
               const { lat, lon } = data[0];
-              console.log(lat);
-              console.log(lon);
+              // console.log(lat);
+              // console.log(lon);
               return { position: [parseFloat(lat), parseFloat(lon)], address };
             } else {
-              console.error(`No coordinates found for address: ${address}`);
+              // console.error(`No coordinates found for address: ${address}`);
               return null;
             }
           } catch (error) {
-            console.error(`Error geocoding address: ${address}, error`);
+            // console.error(`Error geocoding address: ${address}, error`);
             return null;
           }
         })
@@ -49,8 +49,8 @@ const Map = ({ startingLocation, destinations }) => {
         (marker) => marker !== null
       );
       setMarkerData(filteredMarkerData);
-      console.log(markerData);
-      console.log("markerData");
+      // console.log(markerData);
+      // console.log("markerData");
     };
 
     // Call the geocodeAddresses function
@@ -62,8 +62,8 @@ const Map = ({ startingLocation, destinations }) => {
       // Set map center
       map.panTo(markerData[0].position);
       setMapCenter(markerData[0].position);
-      console.log('destinations',destinations);
-      console.log('starting',startingLocation);
+      // console.log('destinations',destinations);
+      // console.log('starting',startingLocation);
     }
   }, [map, markerData]);
 
