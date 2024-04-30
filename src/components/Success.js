@@ -12,11 +12,11 @@ const Success = () => {
   const token = localStorage.getItem("token");
   console.log(token);
   const role = localStorage.getItem("role");
-
+  const randomNumber = Math.floor(1000 + Math.random() * 9000);
   const handleClick = () => {
     const update = async()=>{
       try {
-        const response = await fetch(`http://localhost:3000/rides/update/${id}`, {
+        const response = await fetch(`http://localhost:3000/rides/update/${id}/${randomNumber}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const Success = () => {
       }
     }
     update();
-    navigate(`/booked/${id}/${encodeURIComponent(start)}/${encodeURIComponent(end)}`);
+    navigate(`/booked/${id}/${encodeURIComponent(start)}/${encodeURIComponent(end)}/${randomNumber}`);
   };
 
   useEffect(() => {

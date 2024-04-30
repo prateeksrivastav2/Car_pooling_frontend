@@ -364,7 +364,7 @@ const ShowRideDetails = (props) => {
                 )}
 
             </div>
-            <div className="col-md-4 text-black">
+            <div className="col-md-4 text-black" >
                 {/* {reciever && <Chatbox reciever={reciever} id={id} />} */}
                 {rideDetails && rideDetails.destinations && <Map destinations={rideDetails.destinations} />}
             </div>

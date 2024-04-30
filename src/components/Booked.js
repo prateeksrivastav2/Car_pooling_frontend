@@ -4,7 +4,7 @@ import Chatbox from './chatbox';
 import '../styles/ShowRideDetails.css'
 
 const Booked = () => {
-    const { id,start,end } = useParams();
+    const { id,start,end,randomNumber } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
     const [reciever, setReciever] = useState(""); // Initialize reciever state
 
@@ -95,6 +95,9 @@ const Booked = () => {
                 {/* Add your chatbox component here */}
                 {/* {reciever} */}
                 {reciever && <Chatbox reciever={reciever} id={id} />} {/* Render chatbox only when reciever is available */}
+            </div>
+            <div className="col-md-4 text-black">
+                <p>{randomNumber}</p>
             </div>
         </div>
     );
