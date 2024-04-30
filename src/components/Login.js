@@ -25,8 +25,6 @@ function App(props) {
     if (json.success) {
       localStorage.setItem("token", authToken);
       localStorage.setItem("role", role);
-      console.log(localStorage.authToken);
-      console.log(localStorage.role);
       navigate("/");
       props.showAlert("Logged in successfully", "success");
     } else {

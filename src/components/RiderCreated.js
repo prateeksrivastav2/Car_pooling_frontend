@@ -24,6 +24,9 @@ const RiderCreated = () => {
                 if (response.ok) {
                     const userData = await response.json();
                     setUser(userData);
+                    if(userData.role !== 'driver'){
+                        navigate('/home');
+                    }
                     if (userData.hasCreatedRide === false) {
                         navigate('/dashboard');
                     } else {
@@ -64,7 +67,7 @@ const RiderCreated = () => {
                             const users = await applicantsResponse.json();
                             console.log('users->',users);
                             const filteredApplicants =await users.filter(user => user.role === "passenger" && user.isVerified);
-                            setApplicants(filteredApplicants); // Remove the first user (current user)
+                            setApplicants(filteredApplicants.slice(0)); // Remove the first user (current user)
                             console.log('filtered->',applicants);
                             console.log('filtered applicants->',filteredApplicants);
                         } else {
