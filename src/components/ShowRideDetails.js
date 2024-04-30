@@ -59,6 +59,7 @@ const ShowRideDetails = () => {
                     console.log("rideData");
                     console.log(rideData);
                     console.log(rideData.price);
+                    setReciever(rideData.driver);
                     setPrice(rideData.price);
 
                 } else {
