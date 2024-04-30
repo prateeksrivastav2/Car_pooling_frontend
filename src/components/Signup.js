@@ -238,6 +238,32 @@ function SignUp(props) {
                   <option value="driver">Driver</option>
                 </select>
 
+                {role === "passenger" && (
+                  <div className="mb-4 mt-3">
+                    <h2 className="card-title">Upload Aadhar</h2>
+                    <input
+                      type="file"
+                      name="formDataWithLicense"
+                      className="btn"
+                      onChange={handleFileChange}
+                    />
+                    {selectedFile && (
+                      <div>
+                        <h3>Selected File:</h3>
+                        <p>Name: {selectedFile.name}</p>
+                        <p>Size: {selectedFile.size} bytes</p>
+                      </div>
+                    )}
+                    <button
+                      onClick={uploadFile}
+                      className=" btn btn-dark"
+                      disabled={uploading}
+                    >
+                      {uploading ? "Uploading..." : "Upload"}
+                    </button>
+                  </div>
+                )}
+
                 {role === "driver" && (
                   <div className="mb-4 mt-3">
                     <h2 className="card-title">Upload License</h2>

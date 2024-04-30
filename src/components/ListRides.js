@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../styles/ListRides.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 // import RidedetailsModal from './RidedetailsModal'; // Assuming you have a modal component
 
 const RideCard = ({ ride, selectedRide }) => {
@@ -54,8 +56,8 @@ const ListRides = () => {
       {/* <h1>Available Rides</h1> */}
       <form>
         <div style={{display:"flex",justifyContent:"space-between"}} className='mb-3'>
-          <input type='text' onChange={(e) => setSearch(e.target.value)} placeholder='Search Start Location' />
-          <input type='text' onChange={(e) => setDestinationSearch(e.target.value)} placeholder='Search Destination' />
+        <FontAwesomeIcon icon={faMagnifyingGlass} /><input type='text' onChange={(e) => setSearch(e.target.value)} placeholder='Search Start Location' />
+        <FontAwesomeIcon icon={faMagnifyingGlass} /><input type='text' onChange={(e) => setDestinationSearch(e.target.value)} placeholder='Search Destination' />
         </div>
       </form>
       {rides.length === 0 && <p>No rides available right now.</p>}
