@@ -179,6 +179,7 @@ const ShowRideDetails = () => {
             <div className="col-md-4 text-black">
                 {reciever && <Chatbox reciever={reciever} id={id} />}
             </div>
+            <div></div>
         </div>
     );
 };
