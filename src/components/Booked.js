@@ -4,7 +4,7 @@ import Chatbox from './chatbox';
 import '../styles/ShowRideDetails.css'
 
 const Booked = () => {
-    const { id,start,end,randomNumber } = useParams();
+    const { id,start,end,otp } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
     const [reciever, setReciever] = useState(""); // Initialize reciever state
 
@@ -51,7 +51,7 @@ const Booked = () => {
                                         <p className="btn my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Driver id:</p>
                                         <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Source:</p>
                                         <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Destination:</p>
-                                        {/* <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Available Seats:</p> */}
+                                        <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Otp:</p>
                                         <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Date:</p>
                                         <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Start Time:</p>
                                         {/* <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Price:</p> */}
@@ -60,7 +60,7 @@ const Booked = () => {
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.driver}</p>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{start}</p>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{end}</p>
-                                        {/* <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.availableSeats}</p> */}
+                                        <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{otp}</p>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{new Date(rideDetails.date).toLocaleDateString()}</p>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.estimatedArrivalTime}</p>
                                         {/* <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.driver}</p> */}
@@ -97,7 +97,7 @@ const Booked = () => {
                 {reciever && <Chatbox reciever={reciever} id={id} />} {/* Render chatbox only when reciever is available */}
             </div>
             <div className="col-md-4 text-black">
-                <p>{randomNumber}</p>
+                <p>{otp}</p>
             </div>
         </div>
     );

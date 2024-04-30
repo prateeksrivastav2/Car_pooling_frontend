@@ -16,7 +16,7 @@ const Success = () => {
   const handleClick = () => {
     const update = async()=>{
       try {
-        const response = await fetch(`http://localhost:3000/rides/update/${id}/${randomNumber}`, {
+        const response = await fetch(`http://localhost:3000/rides/update/${id}/${encodeURIComponent(start)}/${encodeURIComponent(end)}/${randomNumber}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
