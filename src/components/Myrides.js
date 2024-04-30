@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // import RideCard from './RideCard';
 
 const Myrides = (props) => {
@@ -17,7 +17,11 @@ const Myrides = (props) => {
     };
 
     return (
-      <div className="ride-card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
+      <div
+        className="ride-card"
+        onClick={handleCardClick}
+        style={{ cursor: "pointer" }}
+      >
         <h4>Driver: {ride.driver.name}</h4>
         <p>Starting Location: {ride.startingLocation}</p>
         <p>Destination: {ride.destination}</p>
@@ -31,12 +35,12 @@ const Myrides = (props) => {
 
   const getdetails = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const response = await fetch("http://localhost:3000/rides/mylist", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),// Include the token in the Authorization header
+          "auth-token": localStorage.getItem("token"), // Include the token in the Authorization header
         },
       });
       if (response.ok) {
@@ -45,18 +49,17 @@ const Myrides = (props) => {
         setRides(ridesData);
       } else {
         // Handle error responses
-        console.error('Error fetching rides:', response.statusText);
+        console.error("Error fetching rides:", response.statusText);
       }
     } catch (error) {
-      console.error('Error fetching rides:', error);
+      console.error("Error fetching rides:", error);
       // Handle error, show an alert, etc.
     }
   };
 
-
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/login');
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
     } else {
       getdetails();
     }

@@ -5,13 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
 function App(props) {
-  const [role, setRole] = useState('passenger');
+  const [role, setRole] = useState("passenger");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     const response = await fetch("http://localhost:3000/auth/login", {
       method: "POST",
       headers: {
@@ -28,9 +29,30 @@ function App(props) {
       navigate("/");
       props.showAlert("Logged in successfully", "success");
     } else {
-      props.showAlert("Invalid Credentials / Wait for admin to verify account", "danger");
+      props.showAlert(
+        "Invalid Credentials / Wait for admin to verify account",
+        "danger"
+      );
     }
   };
+
+  // Form validation
+  const validateForm = () => {
+    let isValid = true;
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      props.showAlert("Enter a valid email address", "danger");
+      isValid = false;
+    }
+
+    if (password.length < 5 || password.length > 15) {
+      props.showAlert("Password must be between 5 and 15 characters", "danger");
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -47,7 +69,7 @@ function App(props) {
               Sign in to your account
             </h2>
             <form className="mx-5">
-            <div className="mb-4">
+              <div className="mb-4">
                 <label
                   className="form-label"
                   htmlFor="Role"
@@ -71,7 +93,6 @@ function App(props) {
                   <option value="driver">Driver</option>
                   <option value="admin">Admin</option>
                 </select>
-
               </div>
               <div className="mb-4">
                 <label
