@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Map from "./Map";
+import '../styles/CreateRide.css';
 
 const CreateRide = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -198,6 +199,7 @@ const CreateRide = () => {
   return (
     <>
       <div
+      className="topmost"
         style={{
           display: "flex",
           flexDirection: "row",
