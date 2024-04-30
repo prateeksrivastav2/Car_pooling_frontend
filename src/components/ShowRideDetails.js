@@ -8,42 +8,36 @@ const ShowRideDetails = () => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
     const [reciever, setReciever] = useState("");
-    const [rol, setrol] = useState(false);//true for driver false for passenger
+    const [rol, setrol] = useState(false); // true for driver, false for passenger
     const [price, setPrice] = useState([]);
     const [selectedDestination, setSelectedDestination] = useState(null);
     const [selectedPrice, setSelectedPrice] = useState(null);
     const [showDestinations, setShowDestinations] = useState(false);
-    const [showtext, setshowtext] = useState("See Destinations");
+    const [showtext, setshowtext] = useState("Select Destinations");
+
+    const toggleDestinations = () => {
+        setShowDestinations(!showDestinations);
+    };
 
     const setPriceDestination = (hprice, hdestination) => {
         setSelectedPrice(hprice);
         setSelectedDestination(hdestination);
         setshowtext(hdestination);
         toggleDestinations();
-    }
+    };
 
-    const toggleDestinations = () => {
-        setShowDestinations(!showDestinations);
-    }
-
- 
     const makePayment = async () => {
-        if (!selectedDestination || !selectedPrice) {
-            console.error('Please select a destination.');
-            return;
-        }
-
         const stripe = await loadStripe("pk_test_51P8TDCSDhYcpKPnMYaWVSHGofzSO3Xx2QQYrY3chzzcof9wNpSY1EWgJlMMWY7pXzp5ho3YZylwTeWU7SMDk9Ooj00c8AJpqFJ");
 
         const body = {
             start: rideDetails.startingLocation,
             end: selectedDestination,
             price: selectedPrice
-        }
+        };
 
         const headers = {
             "Content-Type": "application/json"
-        }
+        };
 
         const response = await fetch(`http://localhost:3000/rides/create-checkout-session/${id}`, {
             method: "POST",
@@ -60,7 +54,7 @@ const ShowRideDetails = () => {
         if (result.error) {
             console.log(result.error);
         }
-    }
+    };
 
     useEffect(() => {
         const fetchRideDetails = async () => {
@@ -74,7 +68,7 @@ const ShowRideDetails = () => {
                 });
                 if (response.ok) {
                     const rideData = await response.json();
-                    
+
                     setRideDetails(rideData);
                     setReciever(rideData.driver);
                     setPrice(rideData.price);
@@ -87,7 +81,8 @@ const ShowRideDetails = () => {
         };
 
         let ro = localStorage.getItem("role");
-        if (ro === "driver") {setrol(true);setshowtext("Select Destinations");}
+        console.log(ro);
+        if (ro === "driver") { setrol(true); setshowtext("See Destinations"); console.log(rol);}
 
         fetchRideDetails();
     }, [id]); // Include id as a dependency
@@ -111,9 +106,9 @@ const ShowRideDetails = () => {
                                         <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Start Time:</p>
                                         <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>
                                             {
-                                            <>Destination:</>
+                                                <>Destination:</>
                                             }
-                                            </p>
+                                        </p>
                                     </div>
                                     <div className="col-md-6" onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
                                         <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.driver}</p>
@@ -124,35 +119,35 @@ const ShowRideDetails = () => {
                                         <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleDestinations}>{showtext}</p>
                                         {showDestinations && (
                                             <div>
+                                                {!rol &&
+                                                    rideDetails.price.slice(1).map((destination, index) => (
+                                                        <p
+                                                            key={index + 1}
+                                                            className="btn my-3"
+                                                            onClick={() => {
+                                                                setPriceDestination(destination.price, destination.destinationId);
+                                                            }}
+                                                            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
+                                                        >
+                                                            {destination.destinationId},{destination.price}
+                                                        </p>
+                                                    ))}
                                                 {rol &&
-    rideDetails.price.slice(1).map((destination, index) => (
-        <p
-            key={index + 1}
-            className="btn my-3"
-            onClick={() => {
-                setPriceDestination(destination.price, destination.destinationId);
-            }}
-            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
-        >
-            {destination.destinationId},{destination.price}
-        </p>
-    ))}
-{!rol &&
-    rideDetails.price.slice(1).map((destination, index) => (
-        <p
-            key={index + 1}
-            className="btn my-3"
-            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
-        >
-            {destination.destinationId},{destination.price}
-        </p>
-    ))}
+                                                    rideDetails.price.slice(1).map((destination, index) => (
+                                                        <p
+                                                            key={index + 1}
+                                                            className="btn my-3"
+                                                            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
+                                                        >
+                                                            {destination.destinationId},{destination.price}
+                                                        </p>
+                                                    ))}
                                             </div>
                                         )}
                                     </div>
                                 </div>
                             </div>
-                            {!rol&&<div className="card-footer text-body-secondary">
+                            {!rol && <div className="card-footer text-body-secondary">
                                 <button
                                     className='btn'
                                     style={{
