@@ -112,47 +112,6 @@ const ShowRideDetails = (props) => {
       "Content-Type": "application/json",
     };
 
-<<<<<<< HEAD
-    const response = await fetch(
-      `http://localhost:3000/rides/create-checkout-session/${id}`,
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
-      }
-    );
-
-    const session = await response.json();
-
-    const result = stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-
-    if (result.error) {
-      console.log(result.error);
-    }
-  };
-
-
-  useEffect(() => {
-    const fetchRideDetails = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/rides/rides-details/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": localStorage.getItem("token"),
-            },
-          }
-        );
-        
-
-
-        if (response.ok) {
-          const rideData = await response.json();
-=======
     useEffect(() => {
         const fetchRideDetails = async () => {
             try {
@@ -170,7 +129,6 @@ const ShowRideDetails = (props) => {
                         setRideDetails(rideData);
                         setReciever(rideData.driver);
                         setapp( rideDetails.applicants);
->>>>>>> 456b835b0cd8bd9a379e07da1754d2fbdbc794f3
 
                     } else {
                         console.error('Failed to fetch ride details');
