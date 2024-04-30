@@ -22,7 +22,7 @@ const ShowRideDetails = (props) => {
     const [showtext, setshowtext] = useState("Select Destinations");
     const [showsource, setshowsource] = useState("Select Source");
     const [Dchat, setDchat] = useState(false);
-    const [app,setapp ] = useState([]);
+    const [app, setapp] = useState([]);
 
     const CalculateFare = async () => {
         if (!selectedSource) {
@@ -132,37 +132,22 @@ const ShowRideDetails = (props) => {
     useEffect(() => {
         const fetchRideDetails = async () => {
             try {
-                const func = async () => {
-                    const response = await fetch(`http://localhost:3000/rides/rides-details/${id}`, {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "auth-token": localStorage.getItem("token"),
-                        },
-                    });
-                    if (response.ok) {
-                        const rideData = await response.json();
-                        console.log(rideData);
-                        setRideDetails(rideData);
-                        setReciever(rideData.driver);
-                        setapp( rideDetails.applicants);
-
-                    } else {
-                        console.error('Failed to fetch ride details');
-                    }
+                const response = await fetch(`http://localhost:3000/rides/rides-details/${id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "auth-token": localStorage.getItem("token"),
+                    },
+                });
+                if (response.ok) {
+                    const rideData = await response.json();
+                    console.log(rideData);
+                    setRideDetails(rideData);
+                    setReciever(rideData.driver);
+                    setapp(rideData.applicants); // Update the state with applicants
+                } else {
+                    console.error('Failed to fetch ride details');
                 }
-                await func();
-                // rideDetails.applicants.map(async (applicant) => {
-                //     const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
-                //         method: "GET",
-                //         headers: {
-                //             "Content-Type": "application/json",
-                //             "auth-token": localStorage.getItem("token"),
-                //         },
-                //     });
-                //     console.log("okk");
-                //     console.log(response2);
-                // });
             } catch (error) {
                 console.error('Error fetching ride details:', error);
             }
@@ -170,31 +155,43 @@ const ShowRideDetails = (props) => {
 
         let ro = localStorage.getItem("role");
         console.log(ro);
-        if (ro === "driver") { setrol(true); setshowtext("See Destinations"); setshowsource("See Sources"); console.log(rol); }
+        if (ro === "driver") {
+            setrol(true);
+            setshowtext("See Destinations");
+            setShowSource("See Sources");
+            console.log(rol);
+        }
 
         fetchRideDetails();
     }, [id]); // Include id as a dependency
 
-
     useEffect(() => {
-        try {
-            
-            app.map(async (applicant) => {
-                const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "auth-token": localStorage.getItem("token"),
-                    },
-                });
-                console.log("okk");
-                console.log(response2);
-            });
-        }
-        catch {
-            console.log("error");
-        }
-    }, [app])
+        const fetchData = async () => {
+            try {
+                console.log("jjjj");
+                // Iterate through each applicant and fetch user data
+                await Promise.all(app.map(async (applicant) => {
+                    const response = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "auth-token": localStorage.getItem("token"),
+                        },
+                    });
+                    if (response.ok) {
+                        const userData = await response.json();
+                        console.log("User data:", userData);
+                    } else {
+                        console.error("Failed to fetch user data for applicant:", applicant);
+                    }
+                }));
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+
+        fetchData();
+    }, [app]); // Include app as a dependency
 
 
     return (
