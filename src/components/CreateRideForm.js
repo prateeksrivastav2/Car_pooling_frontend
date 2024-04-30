@@ -25,6 +25,7 @@ const CreateRide = () => {
     endtime: "",
   });
   const [rideCreated, setRideCreated] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (localStorage.getItem("token")) setcheckauth(true);
@@ -33,12 +34,15 @@ const CreateRide = () => {
 
   const fetchSearchResults = async (query, index) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/places/search`, {
-        params: {
-          query: query,
-        },
-      });
-  
+      const response = await axios.get(
+        `http://localhost:3000/api/places/search`,
+        {
+          params: {
+            query: query,
+          },
+        }
+      );
+
       if (response.data && Array.isArray(response.data.suggestedLocations)) {
         console.log(response.data.suggestedLocations);
         const updatedResults = [...SearchResults];
@@ -46,22 +50,29 @@ const CreateRide = () => {
           if (location.placeName) {
             return location.placeName + ", " + location.placeAddress;
           } else {
-            console.error("Error: placeName is undefined in suggestedLocation:", location);
+            console.error(
+              "Error: placeName is undefined in suggestedLocation:",
+              location
+            );
             return null;
           }
         });
-        updatedResults[index] = locations.filter((location) => location !== null);
+        updatedResults[index] = locations.filter(
+          (location) => location !== null
+        );
         setSearchResults(updatedResults);
         console.log(SearchResults);
         console.log("SearchResults");
       } else {
-        console.error("Error: No suggested locations found in response or suggestedLocations is not an array");
+        console.error(
+          "Error: No suggested locations found in response or suggestedLocations is not an array"
+        );
       }
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
   };
-  
+
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -69,10 +80,10 @@ const CreateRide = () => {
       [name]: value,
     });
     if (name === "startingLocation" && value.length > 0) {
-      await fetchSearchResults(value, 0); 
+      await fetchSearchResults(value, 0);
     }
     if (name === "startingLocation" && value.length === 0) {
-      setSearchResults([[]]); 
+      setSearchResults([[]]);
     }
     // Autofill for destination
     if (name.startsWith("destination-")) {
@@ -127,6 +138,12 @@ const CreateRide = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
     try {
       if (!rideCreated) {
         const response = await axios.post(
@@ -153,8 +170,30 @@ const CreateRide = () => {
       console.error("Error creating ride:", error);
     }
   };
+
+  const validateForm = () => {
+    const errors = {};
+
+    // Name validation
+    if (formData.firstname.length > 15) {
+      errors.firstname = "Name cannot be longer than 15 characters";
+    }
+
+    // Email validation
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "Enter a valid email address";
+    }
+
+    // Available seats validation
+    const availableSeats = parseInt(formData.availableSeats);
+    if (isNaN(availableSeats) || availableSeats < 1 || availableSeats > 4) {
+      errors.availableSeats = "Available seats must be between 1 and 4";
+    }
+
+    return errors;
+  };
+
   const canSubmit = destinations.some((dest) => dest && dest.trim() !== ""); // Check if any destination is non-empty
-  // Check if any destination is non-empty
 
   return (
     <>
@@ -164,7 +203,7 @@ const CreateRide = () => {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: '2vh'
+          marginBottom: "2vh",
         }}
       >
         <div
@@ -182,9 +221,7 @@ const CreateRide = () => {
               <div className="card shadow">
                 <div className="card-body">
                   <div className="d-flex justify-content-center mb-4">
-                    <div
-                      className={`d-flex align-items-center text-primary}`}
-                    >
+                    <div className={`d-flex align-items-center text-primary}`}>
                       <div style={{ fontSize: "1.3rem" }}>Ride Details</div>
                     </div>
                   </div>
@@ -192,10 +229,7 @@ const CreateRide = () => {
                     <>
                       <div className="row mb-3">
                         <div className="col">
-                          <label
-                            htmlFor="firstname"
-                            className="form-label"
-                          >
+                          <label htmlFor="firstname" className="form-label">
                             Name
                           </label>
                           <input
@@ -207,6 +241,11 @@ const CreateRide = () => {
                             value={formData.firstname}
                             onChange={handleChange}
                           />
+                          {errors.firstname && (
+                            <div className="text-danger">
+                              {errors.firstname}
+                            </div>
+                          )}
                         </div>
                         <div className="col">
                           <label htmlFor="email" className="form-label">
@@ -221,6 +260,9 @@ const CreateRide = () => {
                             value={formData.email}
                             onChange={handleChange}
                           />
+                          {errors.email && (
+                            <div className="text-danger">{errors.email}</div>
+                          )}
                         </div>
                       </div>
                       <div
@@ -231,10 +273,7 @@ const CreateRide = () => {
                         }}
                       >
                         <div className="col">
-                          <label
-                            htmlFor="source"
-                            className="form-label"
-                          >
+                          <label htmlFor="source" className="form-label">
                             Start Location
                           </label>
                           <input
@@ -276,17 +315,11 @@ const CreateRide = () => {
                         </div>
 
                         <div className="col">
-                          <label
-                            htmlFor="destination"
-                            className="form-label"
-                          >
+                          <label htmlFor="destination" className="form-label">
                             Destinations
                           </label>
                           {destinations.map((destination, index) => (
-                            <div
-                              key={index}
-                              style={{ marginBottom: "10px" }}
-                            >
+                            <div key={index} style={{ marginBottom: "10px" }}>
                               <div className="input-group">
                                 <span className="input-group-text">
                                   {index + 1}
@@ -306,9 +339,7 @@ const CreateRide = () => {
                                 />
                                 <button
                                   type="button"
-                                  onClick={() =>
-                                    handleRemoveDestination(index)
-                                  }
+                                  onClick={() => handleRemoveDestination(index)}
                                   className="btn btn-outline-danger"
                                   style={{
                                     borderRadius: "4px",
@@ -388,15 +419,18 @@ const CreateRide = () => {
                             className="form-control"
                             value={formData.availableSeats}
                             onChange={handleChange}
+                            required
                           />
+                          {errors.availableSeats && (
+                            <div className="text-danger">
+                              {errors.availableSeats}
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="row mb-3">
                         <div className="col">
-                          <label
-                            htmlFor="starttime"
-                            className="form-label"
-                          >
+                          <label htmlFor="starttime" className="form-label">
                             Start Time
                           </label>
                           <input
@@ -420,6 +454,7 @@ const CreateRide = () => {
                             value={formData.endtime}
                             onChange={handleChange}
                             style={{ borderRadius: "8px" }}
+                            required
                           />
                         </div>
                       </div>
@@ -441,11 +476,19 @@ const CreateRide = () => {
           </div>
         </div>
 
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh'
-          , marginRight: '3vw'
-        }}>
-          <Map destinations={destinations} startingLocation={formData.startingLocation} />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            marginRight: "3vw",
+          }}
+        >
+          <Map
+            destinations={destinations}
+            startingLocation={formData.startingLocation}
+          />
         </div>
       </div>
     </>

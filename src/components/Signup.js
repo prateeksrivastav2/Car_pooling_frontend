@@ -2,13 +2,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 import "../styles/Login.css";
 let accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
 let secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
 
 function SignUp(props) {
-  const [role, setRole] = useState('passenger');
+  const [role, setRole] = useState("passenger");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -19,15 +19,15 @@ function SignUp(props) {
   const [visibleOtp, setVisibleOtp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const [errors, setErrors] = useState({}); //form
+
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
-
-
   const uploadFile = () => {
     if (!selectedFile) {
-      alert('Please select a file');
+      alert("Please select a file");
       return;
     }
 
@@ -38,46 +38,47 @@ function SignUp(props) {
     AWS.config.update({
       accessKeyId: accessKeyId,
       secretAccessKey: secretAccessKey,
-      region: 'ap-south-1'
+      region: "ap-south-1",
     });
 
     const s3 = new AWS.S3();
 
     const params = {
-      Bucket: 'carpooling',
+      Bucket: "carpooling",
       Key: selectedFile.name,
-      Body: selectedFile
+      Body: selectedFile,
     };
 
     s3.upload(params, (err, data) => {
-        if (err) {
-            console.error(err);
-            alert('Error uploading file');
-        } else {
-            console.log('File uploaded successfully:', data.Location);
-            setSelectedFile(data.Location);
-            alert('File uploaded successfully!'); // Optional: Show an alert to the user
-        }
-        setUploading(false);
+      if (err) {
+        console.error(err);
+        alert("Error uploading file");
+      } else {
+        console.log("File uploaded successfully:", data.Location);
+        setSelectedFile(data.Location);
+        alert("File uploaded successfully!"); // Optional: Show an alert to the user
+      }
+      setUploading(false);
     });
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     try {
       setVisibleOtp(true);
-      props.showAlert('Check Email to verify the opt', 'primary');
-      const response = await fetch('http://localhost:3000/auth/createuser', {
-        method: 'POST',
+      props.showAlert("Check Email to verify the opt", "primary");
+      const response = await fetch("http://localhost:3000/auth/createuser", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: username,
           email: email,
           password: password,
-          role:role,
-          license:selectedFile
+          role: role,
+          license: selectedFile,
         }),
       });
 
@@ -92,29 +93,29 @@ function SignUp(props) {
       } else {
         setVisibleOtp(false);
         const errorData = await response.json();
-        props.showAlert('Registration failed. Please try again.', 'danger');
+        props.showAlert("Registration failed. Please try again.", "danger");
       }
     } catch (error) {
-      props.showAlert('Registration failed. Please try again.', 'danger');
+      props.showAlert("Registration failed. Please try again.", "danger");
     }
-  }; 
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/auth/verify-otp', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/auth/verify-otp", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ otp }),
       });
       const data = await response.json();
       if (response.ok) {
-        props.showAlert('OTP validated successfully', 'success');
-        navigate('/login');
+        props.showAlert("OTP validated successfully", "success");
+        navigate("/login");
       } else {
-        props.showAlert('OTP validation failed', 'danger');
+        props.showAlert("OTP validation failed", "danger");
       }
     } catch (error) {
       // console.error("Error validating OTP:", error);
@@ -124,6 +125,31 @@ function SignUp(props) {
       );
     }
   };
+
+  // FORM VALIDATIOn
+  const validateForm = () => {
+    let errors = {};
+
+    if (username.length > 15) {
+      errors.username = "Name cannot be longer than 15 characters";
+    }
+
+    if (!/^[a-zA-Z]+$/.test(username)) {
+      errors.username = "Name can only contain alphabets";
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = "Enter a valid email address";
+    }
+
+    if (password.length < 5 || password.length > 15) {
+      errors.password = "Password must be between 5 and 15 characters";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0; // Return true if there are no errors
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -161,6 +187,9 @@ function SignUp(props) {
                   required
                 />
               </div>
+              {errors.username && (
+                <div className="text-danger">{errors.username}</div>
+              )}
               <div className="mb-4">
                 <label
                   className="form-label"
@@ -181,6 +210,9 @@ function SignUp(props) {
                   }}
                   required
                 />
+                {errors.email && (
+                  <div className="text-danger">{errors.email}</div>
+                )}
               </div>
               <div className="mb-4">
                 <label
@@ -206,7 +238,7 @@ function SignUp(props) {
                   <option value="driver">Driver</option>
                 </select>
 
-                {role === 'driver' && (
+                {role === "driver" && (
                   <div className="mb-4 mt-3">
                     <h2 className="card-title">Upload License</h2>
                     <input
@@ -222,15 +254,16 @@ function SignUp(props) {
                         <p>Size: {selectedFile.size} bytes</p>
                       </div>
                     )}
-                    <button onClick={uploadFile} className=" btn btn-dark" disabled={uploading}>
-                      {uploading ? 'Uploading...' : 'Upload'}
+                    <button
+                      onClick={uploadFile}
+                      className=" btn btn-dark"
+                      disabled={uploading}
+                    >
+                      {uploading ? "Uploading..." : "Upload"}
                     </button>
                   </div>
                 )}
-
               </div>
-
-
 
               <div className="mb-4">
                 <label
@@ -252,6 +285,9 @@ function SignUp(props) {
                   }}
                   required
                 />
+                {errors.password && (
+                  <div className="text-danger">{errors.password}</div>
+                )}
               </div>
               <div className="white">
                 <button
@@ -290,7 +326,7 @@ function SignUp(props) {
                 <div className="white">
                   <button
                     className="btn btn-primary"
-                    style={{ width: "fit-content", marginBottom: '3vh' }}
+                    style={{ width: "fit-content", marginBottom: "3vh" }}
                     onClick={handleSubmit}
                   >
                     <strong>Submit</strong>
@@ -313,7 +349,6 @@ function SignUp(props) {
           />
         </div>
       </div>
-
     </div>
   );
 }
