@@ -140,7 +140,7 @@ const ShowRideDetails = () => {
 {!rol &&
     rideDetails.price.slice(1).map((destination, index) => (
         <p
-            key={index + 1}
+            key={index }
             className="btn my-3"
             style={{ display: 'block', backgroundColor: '#FFD1E3' }}
         >
@@ -152,7 +152,7 @@ const ShowRideDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            {rol&&<div className="card-footer text-body-secondary">
+                            {!rol&&<div className="card-footer text-body-secondary">
                                 <button
                                     className='btn'
                                     style={{
