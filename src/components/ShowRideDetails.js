@@ -21,6 +21,7 @@ const ShowRideDetails = (props) => {
     const [showSource, setShowSource] = useState(false);
     const [showtext, setshowtext] = useState("Select Destinations");
     const [showsource, setshowsource] = useState("Select Source");
+    const [Dchat, setDchat] = useState(false);
 
     const CalculateFare = async () => {
         if (!selectedSource) {
@@ -74,7 +75,11 @@ const ShowRideDetails = (props) => {
         }
 
     }
-
+    const setDriverChatbox = (email) => {
+        setDchat(true);
+        // setReciever(email);
+        setReciever("9921103194@mail.jiit.ac.in");
+    }
     const toggleSource = () => {
         setShowSource(!showSource); // Toggle visibility for source button
     };
@@ -137,7 +142,7 @@ const ShowRideDetails = (props) => {
                     const rideData = await response.json();
                     setRideDetails(rideData);
                     setReciever(rideData.driver);
-                    rideDetails.applicants.map(async(applicant) => {
+                    rideDetails.applicants.map(async (applicant) => {
                         const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
                             method: "GET",
                             headers: {
@@ -295,20 +300,31 @@ const ShowRideDetails = (props) => {
                         )}
                     </div>
                 </div>
-                <div className="col-md-4 text-black">
-                    Applicants:
-                    <br />
-                    {rideDetails ? <>
-                        {rideDetails.applicants.map((applicant) => (
+                {rol && (
+                    <div className="col-md-4 text-black">
+                        {!Dchat ? (
                             <>
-                                <btn className="btn btn-danger" >{applicant}</btn>
+                                Applicants :
                                 <br />
+                                {rideDetails ? (
+                                    <>
+                                        {rideDetails.applicants.map((applicant, index) => (
+                                            <React.Fragment key={index}>
+                                                <button className="btn btn-danger my-2" onClick={() => { setDriverChatbox(applicant) }}>{applicant}</button>
+                                                <br />
+                                            </React.Fragment>
+                                        ))}
+                                    </>
+                                ) : (
+                                    "No Applicant"
+                                )}
                             </>
-                        ))}
+                        ) : (
+                            reciever && <Chatbox reciever={reciever} id={id} />
+                        )}
+                    </div>
+                )}
 
-
-                    </> : "No Applicant"}
-                </div>
             </div>
             <div className="col-md-4 text-black">
                 {/* {reciever && <Chatbox reciever={reciever} id={id} />} */}
