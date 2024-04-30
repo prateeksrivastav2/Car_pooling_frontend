@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import '../styles/ShowRideDetails.css';
 import axios from "axios";
 import Map from './map2'
+import '../styles/ShowRideDetails.css'
 
 const ShowRideDetails = (props) => {
     const { id } = useParams();
@@ -168,8 +169,6 @@ const ShowRideDetails = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("jjjj");
-                // Iterate through each applicant and fetch user data
                 await Promise.all(app.map(async (applicant) => {
                     const response = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
                         method: "GET",
@@ -225,7 +224,7 @@ const ShowRideDetails = (props) => {
                                             <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{new Date(rideDetails.date).toLocaleDateString()}</p>
                                             <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{(rideDetails.estimatedArrivalTime)}</p>
                                             <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleSource}>{showsource}</p>
-                                            {!showDestinations && showSource && (
+                                            { showSource && (
                                                 <div>
                                                     {!rol &&
                                                         rideDetails.destinations.map((destination, index) => (
@@ -254,7 +253,7 @@ const ShowRideDetails = (props) => {
                                             )}
 
                                             <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleDestinations}>{showtext}</p>
-                                            {!showSource && showDestinations && (
+                                            { showDestinations && (
                                                 <div>
                                                     {!rol &&
                                                         rideDetails.destinations.slice(1).map((destination, index) => (
