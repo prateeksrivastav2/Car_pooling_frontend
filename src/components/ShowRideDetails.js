@@ -7,10 +7,10 @@ import '../styles/ShowRideDetails.css'
 const ShowRideDetails = () => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
-    const [reciever, setReciever] = useState(""); // Initialize receiver state
-    const [price, setPrice] = useState("");
+    const [reciever, setReciever] = useState(""); 
+    const [price, setPrice] = useState([]);
+    
     const [showDestinations, setShowDestinations] = useState(false);
-
     const makePayment = async () => {
         const stripe = await loadStripe("pk_test_51P8TDCSDhYcpKPnMYaWVSHGofzSO3Xx2QQYrY3chzzcof9wNpSY1EWgJlMMWY7pXzp5ho3YZylwTeWU7SMDk9Ooj00c8AJpqFJ");
         const body = {
@@ -49,7 +49,11 @@ const ShowRideDetails = () => {
                 if (response.ok) {
                     const rideData = await response.json();
                     setRideDetails(rideData);
+                    console.log("rideData");
                     console.log(rideData);
+                    console.log(rideData.price);
+                    setPrice(rideData.price);
+
                 } else {
                     console.error('Failed to fetch ride details');
                 }
@@ -99,8 +103,9 @@ const ShowRideDetails = () => {
                                             <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleDestinations}>Select Destination</p>
                                             {showDestinations && (
                                                 <div>
-                                                    {rideDetails.destinations.map((destination, index) => (
-                                                        <p key={index} className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{destination}</p>
+                                                    {rideDetails.price.map((destination, index) => (
+                                                        <p key={index} className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{destination.
+                                                            destinationId},{destination.price}</p>
                                                     ))}
                                                 </div>
                                             )}
@@ -114,9 +119,9 @@ const ShowRideDetails = () => {
                                         backgroundColor: '#E59BE9',
                                         transition: 'all 0.3s', // Add transition for smooth animation
                                         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add initial box shadow
-                                        color: '#FFFFFF', // Set initial text color to white
+                                        color: '#FFFFFF'
                                     }}
-                                    // Add hover styles using inline CSS
+                                  
                                     onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; e.target.style.boxShadow = '0 8px 12px rgba(0, 0, 0, 0.2)'; }}
                                     onMouseLeave={(e) => { e.target.style.color = ''; e.target.style.boxShadow = '1px 2px 2px 2px rgba(0, 0.2, 0.3, 0.3)'; }}
                                     onClick={makePayment}
