@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-
+import axios from "axios";
 const Map2 = ({ destinations }) => {
     const [markerData, setMarkerData] = useState([]);
     const [mapCenter, setMapCenter] = useState([28.612964, 77.229463]); // Default center
@@ -11,29 +11,41 @@ const Map2 = ({ destinations }) => {
             if (!Array.isArray(destinations) || destinations.length === 0) {
                 return;
             }
+            const parseXmlData = (xmlString) => {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+                const places = xmlDoc.getElementsByTagName("place");
+
+                const coordinates = [];
+
+                for (const place of places) {
+                    const lat = place.getAttribute("lat");
+                    const lon = place.getAttribute("lon");
+
+                    if (lat && lon) {
+                        coordinates.push({ lat: parseFloat(lat), lon: parseFloat(lon) });
+                    }
+                }
+
+                return coordinates;
+            };
             const addresses = [...destinations];
             const markerDataArray = await Promise.all(
                 addresses.map(async (address) => {
                     try {
-                        const response = await fetch(
-                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-                                address
-                            )}`
+                        const response = await axios.get(
+                            `https://us1.locationiq.com/v1/search?key=pk.7fbc8c7ec4d1648d96a0057e321a9884&q=${encodeURIComponent(address)}`
                         );
-                        const data = await response.json();
-                        if (data.length > 0) {
-                            const { lat, lon } = data[0];
-                            return { position: [parseFloat(lat), parseFloat(lon)], address };
-                        } else {
-                            // console.error(`No coordinates found for address: ${address}`);
-                            return null;
-                        }
+                        const data = response.data;
+                        const coordinates = parseXmlData(data);
+                        return { position: [parseFloat(coordinates[0].lat), parseFloat(coordinates[0].lon)], address };
                     } catch (error) {
-                        // console.error(`Error geocoding address: ${address}, error`);
+                        console.error(`Error geocoding address: ${address}`, error);
                         return null;
                     }
                 })
             );
+
 
             const filteredMarkerData = markerDataArray.filter(
                 (marker) => marker !== null

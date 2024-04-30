@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Chatbox from "./chatbox";
 import { loadStripe } from "@stripe/stripe-js";
 import "../styles/ShowRideDetails.css";
 import axios from "axios";
 import Map from "./map2";
 import "../styles/ShowRideDetails.css";
+import { Navigate } from "react-router-dom";
 
 const ShowRideDetails = (props) => {
+    const navigate=useNavigate();
   const { id } = useParams();
   const [rideDetails, setRideDetails] = useState(null);
   const [fareCal, setFarecal] = useState(false);
@@ -25,11 +27,12 @@ const ShowRideDetails = (props) => {
   const [showsource, setshowsource] = useState("Select Source");
   const [Dchat, setDchat] = useState(false);
   const [app, setapp] = useState([]);
+
+  //otp
   const [showOtpInput, setShowOtpInput] = useState(false);
+  const [compareOtp, setCompareOtp] = useState("");
   const [otpValue, setOtpValue] = useState("");
   const [otpVerified, setOtpVerified] = useState(false);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [rideCompleted, setRideCompleted] = useState(false);
 
   const handleOtpButtonClick = () => {
     setShowOtpInput(true);
@@ -39,20 +42,36 @@ const ShowRideDetails = (props) => {
     setOtpValue(e.target.value);
   };
 
+  //complete
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [rideCompleted, setRideCompleted] = useState(false);
   const handleCompleteButtonClick = () => {
-    console.log('a')
     setShowConfirmationModal(true);
   };
 
   const handleConfirmComplete = () => {
-    console.log('b')
-    // Perform action to mark the ride as completed
     setRideCompleted(true);
     setShowConfirmationModal(false);
-  };
+    
+    array.forEach(user => {
+        const { email } = user;
+        
+        axios.get(`http://localhost:3000/auth/updateUser/${email}`)
+            .then(response => {
+                // Handle response if needed
+                console.log(response.data);
+            })
+            .catch(error => {
+                // Handle error if needed
+                console.error('Error updating user:', error);
+            });
+    });
+
+    navigate('/home');
+};
+
 
   const handleCancelComplete = () => {
-    clg('c');
     setShowConfirmationModal(false);
   };
 
@@ -67,22 +86,45 @@ const ShowRideDetails = (props) => {
     }
     const addresses = [selectedSource, selectedDestination];
     const positions = [];
+    const parseXmlData = (xmlString) => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      const places = xmlDoc.getElementsByTagName("place");
+
+      const coordinates = [];
+
+      for (const place of places) {
+        const lat = place.getAttribute("lat");
+        const lon = place.getAttribute("lon");
+
+        if (lat && lon) {
+          coordinates.push({ lat: parseFloat(lat), lon: parseFloat(lon) });
+        }
+      }
+
+      return coordinates;
+    };
+
+    // Example usage:
+
+    // console.log(coordinates);
+
     const generateMarkerData = async () => {
       try {
         for (const address of addresses) {
           try {
             const response = await axios.get(
-              `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+              `https://us1.locationiq.com/v1/search?key=pk.7fbc8c7ec4d1648d96a0057e321a9884&q=${encodeURIComponent(
                 address
               )}`
             );
             const data = response.data;
-            if (data.length > 0) {
-              const { lat, lon } = data[0];
-              positions.push([parseFloat(lat), parseFloat(lon)]);
-            } else {
-              console.error(`No coordinates found for address: ${address}`);
-            }
+            const coordinates = parseXmlData(data);
+            console.log(coordinates);
+            positions.push([
+              parseFloat(coordinates[0].lat),
+              parseFloat(coordinates[0].lon),
+            ]);
           } catch (error) {
             console.error(`Error geocoding address: ${address}`, error);
           }
@@ -91,6 +133,7 @@ const ShowRideDetails = (props) => {
         console.error("Error generating marker data:", error);
       }
     };
+
     await generateMarkerData();
     console.log("yha aa gya");
     console.log(positions);
@@ -234,6 +277,7 @@ const ShowRideDetails = (props) => {
                 name: userData[0].username,
                 otp: userData[0].otp,
               };
+              setCompareOtp(obj.otp);
               // Check if the email already exists in updatedArray
               const existingIndex = updatedArray.findIndex(
                 (item) => item.email === obj.email
@@ -263,18 +307,19 @@ const ShowRideDetails = (props) => {
     fetchData();
   }, [app]);
   // Include app as a dependency
-
-  const handleSubmit = (otp) => {
-    // Call your submit function here passing otpValue
-    console.log("Submitting OTP:", otpValue);
-    if (otpValue === otp) {
+  const handleSubmit = () => {
+    // Simulating OTP verification
+    // const isOtpValid = otpValue === "1234"; // Replace "1234" with your actual OTP
+    const stringCompareOtp = compareOtp.toString(); // Convert compareOtp to string
+    console.log(otpValue);
+    console.log(stringCompareOtp); // Log the string version of compareOtp
+    if (otpValue === stringCompareOtp) {
       setOtpVerified(true);
       setShowOtpInput(false);
     } else {
       alert("Invalid OTP. Please try again.");
+      setOtpValue("");
     }
-    setOtpValue("");
-    setShowOtpInput(false);
   };
 
   return (
@@ -568,102 +613,87 @@ const ShowRideDetails = (props) => {
                   <>
                     {array.map((item, index) => (
                       <>
-                        <br />
-                        <div>
-                          {index + 1}-{item.name}
-                        </div>
+                        <div>{item.name}</div>
+
                         <React.Fragment key={index}>
-                          <div>
-                            <button className="btn btn-danger my-2">
-                              {item.email}
-                            </button>
-                            -
-                            <button
-                              className="btn btn-success my-2"
-                              onClick={() => {
-                                setDriverChatbox(item.email);
-                              }}
-                            >
-                              chat
-                            </button>
-                            -
-                            {showOtpInput ? (
-                              <div>
-                                <input
-                                  type="text"
-                                  value={otpValue}
-                                  onChange={handleOtpInputChange}
-                                  placeholder="Enter OTP"
-                                />
-                                <button
-                                  className="btn btn-primary mx-2"
-                                  onClick={handleSubmit}
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            ) : otpVerified ? (
-                              <div
-                                style={{
-                                  border: "1px black solid",
-                                  backgroundColor: "green",
-                                  borderRadius: "8px",
-                                  color: "white",
+                          <button className="btn btn-danger my-2">
+                            {item.email}
+                          </button>
+                          -
+                          <button
+                            className="btn btn-success my-2"
+                            onClick={() => {
+                              setDriverChatbox(item.email);
+                            }}
+                          >
+                            Chat
+                          </button>
+                          -
+                          {showOtpInput ? (
+                            <div>
+                              <input
+                                type="text"
+                                value={otpValue}
+                                onChange={handleOtpInputChange}
+                                placeholder="Enter OTP"
+                              />
+                              <button
+                                className="btn btn-primary mx-2"
+                                onClick={() => {
+                                  setCompareOtp(item.otp);
+                                  handleSubmit();
                                 }}
                               >
-                                OTP Verified
-                              </div>
-                            ) : (
-                              <button
-                                className="btn btn-info my-2"
-                                onClick={handleOtpButtonClick}
-                              >
-                                OTP
+                                Submit
                               </button>
-                            )}
-                            -
+                            </div>
+                          ) : otpVerified ? (
+                            <div>OTP Verified</div>
+                          ) : (
                             <button
-                              className={`btn ${
-                                rideCompleted ? "btn-success" : "btn-primary"
-                              } my-2`}
-                              onClick={handleCompleteButtonClick}
-                              disabled={rideCompleted}
+                              className="btn btn-info my-2"
+                              onClick={handleOtpButtonClick}
                             >
-                              {rideCompleted ? "Completed" : "Complete"}
+                              OTP
                             </button>
-                            {showConfirmationModal && (
-                              <div className="modal">
-                                <div className="modal-content">
-                                  <span
-                                    className="close"
-                                    onClick={handleCancelComplete}
-                                  >
-                                    &times;
-                                  </span>
-                                  <p>Are you sure you want to end the ride?</p>
-                                  <button
-                                    className="btn btn-danger mr-2"
-                                    onClick={handleConfirmComplete}
-                                  >
-                                    Yes
-                                  </button>
-                                  <button
-                                    className="btn btn-secondary"
-                                    onClick={handleCancelComplete}
-                                  >
-                                    No
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <hr />
+                          )}
                         </React.Fragment>
                       </>
                     ))}
                   </>
                 ) : (
                   "No Applicant"
+                )}
+                <button
+                  className={`btn ${
+                    rideCompleted ? "btn-success" : "btn-primary"
+                  } my-2`}
+                  onClick={handleCompleteButtonClick}
+                  disabled={rideCompleted}
+                >
+                  {rideCompleted ? "Completed" : "Complete"}
+                </button>
+                {showConfirmationModal && (
+                  <div className="">
+                    <div className="content">
+                      <span className="close" onClick={handleCancelComplete}>
+                        &times;
+                      </span>
+                      <p>Are you sure you want to end the ride?</p>
+                      <button
+                        className="btn btn-success mr-2"
+                        onClick={handleConfirmComplete}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={handleCancelComplete}
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
                 )}
               </>
             ) : (
