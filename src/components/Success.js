@@ -5,7 +5,7 @@ import "../styles/Dashboard.css";
 import axios from "axios";
 
 const Success = () => {
-  const { id } = useParams();
+  const { id, start, end } = useParams(); // Extracting start and end from useParams
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [rolee, setRole] = useState("");
@@ -16,7 +16,6 @@ const Success = () => {
   const handleClick = () => {
     const update = async()=>{
       try {
-
         const response = await fetch(`http://localhost:3000/rides/update/${id}`, {
           method: "POST",
           headers: {
@@ -32,13 +31,12 @@ const Success = () => {
           },
         });
         console.log(id);
-        
       } catch (error) {
         console.error("Error updating user data", error);
       }
     }
     update();
-    navigate("/home");
+    navigate(`/booked/${id}/${encodeURIComponent(start)}/${encodeURIComponent(end)}`);
   };
 
   useEffect(() => {
@@ -91,6 +89,8 @@ const Success = () => {
                       >
                         Your Ride Is Booked Successfully!!
                       </h2>
+                      <p>Start: {decodeURIComponent(start)}</p> {/* Displaying start */}
+                      <p>End: {decodeURIComponent(end)}</p> {/* Displaying end */}
                     </div>
                   </div>
                   <div className="btn btn-primary" onClick={handleClick}>

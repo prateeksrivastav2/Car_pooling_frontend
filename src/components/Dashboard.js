@@ -95,18 +95,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          {/* <div
-            className=""
-            style={{ position: "fixed", bottom: "0", left: "5" }}
-          >
-            <FontAwesomeIcon
-              className="text-info"
-              icon={faPlusSquare}
-              size="4x"
-              style={{ marginLeft: "1vw", cursor: "pointer" }}
-              onClick={handleClick}
-            />
-          </div> */}
+        
         </div>
       }
     </>

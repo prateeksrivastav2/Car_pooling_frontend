@@ -63,12 +63,12 @@ function App() {
           />
           <Route
             exact
-            path="/booked/:id"
+            path="/booked/:id/:start/:end"
             element={<Booked showAlert={showAlert} />}
           />
           <Route
             exact
-            path="/success/:id"
+            path="/success/:id/:start/:end"
             element={<Success showAlert={showAlert} />}
           />
           <Route
