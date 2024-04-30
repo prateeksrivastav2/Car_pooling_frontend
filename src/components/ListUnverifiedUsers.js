@@ -9,7 +9,10 @@ const UserCard = ({ user, onAccept,onReject }) => {
       <h4>Name: {user.username}</h4>
       <p>Email: {user.email}</p>
       <p>Applied for: {user.role}</p>
-      <p>License: {user.role === "driver" ? <a className='btn btn-primary btn-sm' href={`${user.license}`}>Download</a> : "Not required"}</p>
+      {user.role==="passenger"?<p>Aadhar: <a className='btn btn-primary btn-sm' href={`${user.license}`}>Download</a> : "Not required"</p>:
+      <p>License:<a className='btn btn-primary btn-sm' href={`${user.license}`}>Download</a> : "Not required"</p>
+      }
+      
       <div className='btn btn-success btn-sm' onClick={() => onAccept(user._id)}>Accept</div>&nbsp;
       <div className='btn btn-danger btn-sm' onClick={()=> onReject(user._id)}>Reject</div>
     </div>

@@ -10,7 +10,7 @@ const ShowRideDetails = (props) => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
     const [fareCal, setFarecal] = useState(false);
-    
+
     const [reciever, setReciever] = useState("");
     const [rol, setrol] = useState(false); // true for driver, false for passenger
     const [price, setPrice] = useState([]);
@@ -23,11 +23,11 @@ const ShowRideDetails = (props) => {
     const [showsource, setshowsource] = useState("Select Source");
 
     const CalculateFare = async () => {
-        if(!selectedSource){
+        if (!selectedSource) {
             props.showAlert("Select Source", "danger");
             return;
         }
-        if(!selectedDestination){
+        if (!selectedDestination) {
             props.showAlert("Select Destination", "danger");
             return;
         }
@@ -58,7 +58,9 @@ const ShowRideDetails = (props) => {
             }
         };
         await generateMarkerData();
-
+        console.log("yha aa gya");
+        console.log(positions);
+        console.log("positions");
         try {
             const response = await axios.get(`http://localhost:3000/api/map/distancematrix?origins=${positions[0][1]},${positions[0][0]}&destinations=${positions[1][1]},${positions[1][0]}`);
             var pre = 0;
@@ -133,9 +135,18 @@ const ShowRideDetails = (props) => {
                 });
                 if (response.ok) {
                     const rideData = await response.json();
-
                     setRideDetails(rideData);
                     setReciever(rideData.driver);
+                    rideDetails.applicants.map(async(applicant) => {
+                        const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "auth-token": localStorage.getItem("token"),
+                            },
+                        });
+                        console.log(response2);
+                    });
 
                 } else {
                     console.error('Failed to fetch ride details');
@@ -153,141 +164,158 @@ const ShowRideDetails = (props) => {
     }, [id]); // Include id as a dependency
 
     return (
-        <div className="container" style={{ marginTop: '6vh', display: 'flex', justifyContent: 'space-evenly' }}>
-            <div className="row">
-                <div className="col-md-8" style={{ marginRight: '0px' }}>
-                    {rideDetails ? (
-                        <div className="card mb-3" style={{ minHeight: '55vh', minWidth: '55vw', boxShadow: '0 4px 8px 2px rgba(0,0.3,0.3,0.3)', transition: '0.3s' }}>
-                            <div className="card-header" style={{ fontSize: '1.5rem', fontStyle: '-moz-initial' }}>
-                                <strong>Ride Details</strong>
-                            </div>
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="col-md-6" onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
-                                        <p className="btn my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Driver id:</p>
-                                        <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Available Seats:</p>
-                                        <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Date:</p>
-                                        <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Start Time:</p>
-                                        <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Source:</p>
-                                        <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>
-                                            {
-                                                <>Destination:</>
-                                            }
-                                        </p>
-                                           {fareCal&& <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Price:</p>}
-                                    </div>
-                                    <div className="col-md-6" onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
-                                        <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.driver}</p>
-                                        <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.availableSeats}</p>
-                                        <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{new Date(rideDetails.date).toLocaleDateString()}</p>
-                                        <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{(rideDetails.estimatedArrivalTime)}</p>
-                                        <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleSource}>{showsource}</p>
-                                        {!showDestinations && showSource && (
-                                            <div>
-                                                {!rol &&
-                                                    rideDetails.destinations.map((destination, index) => (
-                                                        <p
-                                                            key={index}
-                                                            className="btn my-3"
-                                                            onClick={() => {
-                                                                setSourceprice(destination);
-                                                            }}
-                                                            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
-                                                        >
-                                                            {destination}
-                                                        </p>
-                                                    ))}
-                                                {rol &&
-                                                    rideDetails.destinations.map((destination, index) => (
-                                                        <p
-                                                            key={index}
-                                                            className="btn my-3"
-                                                            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
-                                                        >
-                                                            {destination}
-                                                        </p>
-                                                    ))}
-                                            </div>
-                                        )}
+        <>
+            <div className="container" style={{ marginTop: '6vh', display: 'flex', justifyContent: 'space-evenly' }}>
+                <div className="row">
+                    <div className="col-md-8" style={{ marginRight: '0px' }}>
+                        {rideDetails ? (
+                            <div className="card mb-3" style={{ minHeight: '55vh', minWidth: '55vw', boxShadow: '0 4px 8px 2px rgba(0,0.3,0.3,0.3)', transition: '0.3s' }}>
+                                <div className="card-header" style={{ fontSize: '1.5rem', fontStyle: '-moz-initial' }}>
+                                    <strong>Ride Details</strong>
+                                </div>
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-6" onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
+                                            <p className="btn my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Driver id:</p>
+                                            <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Available Seats:</p>
+                                            <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Date:</p>
+                                            <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Start Time:</p>
+                                            <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Source:</p>
+                                            <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>
+                                                {
+                                                    <>Destination:</>
+                                                }
+                                            </p>
+                                            {fareCal && <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Price:</p>}
+                                        </div>
+                                        <div className="col-md-6" onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
+                                            <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.driver}</p>
+                                            <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.availableSeats}</p>
+                                            <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{new Date(rideDetails.date).toLocaleDateString()}</p>
+                                            <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{(rideDetails.estimatedArrivalTime)}</p>
+                                            <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleSource}>{showsource}</p>
+                                            {!showDestinations && showSource && (
+                                                <div>
+                                                    {!rol &&
+                                                        rideDetails.destinations.map((destination, index) => (
+                                                            <p
+                                                                key={index}
+                                                                className="btn my-3"
+                                                                onClick={() => {
+                                                                    setSourceprice(destination);
+                                                                }}
+                                                                style={{ display: 'block', backgroundColor: '#FFD1E3' }}
+                                                            >
+                                                                {destination}
+                                                            </p>
+                                                        ))}
+                                                    {rol &&
+                                                        rideDetails.destinations.map((destination, index) => (
+                                                            <p
+                                                                key={index}
+                                                                className="btn my-3"
+                                                                style={{ display: 'block', backgroundColor: '#FFD1E3' }}
+                                                            >
+                                                                {destination}
+                                                            </p>
+                                                        ))}
+                                                </div>
+                                            )}
 
-                                        <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleDestinations}>{showtext}</p>
-                                        {!showSource && showDestinations && (
-                                            <div>
-                                                {!rol &&
-                                                    rideDetails.destinations.slice(1).map((destination, index) => (
-                                                        <p
-                                                            key={index + 1}
-                                                            className="btn my-3"
-                                                            onClick={() => {
-                                                                setPriceDestination(destination);
-                                                            }}
-                                                            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
-                                                        >
-                                                            {destination}
-                                                        </p>
-                                                    ))}
-                                                {rol &&
-                                                    rideDetails.destinations.slice(1).map((destination, index) => (
-                                                        <p
-                                                            key={index + 1}
-                                                            className="btn my-3"
-                                                            style={{ display: 'block', backgroundColor: '#FFD1E3' }}
-                                                        >
-                                                            {destination}
-                                                        </p>
-                                                    ))}
-                                            </div>
-                                        )}
-                                        {fareCal&&<p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} >{selectedPrice} $</p>}
+                                            <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleDestinations}>{showtext}</p>
+                                            {!showSource && showDestinations && (
+                                                <div>
+                                                    {!rol &&
+                                                        rideDetails.destinations.slice(1).map((destination, index) => (
+                                                            <p
+                                                                key={index + 1}
+                                                                className="btn my-3"
+                                                                onClick={() => {
+                                                                    setPriceDestination(destination);
+                                                                }}
+                                                                style={{ display: 'block', backgroundColor: '#FFD1E3' }}
+                                                            >
+                                                                {destination}
+                                                            </p>
+                                                        ))}
+                                                    {rol &&
+                                                        rideDetails.destinations.slice(1).map((destination, index) => (
+                                                            <p
+                                                                key={index + 1}
+                                                                className="btn my-3"
+                                                                style={{ display: 'block', backgroundColor: '#FFD1E3' }}
+                                                            >
+                                                                {destination}
+                                                            </p>
+                                                        ))}
+                                                </div>
+                                            )}
+                                            {fareCal && <p className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} >{selectedPrice} $</p>}
+                                        </div>
                                     </div>
                                 </div>
+                                {!rol && !fareCal && <div className="card-footer text-body-secondary">
+                                    <button
+                                        className='btn'
+                                        style={{
+                                            backgroundColor: '#E59BE9',
+                                            transition: 'all 0.3s',
+                                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                            color: '#FFFFFF'
+                                        }}
+
+                                        onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; e.target.style.boxShadow = '0 8px 12px rgba(0, 0, 0, 0.2)'; }}
+                                        onMouseLeave={(e) => { e.target.style.color = ''; e.target.style.boxShadow = '1px 2px 2px 2px rgba(0, 0.2, 0.3, 0.3)'; }}
+                                        onClick={CalculateFare}
+                                    >
+                                        Calculate Fare!
+                                    </button>
+                                </div>}
+                                {!rol && (fareCal) && <div className="card-footer text-body-secondary">
+                                    <button
+                                        className='btn'
+                                        style={{
+                                            backgroundColor: '#E59BE9',
+                                            transition: 'all 0.3s',
+                                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                            color: '#FFFFFF'
+                                        }}
+
+                                        onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; e.target.style.boxShadow = '0 8px 12px rgba(0, 0, 0, 0.2)'; }}
+                                        onMouseLeave={(e) => { e.target.style.color = ''; e.target.style.boxShadow = '1px 2px 2px 2px rgba(0, 0.2, 0.3, 0.3)'; }}
+                                        onClick={makePayment}
+                                    >
+                                        Book Now!
+                                    </button>
+                                </div>}
                             </div>
-                            {!rol&&!fareCal && <div className="card-footer text-body-secondary">
-                                <button
-                                    className='btn'
-                                    style={{
-                                        backgroundColor: '#E59BE9',
-                                        transition: 'all 0.3s',
-                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                                        color: '#FFFFFF'
-                                    }}
 
-                                    onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; e.target.style.boxShadow = '0 8px 12px rgba(0, 0, 0, 0.2)'; }}
-                                    onMouseLeave={(e) => { e.target.style.color = ''; e.target.style.boxShadow = '1px 2px 2px 2px rgba(0, 0.2, 0.3, 0.3)'; }}
-                                    onClick={CalculateFare}
-                                >
-                                    Calculate Fare!
-                                </button>
-                            </div>}
-                            {!rol   && (fareCal) && <div className="card-footer text-body-secondary">
-                                <button
-                                    className='btn'
-                                    style={{
-                                        backgroundColor: '#E59BE9',
-                                        transition: 'all 0.3s',
-                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                                        color: '#FFFFFF'
-                                    }}
+                        ) : (
+                            <p>Loading ride details...</p>
+                        )}
+                    </div>
+                </div>
+                <div className="col-md-4 text-black">
+                    Applicants:
+                    <br />
+                    {rideDetails ? <>
+                        {rideDetails.applicants.map((applicant) => (
+                            <>
+                                <btn className="btn btn-danger" >{applicant}</btn>
+                                <br />
+                            </>
+                        ))}
 
-                                    onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; e.target.style.boxShadow = '0 8px 12px rgba(0, 0, 0, 0.2)'; }}
-                                    onMouseLeave={(e) => { e.target.style.color = ''; e.target.style.boxShadow = '1px 2px 2px 2px rgba(0, 0.2, 0.3, 0.3)'; }}
-                                    onClick={makePayment}
-                                >
-                                    Book Now!
-                                </button>
-                            </div>}
-                        </div>
 
-                    ) : (
-                        <p>Loading ride details...</p>
-                    )}
+                    </> : "No Applicant"}
                 </div>
             </div>
             <div className="col-md-4 text-black">
                 {/* {reciever && <Chatbox reciever={reciever} id={id} />} */}
-              {  rideDetails && rideDetails.destinations && <Map destinations={rideDetails.destinations}/>}
+                {rideDetails && rideDetails.destinations && <Map destinations={rideDetails.destinations} />}
             </div>
-        </div>
+
+        </>
     );
 };
 
