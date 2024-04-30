@@ -9,14 +9,21 @@ const ShowRideDetails = () => {
     const [rideDetails, setRideDetails] = useState(null);
     const [reciever, setReciever] = useState(""); 
     const [price, setPrice] = useState([]);
-    
+    const [payPrice, setpayPrice] = useState(null);
+    const [des, setdes] = useState(null);
+    const setPriceDestination=(hprice, hdestination)=>{
+        setpayPrice(hprice);
+        setdes(hdestination);
+        console.log(hprice);
+        console.log(hdestination);
+    }
     const [showDestinations, setShowDestinations] = useState(false);
     const makePayment = async () => {
         const stripe = await loadStripe("pk_test_51P8TDCSDhYcpKPnMYaWVSHGofzSO3Xx2QQYrY3chzzcof9wNpSY1EWgJlMMWY7pXzp5ho3YZylwTeWU7SMDk9Ooj00c8AJpqFJ");
         const body = {
             start: rideDetails.startingLocation,
-            end: rideDetails.destination,
-            price: 100 // Replace with selected price
+            end: des,
+            price: payPrice // Replace with selected price
         }
         const headers = {
             "Content-Type": "application/json"
@@ -104,7 +111,7 @@ const ShowRideDetails = () => {
                                             {showDestinations && (
                                                 <div>
                                                     {rideDetails.price.map((destination, index) => (
-                                                        <p key={index} className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{destination.
+                                                        <p key={index} className="btn my-3" onClick={()=>{setPriceDestination(destination.price,destination.destinationId)}} style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{destination.
                                                             destinationId},{destination.price}</p>
                                                     ))}
                                                 </div>
