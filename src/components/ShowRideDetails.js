@@ -37,22 +37,43 @@ const ShowRideDetails = (props) => {
         }
         const addresses = [selectedSource, selectedDestination];
         const positions = [];
+        const parseXmlData = (xmlString) => {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+            const places = xmlDoc.getElementsByTagName("place");
+            
+            const coordinates = [];
+            
+            for (const place of places) {
+                const lat = place.getAttribute("lat");
+                const lon = place.getAttribute("lon");
+                
+                if (lat && lon) {
+                    coordinates.push({ lat: parseFloat(lat), lon: parseFloat(lon) });
+                }
+            }
+            
+            return coordinates;
+        };
+        
+        // Example usage:
+
+        
+      
+        // console.log(coordinates);
+        
         const generateMarkerData = async () => {
             try {
                 for (const address of addresses) {
                     try {
                         const response = await axios.get(
-                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-                                address
-                            )}`
+                            `https://us1.locationiq.com/v1/search?key=pk.7fbc8c7ec4d1648d96a0057e321a9884&q=${encodeURIComponent(address)}`
                         );
                         const data = response.data;
-                        if (data.length > 0) {
-                            const { lat, lon } = data[0];
-                            positions.push([parseFloat(lat), parseFloat(lon)]);
-                        } else {
-                            console.error(`No coordinates found for address: ${address}`);
-                        }
+                        const coordinates = parseXmlData(data);
+                        console.log(coordinates)
+                        positions.push([parseFloat(coordinates[0].lat), parseFloat(coordinates[0].lon)]);
+                        
                     } catch (error) {
                         console.error(`Error geocoding address: ${address}`, error);
                     }
@@ -61,6 +82,7 @@ const ShowRideDetails = (props) => {
                 console.error("Error generating marker data:", error);
             }
         };
+        
         await generateMarkerData();
         console.log("yha aa gya");
         console.log(positions);
