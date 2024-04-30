@@ -27,6 +27,9 @@ const RiderCreated = () => {
                     if(userData.role !== 'driver'){
                         navigate('/home');
                     }
+                    if(userData.hasCreatedRide === false){
+                        navigate('/home');
+                    }
                     if (userData.hasCreatedRide === false) {
                         navigate('/dashboard');
                     } else {
