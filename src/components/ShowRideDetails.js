@@ -126,31 +126,36 @@ const ShowRideDetails = (props) => {
     useEffect(() => {
         const fetchRideDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/rides/rides-details/${id}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "auth-token": localStorage.getItem("token"),
-                    },
-                });
-                if (response.ok) {
-                    const rideData = await response.json();
-                    setRideDetails(rideData);
-                    setReciever(rideData.driver);
-                    rideDetails.applicants.map(async(applicant) => {
-                        const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "auth-token": localStorage.getItem("token"),
-                            },
-                        });
-                        console.log(response2);
+                const func = async () => {
+                    const response = await fetch(`http://localhost:3000/rides/rides-details/${id}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "auth-token": localStorage.getItem("token"),
+                        },
                     });
+                    if (response.ok) {
+                        const rideData = await response.json();
+                        console.log(rideData);
+                        setRideDetails(rideData);
+                        setReciever(rideData.driver);
 
-                } else {
-                    console.error('Failed to fetch ride details');
+                    } else {
+                        console.error('Failed to fetch ride details');
+                    }
                 }
+                await func();
+                rideDetails.applicants.map(async(applicant) => {
+                    const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "auth-token": localStorage.getItem("token"),
+                        },
+                    });
+                    console.log("okk");
+                    console.log(response2);
+                });
             } catch (error) {
                 console.error('Error fetching ride details:', error);
             }
