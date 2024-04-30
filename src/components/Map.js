@@ -7,7 +7,18 @@ const Map = ({ startingLocation, destinations }) => {
   const [markerData, setMarkerData] = useState([]);
   const [mapCenter, setMapCenter] = useState([28.612964, 77.229463]); // Default center
 
+
+
   useEffect(() => {
+    
+    if (markerData.length > 0) {
+      setMapCenter(markerData[0].position);
+    }
+   
+  }, [destinations,startingLocation])
+  
+  useEffect(() => {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     const geocodeAddresses = async () => {
       if (!Array.isArray(destinations) || destinations.length === 0) {
         return;
@@ -33,8 +44,9 @@ const Map = ({ startingLocation, destinations }) => {
         return coordinates;
       };
       const markerDataArray = await Promise.all(
-        addresses.map(async (address) => {
+        addresses.map(async (address,index) => {
           try {
+            await delay(index * 3000);
             const response = await axios.get(
               `https://us1.locationiq.com/v1/search?key=pk.7fbc8c7ec4d1648d96a0057e321a9884&q=${encodeURIComponent(address)}`
             );

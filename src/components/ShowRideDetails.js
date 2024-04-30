@@ -20,9 +20,9 @@ const ShowRideDetails = (props) => {
     const [selectedSource, setselectedSource] = useState(null);
     const [selectedPrice, setSelectedPrice] = useState(null);
     const [showDestinations, setShowDestinations] = useState(false);
-    const [showSource, setShowSource] = useState(false);
+    const [showSource, setShowource] = useState(false);
     const [showtext, setshowtext] = useState("Select Destinations");
-    const [showsource, setshowsource] = useState("Select Source");
+    const [showsource, setshowsource] = useState("Select Sources");
     const [Dchat, setDchat] = useState(false);
     const [app, setapp] = useState([]);
 
@@ -106,7 +106,7 @@ const ShowRideDetails = (props) => {
         // setReciever("992110319/4@mail.jiit.ac.in");
     }
     const toggleSource = () => {
-        setShowSource(!showSource); // Toggle visibility for source button
+        setShowource(!showSource); // Toggle visibility for source button
     };
     const toggleDestinations = () => {
         setShowDestinations(!showDestinations);
@@ -185,7 +185,7 @@ const ShowRideDetails = (props) => {
         if (ro === "driver") {
             setrol(true);
             setshowtext("See Destinations");
-            setShowSource("See Sources");
+            setshowsource("See Sources");
             console.log(rol);
         }
 

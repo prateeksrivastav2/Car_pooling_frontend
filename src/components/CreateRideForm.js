@@ -301,7 +301,7 @@ const CreateRide = () => {
                               >
                                 {SearchResults[0].map((result, index) => (
                                   <>
-                                    <li
+                                    <li className="my-2" style={{cursor:'pointer'}}
                                       key={index}
                                       onClick={() =>
                                         handleSearchResultClick(result, 0)
@@ -363,7 +363,7 @@ const CreateRide = () => {
                                     {SearchResults[index + 1].map(
                                       (result, idx) => (
                                         <>
-                                          <li
+                                          <li className="my-2" style={{cursor:'pointer'}}
                                             key={idx}
                                             onClick={() =>
                                               handleSearchResultClick(
