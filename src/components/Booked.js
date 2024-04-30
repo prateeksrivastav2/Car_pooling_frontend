@@ -33,6 +33,8 @@ const Booked = () => {
         fetchRideDetails();
     }, [id]);
 
+    
+
     return (
         <div className="container " style={{ marginTop: '6vh' ,display:'flex',
         justifyContent:'space-evenly'}}>
