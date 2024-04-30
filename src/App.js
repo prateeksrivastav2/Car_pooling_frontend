@@ -63,7 +63,7 @@ function App() {
           />
           <Route
             exact
-            path="/booked/:id/:start/:end"
+            path="/booked/:id/:start/:end/:otp"
             element={<Booked showAlert={showAlert} />}
           />
           <Route
