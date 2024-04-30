@@ -145,7 +145,7 @@ const ShowRideDetails = (props) => {
                         console.log(rideData);
                         setRideDetails(rideData);
                         setReciever(rideData.driver);
-                        setapp( rideDetails.applicants);
+                        setapp(rideDetails.applicants);
 
                     } else {
                         console.error('Failed to fetch ride details');
@@ -178,7 +178,7 @@ const ShowRideDetails = (props) => {
 
     useEffect(() => {
         try {
-            
+            console.log("gg");
             app.map(async (applicant) => {
                 const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
                     method: "GET",
