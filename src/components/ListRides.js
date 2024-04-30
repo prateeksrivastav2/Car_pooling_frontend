@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/ListRides.css";
 // import RidedetailsModal from './RidedetailsModal'; // Assuming you have a modal component
 
-const RideCard = ({ ride,selectedRide }) => {
+const RideCard = ({ ride, selectedRide }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -28,6 +28,7 @@ const RideCard = ({ ride,selectedRide }) => {
 const ListRides = () => {
   const [rides, setRides] = useState([]);
   const [search, setSearch] = useState("");
+  const [searchDest, setDestinationSearch] = useState("");
   const [selectedRide, setSelectedRide] = useState(null); // State to store selected ride for modal
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const ListRides = () => {
       try {
         const response = await axios.get('http://localhost:3000/rides/list');
         setRides(response.data);
-       
+
       } catch (error) {
         console.error('Error fetching rides:', error);
         // Handle error, show an alert, etc.
@@ -52,15 +53,19 @@ const ListRides = () => {
     <div className="ride-list">
       {/* <h1>Available Rides</h1> */}
       <form>
-        <input type='text' onChange={(e)=>setSearch(e.target.value)} placeholder='Search Start Location' />
+        <input type='text' onChange={(e) => setSearch(e.target.value)} placeholder='Search Start Location' />
+        <input type='text' onChange={(e) => setDestinationSearch(e.target.value)} placeholder='Search Destination' />
       </form>
       {rides.length === 0 && <p>No rides available right now.</p>}
-      {rides.filter((ride)=>{
-        return search.toLowerCase()===''?ride:ride.startingLocation.toLowerCase().includes(search);
+      {rides.filter((ride) => {
+        return search.toLowerCase() === '' || searchDest.toLowerCase() === '' ?
+          ride :
+          ride.startingLocation.toLowerCase().includes(search) ||
+          ride.destinations.some(dest => dest.toLowerCase().includes(searchDest));
       }).map((ride) => (
         <RideCard key={ride._id} ride={ride} />
       ))}
-     
+
     </div>
   );
 };
