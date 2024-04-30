@@ -4,13 +4,9 @@ import L from "leaflet";
 
 const Map = ({ startingLocation, destinations }) => {
   const [markerData, setMarkerData] = useState([]);
-  const [map, setMap] = useState(null); // State to hold the map object
   const [mapCenter, setMapCenter] = useState([28.612964, 77.229463]); // Default center
 
   useEffect(() => {
-    // Function to geocode addresses and set marker data
-    console.log('start',startingLocation);
-    console.log('destinat',destinations);
     const geocodeAddresses = async () => {
       if (!Array.isArray(destinations) || destinations.length === 0) {
         return;
@@ -21,7 +17,6 @@ const Map = ({ startingLocation, destinations }) => {
       const markerDataArray = await Promise.all(
         addresses.map(async (address) => {
           try {
-
             const response = await fetch(
               `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
                 address
@@ -30,8 +25,6 @@ const Map = ({ startingLocation, destinations }) => {
             const data = await response.json();
             if (data.length > 0) {
               const { lat, lon } = data[0];
-              console.log(lat);
-              console.log(lon);
               return { position: [parseFloat(lat), parseFloat(lon)], address };
             } else {
               console.error(`No coordinates found for address: ${address}`);
@@ -44,28 +37,20 @@ const Map = ({ startingLocation, destinations }) => {
         })
       );
 
-      // Remove any null values from the marker data array
       const filteredMarkerData = markerDataArray.filter(
         (marker) => marker !== null
       );
       setMarkerData(filteredMarkerData);
-      console.log(markerData);
-      console.log("markerData");
     };
 
-    // Call the geocodeAddresses function
     geocodeAddresses();
   }, [startingLocation, destinations]);
 
   useEffect(() => {
-    if (map && markerData.length > 0) {
-      // Set map center
-      map.panTo(markerData[0].position);
+    if (markerData.length > 0) {
       setMapCenter(markerData[0].position);
-      console.log('destinations',destinations);
-      console.log('starting',startingLocation);
     }
-  }, [map, markerData]);
+  }, [markerData]);
 
   return (
     <div
@@ -81,7 +66,6 @@ const Map = ({ startingLocation, destinations }) => {
         center={mapCenter}
         zoom={15}
         style={{ height: "100%" }}
-        whenCreated={setMap} // Assign the map object to the state
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -92,7 +76,7 @@ const Map = ({ startingLocation, destinations }) => {
             key={index}
             position={marker.position}
             icon={
-              index === 0 // Check if it's the starting location
+              index === 0
                 ? L.icon({
                     iconUrl: "https://www.mappls.com/images/from.png",
                     iconSize: [32, 32],

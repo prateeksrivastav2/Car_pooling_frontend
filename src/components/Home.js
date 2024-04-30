@@ -59,15 +59,6 @@ const Home = () => {
             <Faq />
           </div>
         </section>
-
-        {/* Dowload Our App */}
-        {/* <section className="py-10 bg-gray-100">
-          <div className="max-w-screen-xl mx-auto px-3">
-            <Download />
-          </div>
-        </section> */}
-
-        {/* Contact Us */}
         <section className="py-10">
           <div className="max-w-screen-xl mx-auto px-3">
             <Title className="my-5 ">Contact Us</Title>

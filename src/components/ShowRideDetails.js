@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Chatbox from './chatbox';
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import '../styles/ShowRideDetails.css'
 
 const ShowRideDetails = () => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
-    const [reciever, setReciever] = useState(""); // Initialize reciever state
+    const [reciever, setReciever] = useState(""); // Initialize receiver state
+    const [price, setPrice] = useState("");
+    const [showDestinations, setShowDestinations] = useState(false);
 
-    const makePayment = async()=>{
+    const makePayment = async () => {
         const stripe = await loadStripe("pk_test_51P8TDCSDhYcpKPnMYaWVSHGofzSO3Xx2QQYrY3chzzcof9wNpSY1EWgJlMMWY7pXzp5ho3YZylwTeWU7SMDk9Ooj00c8AJpqFJ");
         const body = {
-            start : rideDetails.startingLocation,
-            end : rideDetails.destination,
-            price : 100
+            start: rideDetails.startingLocation,
+            end: rideDetails.destination,
+            price: 100 // Replace with selected price
         }
         const headers = {
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         }
-        const response = await fetch(`http://localhost:3000/rides/create-checkout-session/${id}`,{
-            method : "POST",
-            headers:headers,
-            body:JSON.stringify(body)
+        const response = await fetch(`http://localhost:3000/rides/create-checkout-session/${id}`, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body)
         });
         const session = await response.json();
 
         const result = stripe.redirectToCheckout({
-            sessionId:session.id
+            sessionId: session.id
         });
-        if(result.error){
+        if (result.error) {
             console.log(result.error);
         }
     }
@@ -47,7 +49,7 @@ const ShowRideDetails = () => {
                 if (response.ok) {
                     const rideData = await response.json();
                     setRideDetails(rideData);
-                    setReciever(rideData.driver);
+                    console.log(rideData);
                 } else {
                     console.error('Failed to fetch ride details');
                 }
@@ -59,9 +61,12 @@ const ShowRideDetails = () => {
         fetchRideDetails();
     }, [id]); // Include id as a dependency
 
+    const toggleDestinations = () => {
+        setShowDestinations(!showDestinations);
+    }
+
     return (
-        <div className="container " style={{ marginTop: '6vh' ,display:'flex',
-        justifyContent:'space-evenly'}}>
+        <div className="container" style={{ marginTop: '6vh', display: 'flex', justifyContent: 'space-evenly' }}>
             <div className="row">
                 <div className="col-md-8" style={{ marginRight: '0px' }}>
                     {rideDetails ? (
@@ -74,24 +79,35 @@ const ShowRideDetails = () => {
                                     <div className="col-md-6" onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
                                         <p className="btn my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Driver id:</p>
                                         <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Source:</p>
-                                        <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Destination:</p>
                                         <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Available Seats:</p>
                                         <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Date:</p>
                                         <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Start Time:</p>
-                                        <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Price:</p>
+                                        {/* <p className="btn  btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Price:</p> */}
+                                        <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#7BC9FF' }}>Destination:</p>
                                     </div>
-                                    <div className="col-md-6"  onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
+                                    <div className="col-md-6" onMouseEnter={(e) => { e.target.style.color = '#FFFFFF'; }} onMouseLeave={(e) => { e.target.style.color = ''; }}>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.driver}</p>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.startingLocation}</p>
-                                        <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.destination}</p>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.availableSeats}</p>
                                         <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{new Date(rideDetails.date).toLocaleDateString()}</p>
-                                        <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.availableSeats}</p>
-                                        <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{rideDetails.driver}</p>
+                                        <p className="btn   my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{(rideDetails.estimatedArrivalTime)}</p>
+                                        {/* <select className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} value={price} onChange={(e) => setPrice(e.target.value)}> */}
+                                            {/* {rideDetails.price.map((priceOption, index) => (
+                                                <option key={index} value={priceOption}>{priceOption}</option>
+                                            ))} */}
+                                        {/* </select> */}
+                                            <p className="btn btn-block my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }} onClick={toggleDestinations}>Select Destination</p>
+                                            {showDestinations && (
+                                                <div>
+                                                    {rideDetails.destinations.map((destination, index) => (
+                                                        <p key={index} className="btn my-3" style={{ display: 'block', backgroundColor: '#FFD1E3' }}>{destination}</p>
+                                                    ))}
+                                                </div>
+                                            )}
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer text-body-secondary">
+                            <div className="card-footer text-body-secondary">
                                 <button
                                     className='btn'
                                     style={{
@@ -116,9 +132,7 @@ const ShowRideDetails = () => {
                 </div>
             </div>
             <div className="col-md-4 text-black">
-                {/* Add your chatbox component here */}
-                {/* {reciever} */}
-                {reciever && <Chatbox reciever={reciever} id={id} />} {/* Render chatbox only when reciever is available */}
+                {reciever && <Chatbox reciever={reciever} id={id} />}
             </div>
         </div>
     );
