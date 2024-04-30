@@ -152,7 +152,7 @@ const ShowRideDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            {rol&&<div className="card-footer text-body-secondary">
+                            {!rol&&<div className="card-footer text-body-secondary">
                                 <button
                                     className='btn'
                                     style={{
