@@ -21,6 +21,7 @@ import Map from "./components/Map";
 import Booked from "./components/Booked";
 import MapWithMarkers from "./components/Map_sample";
 import LiveRide from "./components/LiveRide";
+import RiderCreated from "./components/RiderCreated";
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -84,6 +85,11 @@ function App() {
           exact
           path="/map_sample"
           element={<Map />}
+        />
+        <Route
+          exact
+          path="/different-page"
+          element={<RiderCreated />}
         />
           <Route
           exact

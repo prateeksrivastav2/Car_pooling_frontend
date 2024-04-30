@@ -159,11 +159,6 @@ const CreateRide = () => {
   return (
     <>
       <div
-<<<<<<< HEAD
-        style={{display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "flex-start",marginBottom: '2vh'}}>
-        <div className="c mt-0" style={{width: "50%",marginRight: "20px",}}>
-          <div className="row justify-content-center " style={{ marginTop: "8vh" }}>
-=======
         style={{
           display: "flex",
           flexDirection: "row",
@@ -183,7 +178,6 @@ const CreateRide = () => {
             className="row justify-content-center "
             style={{ marginTop: "8vh" }}
           >
->>>>>>> b646d24e94169b2b8422beb8fada6f8e3f57ffa8
             <div className="col-md-8">
               <div className="card shadow">
                 <div className="card-body">

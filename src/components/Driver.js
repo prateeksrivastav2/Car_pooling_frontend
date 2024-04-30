@@ -1,29 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import ListRides from "./ListRides";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare, faUser } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Dashboard.css";
-import ListUnverifiedUsers from "./ListUnverifiedUsers";
 import Myrides from "./Myrides";
-// import RidedetailsModal from './RidedetailsModal';
 
-
-//Passenger Dashboard
 const Driver = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // State to store user data
     const token = localStorage.getItem("token");
-
-    const handleClick = () => {
-        navigate("/create-ride");
-    };
-    const viewProfile = () => {
-        navigate("/profile");
-    };
-    const handelMyrides = () => {
-        navigate("/my-rides", { state: { user: user } });
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,8 +24,11 @@ const Driver = () => {
                 if (response.ok) {
                     const userData = await response.json();
                     setUser(userData);
+                    if (userData.hasCreatedRide) {
+                        // Redirect to a different page
+                        navigate("/different-page");
+                    }
                 } else {
-                    // Handle error response
                     console.error("Error fetching user data");
                     navigate("/login");
                 }
@@ -56,6 +44,14 @@ const Driver = () => {
         }
     }, [token, navigate]);
 
+    const handleClick = () => {
+        navigate("/create-ride");
+    };
+
+    const viewProfile = () => {
+        navigate("/profile");
+    };
+
     return (
         <div className="container-fluid">
             <h2>Driver Portal</h2>
@@ -66,18 +62,14 @@ const Driver = () => {
                             <p style={{ margin: 0, textAlign: 'center', flex: 1 }}>Hello🖐️, {user && user.username}!</p>
                             <FontAwesomeIcon className="text-info" onClick={viewProfile} icon={faUser} style={{ cursor: 'pointer', border: 'solid', borderRadius: '50%', padding: '0.7%' }} />
                         </div>
-                        {/* <div> <button className='btn btn-primary' onClick={handelMyrides}>My Rides</button></div> */}
                     </div>
                 </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="my-3">
-                            <div class="card text-black mb-3">
-                                <div class="card-body">
-                                    <div
-                                        className=""
-                                    // style={{ position: "fixed", bottom: "0", left: "5" }}
-                                    >
+                <div className="container">
+                    <div className="row">
+                        <div className="my-3">
+                            <div className="card text-black mb-3">
+                                <div className="card-body">
+                                    <div>
                                         <FontAwesomeIcon
                                             className="text-info"
                                             icon={faPlusSquare}
@@ -85,19 +77,17 @@ const Driver = () => {
                                             style={{ marginLeft: "1vw", cursor: "pointer" }}
                                             onClick={handleClick}
                                         />
-                                        <br></br>
+                                        <br />
                                         Create New Ride
                                     </div>
                                 </div>
                             </div>
-                                <div class="card-body">
-                                    Current Hosted Ride
-                                </div>
-                                <div >
-                                    {/* Current Hosted Ride */}
-                                    <Myrides/>
-                                </div>
-
+                            <div className="card-body">
+                                Current Hosted Ride
+                            </div>
+                            <div>
+                                <Myrides />
+                            </div>
                         </div>
                     </div>
                 </div>
