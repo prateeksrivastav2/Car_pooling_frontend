@@ -109,8 +109,25 @@ const ShowRideDetails = (props) => {
             price: selectedPrice
         };
 
-    const headers = {
-      "Content-Type": "application/json",
+        const headers = {
+            "Content-Type": "application/json"
+        };
+
+        const response = await fetch(`http://localhost:3000/rides/create-checkout-session/${id}`, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body)
+        });
+
+        const session = await response.json();
+
+        const result = stripe.redirectToCheckout({
+            sessionId: session.id
+        });
+
+        if (result.error) {
+            console.log(result.error);
+        }
     };
 
     useEffect(() => {
@@ -146,8 +163,8 @@ const ShowRideDetails = (props) => {
             console.log(rol);
         }
 
-    fetchRideDetails();
-  }, [id]); // Include id as a dependency
+        fetchRideDetails();
+    }, [id]); // Include id as a dependency
 
     useEffect(() => {
         const fetchData = async () => {
