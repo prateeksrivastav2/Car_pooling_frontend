@@ -10,6 +10,7 @@ const ShowRideDetails = (props) => {
     const { id } = useParams();
     const [rideDetails, setRideDetails] = useState(null);
     const [fareCal, setFarecal] = useState(false);
+    const [array, setArray] = useState([]);
 
     const [reciever, setReciever] = useState("");
     const [rol, setrol] = useState(false); // true for driver, false for passenger
@@ -78,8 +79,8 @@ const ShowRideDetails = (props) => {
     }
     const setDriverChatbox = (email) => {
         setDchat(true);
-        // setReciever(email);
-        setReciever("9921103194@mail.jiit.ac.in");
+        setReciever(email);
+        // setReciever("992110319/4@mail.jiit.ac.in");
     }
     const toggleSource = () => {
         setShowSource(!showSource); // Toggle visibility for source button
@@ -148,37 +149,6 @@ const ShowRideDetails = (props) => {
                 } else {
                     console.error('Failed to fetch ride details');
                 }
-                const func = async () => {
-                    const response = await fetch(`http://localhost:3000/rides/rides-details/${id}`, {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "auth-token": localStorage.getItem("token"),
-                        },
-                    });
-                    if (response.ok) {
-                        const rideData = await response.json();
-                        console.log(rideData);
-                        setRideDetails(rideData);
-                        setReciever(rideData.driver);
-                        setapp(rideDetails.applicants);
-
-                    } else {
-                        console.error('Failed to fetch ride details');
-                    }
-                }
-                await func();
-                // rideDetails.applicants.map(async (applicant) => {
-                //     const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
-                //         method: "GET",
-                //         headers: {
-                //             "Content-Type": "application/json",
-                //             "auth-token": localStorage.getItem("token"),
-                //         },
-                //     });
-                //     console.log("okk");
-                //     console.log(response2);
-                // });
             } catch (error) {
                 console.error('Error fetching ride details:', error);
             }
@@ -199,7 +169,6 @@ const ShowRideDetails = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("jjjj");
                 // Iterate through each applicant and fetch user data
                 await Promise.all(app.map(async (applicant) => {
                     const response = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
@@ -211,7 +180,14 @@ const ShowRideDetails = (props) => {
                     });
                     if (response.ok) {
                         const userData = await response.json();
-                        console.log("User data:", userData);
+                        console.log("User data:", userData[0].email);
+                        const obj = {
+                            email: userData[0].email,
+                            name: userData[0].username
+                        }
+                        const newArray = [...array, obj];
+                        setArray(newArray);
+
                     } else {
                         console.error("Failed to fetch user data for applicant:", applicant);
                     }
@@ -223,24 +199,7 @@ const ShowRideDetails = (props) => {
 
         fetchData();
     }, [app]); // Include app as a dependency
-        try {
-            console.log("gg");
-            app.map(async (applicant) => {
-                const response2 = await fetch(`http://localhost:3000/rides/getuserr/${applicant}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "auth-token": localStorage.getItem("token"),
-                    },
-                });
-                console.log("okk");
-                console.log(response2);
-            });
-        }
-        catch {
-            console.log("error");
-        }
-    }, [app])
+
 
 
     return (
@@ -383,11 +342,15 @@ const ShowRideDetails = (props) => {
                                 <br />
                                 {rideDetails ? (
                                     <>
-                                        {rideDetails.applicants.map((applicant, index) => (
-                                            <React.Fragment key={index}>
-                                                <button className="btn btn-danger my-2" onClick={() => { setDriverChatbox(applicant) }}>{applicant}</button>
-                                                <br />
-                                            </React.Fragment>
+                                        {array.map((item, index) => (
+                                            <>
+                                                <div>{item.name}</div>
+
+                                                <React.Fragment key={index}>
+                                                    <button className="btn btn-danger my-2" onClick={() => { setDriverChatbox(item.email) }}>{item.email}</button>
+                                                    <br />
+                                                </React.Fragment>
+                                            </>
                                         ))}
                                     </>
                                 ) : (
