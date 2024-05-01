@@ -199,7 +199,7 @@ const CreateRide = () => {
   return (
     <>
       <div
-      className="topmost"
+        className="topmost"
         style={{
           display: "flex",
           flexDirection: "row",
@@ -301,7 +301,7 @@ const CreateRide = () => {
                               >
                                 {SearchResults[0].map((result, index) => (
                                   <>
-                                    <li className="my-2" style={{cursor:'pointer'}}
+                                    <li className="my-2" style={{ cursor: 'pointer' }}
                                       key={index}
                                       onClick={() =>
                                         handleSearchResultClick(result, 0)
@@ -363,7 +363,7 @@ const CreateRide = () => {
                                     {SearchResults[index + 1].map(
                                       (result, idx) => (
                                         <>
-                                          <li className="my-2" style={{cursor:'pointer'}}
+                                          <li className="my-2" style={{ cursor: 'pointer' }}
                                             key={idx}
                                             onClick={() =>
                                               handleSearchResultClick(
@@ -477,7 +477,6 @@ const CreateRide = () => {
             </div>
           </div>
         </div>
-
         <div
           style={{
             display: "flex",
@@ -487,11 +486,23 @@ const CreateRide = () => {
             marginRight: "3vw",
           }}
         >
-          <Map
-            destinations={destinations}
-            startingLocation={formData.startingLocation}
-          />
-        </div>
+          <div
+            style={{
+              boxShadow: "6px 6px 6px 6px rgba(0.3, 0.2, 0.2, 0.2)", // Adding box shadow
+              transition: "box-shadow 0.3s ease", // Adding transition for hover effect
+              borderRadius: "10px", // Adding border radius for rounded corners
+              ":hover": {
+                boxShadow: "10px 10px 20px 10px rgba(0, 0.3, 0.3, 0.3)", // Changing box shadow on hover
+              },
+            }}
+          >
+            <Map
+              destinations={destinations}
+              startingLocation={formData.startingLocation}
+            />
+          </div>
+        </div>;
+
       </div>
     </>
   );
