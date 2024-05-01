@@ -664,6 +664,7 @@ const ShowRideDetails = (props) => {
                 ) : (
                   "No Applicant"
                 )}
+                <br />
                 <button
                   className={`btn ${
                     rideCompleted ? "btn-success" : "btn-primary"
@@ -702,10 +703,15 @@ const ShowRideDetails = (props) => {
           </div>
         )}
       </div>
-      <div className="col-md-4 text-black">
-        {/* {reciever && <Chatbox reciever={reciever} id={id} />} */}
+      <div className="col-md-4 text-black"
+      style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100vw'}}
+      >
         {rideDetails && rideDetails.destinations && (
+          <div
+          style={{width:'80vw',marginBottom:'2vh',overflow:'hidden',boxShadow:"-7px 20px 7px 8px rgba(0, 0, 0, 0.1)"}}
+          >
           <Map destinations={rideDetails.destinations} />
+          </div>
         )}
       </div>
     </>
