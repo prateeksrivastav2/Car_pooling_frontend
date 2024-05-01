@@ -41,6 +41,9 @@ const Map2 = ({ destinations }) => {
                         );
                         const data = response.data;
                         const coordinates = parseXmlData(data);
+                        console.log(data);
+                        console.log(address);
+                        console.log(coordinates);
                         return { position: [parseFloat(coordinates[0].lat), parseFloat(coordinates[0].lon)], address };
                     } catch (error) {
                         console.error(`Error geocoding address: ${address}`, error);

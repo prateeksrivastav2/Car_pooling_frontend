@@ -10,13 +10,13 @@ const Map = ({ startingLocation, destinations }) => {
 
 
   useEffect(() => {
-    
+
     if (markerData.length > 0) {
       setMapCenter(markerData[0].position);
     }
-   
-  }, [destinations,startingLocation])
-  
+
+  }, [destinations, startingLocation])
+
   useEffect(() => {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     const geocodeAddresses = async () => {
@@ -44,7 +44,7 @@ const Map = ({ startingLocation, destinations }) => {
         return coordinates;
       };
       const markerDataArray = await Promise.all(
-        addresses.map(async (address,index) => {
+        addresses.map(async (address, index) => {
           try {
             await delay(index * 3000);
             const response = await axios.get(
@@ -52,6 +52,9 @@ const Map = ({ startingLocation, destinations }) => {
             );
             const data = response.data;
             const coordinates = parseXmlData(data);
+            console.log(data);
+            console.log(address);
+            console.log(coordinates);
             return { position: [parseFloat(coordinates[0].lat), parseFloat(coordinates[0].lon)], address };
           } catch (error) {
             console.error(`Error geocoding address: ${address}`, error);
@@ -87,7 +90,7 @@ const Map = ({ startingLocation, destinations }) => {
     >
       <MapContainer
         center={mapCenter}
-        zoom={15}
+        zoom={11}
         style={{ height: "100%" }}
       >
         <TileLayer
