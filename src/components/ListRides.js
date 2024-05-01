@@ -56,8 +56,8 @@ const ListRides = () => {
       {/* <h1>Available Rides</h1> */}
       <form>
         <div style={{display:"flex",justifyContent:"space-between"}} className='mb-3'>
-        <FontAwesomeIcon icon={faMagnifyingGlass} /><input type='text' onChange={(e) => setSearch(e.target.value)} placeholder='Search Start Location' />
-        <FontAwesomeIcon icon={faMagnifyingGlass} /><input type='text' onChange={(e) => setDestinationSearch(e.target.value)} placeholder='Search Destination' />
+        {/* <FontAwesomeIcon icon={faMagnifyingGlass} />*/}<input type='text' onChange={(e) => setSearch(e.target.value)} placeholder='Search Start Location' />
+        <input type='text' onChange={(e) => setDestinationSearch(e.target.value)} placeholder='Search Destination' />
         </div>
       </form>
       {rides.length === 0 && <p>No rides available right now.</p>}

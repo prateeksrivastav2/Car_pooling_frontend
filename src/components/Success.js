@@ -23,6 +23,9 @@ const Success = () => {
             "auth-token": token,
           },
         });
+        if(response.ok){
+          console.log("update ok");
+        }
         const response2 = await fetch(`http://localhost:3000/rides/addapplicant/${id}`, {
           method: "POST",
           headers: {
@@ -30,6 +33,9 @@ const Success = () => {
             "auth-token": token,
           },
         });
+        if(response2.ok){
+          console.log("addapplicant ok");
+        }
         console.log(id);
       } catch (error) {
         console.error("Error updating user data", error);
