@@ -49,9 +49,26 @@ const ShowRideDetails = (props) => {
     setShowConfirmationModal(true);
   };
 
-  const handleConfirmComplete = () => {
+  const handleConfirmComplete =async () => {
     setRideCompleted(true);
     setShowConfirmationModal(false);
+
+    const response = await fetch(
+        `http://localhost:3000/rides/complete/${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if(response.ok){
+        console.log("completed");
+      }
+
+
     
     array.forEach(user => {
         const { email } = user;
