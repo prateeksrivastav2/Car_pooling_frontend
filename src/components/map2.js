@@ -72,7 +72,7 @@ const Map2 = ({ destinations }) => {
             id="map"
             style={{
                 height: "80vh",
-                width: "50vw",
+                width: "80vw",
                 alignItems: "center",
                 justifyContent: "center",
             }}
