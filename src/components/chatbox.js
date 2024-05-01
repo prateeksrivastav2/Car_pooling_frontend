@@ -14,20 +14,22 @@ const Chatbox = (props) => {
     const useremail = localStorage.getItem('sender');
     const naam = localStorage.getItem('username');
     useEffect(() => {
+        console.log(useremail);
+        console.log(reciever);
         const getPrevMessages = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/rides/prevmessages/${id}`, {
+                const response = await fetch(`http://localhost:3000/rides/prevmessages/${id}/${encodeURIComponent(reciever)}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         "auth-token": localStorage.getItem("token"),
                     },
                 });
+                console.log("zzzzx");
+                console.log(response);
                 if (response.ok) {
                     const prevMessages = await response.json();
-
-                    console.log(prevMessages);
-                    // Process sender messages
+                    
                     const senderMessages = prevMessages.senderMessages.map(message => ({
                         ...message,
                         position: message.sender === useremail ? 'outgoing' : 'incoming'

@@ -96,9 +96,9 @@ const Booked = () => {
                 {/* {reciever} */}
                 {reciever && <Chatbox reciever={reciever} id={id} />} {/* Render chatbox only when reciever is available */}
             </div>
-            <div className="col-md-4 text-black">
+            {/* <div className="col-md-4 text-black">
                 <p>{otp}</p>
-            </div>
+            </div> */}
         </div>
     );
 };
